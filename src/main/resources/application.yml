@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: druid, token
+  application:
+    name: Station
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+
+###############################---mybatis---#########################
+mybatis-plus:
+  mapper-locations: classpath*:mappers/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+server:
+  port: 8888

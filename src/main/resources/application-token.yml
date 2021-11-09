@@ -1,0 +1,7 @@
+token:
+  # 请求header中的Token属性名
+  header: Authorization
+  # Token密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # Token有效期（单位：分钟）
+  expireTime: 60
