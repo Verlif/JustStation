@@ -1,4 +1,4 @@
-package idea.verlif.juststation.core.base;
+package idea.verlif.juststation.core.base.result;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -16,19 +16,19 @@ public class BaseResult<T> {
      * 自定义返回码
      */
     @Schema(name = "自定义返回码")
-    private Integer code;
+    protected Integer code;
 
     /**
      * 返回信息描述
      */
     @Schema(name = "返回信息描述")
-    private String msg;
+    protected String msg;
 
     /**
      * 返回数据
      */
     @Schema(name = "返回数据")
-    private T data;
+    protected T data;
 
     public BaseResult() {}
 

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,23 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public GroupedOpenApi adminApi() {
-        return GroupedOpenApi.builder()
-                .group("管理接口")
-                .pathsToMatch("/admin/**")
-                .build();
-    }
-
-    @Bean
-    public GroupedOpenApi publicApi() {
-        return GroupedOpenApi.builder()
-                .group("通用接口")
-                .pathsToMatch("/public/**")
-                .build();
-    }
-
-    @Bean
-    public OpenAPI springShopOpenAPI() {
+    public OpenAPI springShopOpenApi() {
         return new OpenAPI()
                 .info(new Info().title("快速Demo")
                         .description("一个快速的Spring Boot框架")

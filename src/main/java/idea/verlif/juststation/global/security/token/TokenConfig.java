@@ -14,7 +14,10 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "token")
 public class TokenConfig {
 
-    public static final String TOKEN_NAME = "token";
+    /**
+     * token存储名称
+     */
+    public static final String TOKEN_NAME = "station:token";
 
     /**
      * Token在请求中header的属性名

@@ -1,7 +1,7 @@
-package idea.verlif.juststation.core.base.ext;
+package idea.verlif.juststation.core.base.result.ext;
 
-import idea.verlif.juststation.core.base.BaseResult;
-import idea.verlif.juststation.core.base.ResultCode;
+import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.core.base.result.ResultCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -14,5 +14,10 @@ public class FailResult<T> extends BaseResult<T> {
 
     public FailResult() {
         super(ResultCode.FAILURE);
+    }
+
+    public FailResult(String msg) {
+        this();
+        this.msg = msg;
     }
 }

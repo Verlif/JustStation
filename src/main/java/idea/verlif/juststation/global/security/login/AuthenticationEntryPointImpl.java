@@ -1,8 +1,8 @@
 package idea.verlif.juststation.global.security.login;
 
 import com.alibaba.fastjson.JSON;
-import idea.verlif.juststation.core.base.BaseResult;
-import idea.verlif.juststation.core.base.ResultCode;
+import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.ServletUtil;

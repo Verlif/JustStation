@@ -15,9 +15,7 @@ public interface PermissionDetector {
      * @param role 角色名称
      * @return true - 拥有；false - 未拥有
      */
-    default boolean hasRole(String role) {
-        return true;
-    }
+    boolean hasRole(String role);
 
     /**
      * 是否拥有关键词
@@ -25,9 +23,7 @@ public interface PermissionDetector {
      * @param key 关键词
      * @return true - 拥有；false - 未拥有
      */
-    default boolean hasKey(String key) {
-        return true;
-    }
+    boolean hasKey(String key);
 
     /**
      * 与{@code hasRole(String)}方法相反

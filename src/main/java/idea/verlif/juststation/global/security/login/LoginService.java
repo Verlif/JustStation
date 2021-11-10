@@ -1,8 +1,8 @@
 package idea.verlif.juststation.global.security.login;
 
-import idea.verlif.juststation.core.base.BaseResult;
-import idea.verlif.juststation.core.base.ext.FailResult;
-import idea.verlif.juststation.core.base.ext.OkResult;
+import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.core.base.result.ext.FailResult;
+import idea.verlif.juststation.core.base.result.ext.OkResult;
 import idea.verlif.juststation.global.security.PermissionMapper;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
@@ -28,9 +28,6 @@ public class LoginService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PermissionMapper permissionMapper;
 
     public BaseResult<?> login(String username, String password) {
         // 用户验证

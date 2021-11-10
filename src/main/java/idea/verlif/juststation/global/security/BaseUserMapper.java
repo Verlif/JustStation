@@ -7,7 +7,7 @@ import idea.verlif.juststation.global.security.login.domain.BaseUser;
  * @version 1.0
  * @date 2021/11/9 12:26
  */
-public interface BaseUserMapper {
+public interface BaseUserMapper<T> {
 
     /**
      * 获取基础用户信息
@@ -15,7 +15,5 @@ public interface BaseUserMapper {
      * @param username 用户登录名
      * @return 用户信息；null - 不存在该用户
      */
-    default BaseUser getUserByUsername(String username) {
-        return null;
-    }
+    BaseUser<T> getUserByUsername(String username);
 }

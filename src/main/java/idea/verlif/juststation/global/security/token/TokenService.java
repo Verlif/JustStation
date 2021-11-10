@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.token;
 
-import idea.verlif.juststation.global.redis.RedisCache;
+import idea.verlif.juststation.global.config.CacheHandler;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -27,7 +27,7 @@ public class TokenService {
     private TokenConfig tokenConfig;
 
     @Resource
-    private RedisCache redisCache;
+    private CacheHandler cacheHandler;
 
     /**
      * 获取用户身份信息
@@ -42,7 +42,7 @@ public class TokenService {
             // 解析对应的权限以及用户信息
             String uuid = (String) claims.get(TokenConfig.TOKEN_NAME);
             String userKey = getTokenKey(uuid);
-            return redisCache.getCacheObject(userKey);
+            return cacheHandler.getCacheObject(userKey);
         }
         return null;
     }
@@ -62,7 +62,7 @@ public class TokenService {
     public void delLoginUser(String token) {
         if (StringUtils.isNotEmpty(token)) {
             String userKey = getTokenKey(token);
-            redisCache.deleteObject(userKey);
+            cacheHandler.deleteCacheObject(userKey);
         }
     }
 
@@ -103,7 +103,7 @@ public class TokenService {
         loginUser.setExpireTime(loginUser.getLoginTime() + tokenConfig.getExpireTime());
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
-        redisCache.setCacheObject(userKey, loginUser, tokenConfig.getExpireTime().intValue(), TimeUnit.MILLISECONDS);
+        cacheHandler.setCacheObject(userKey, loginUser, tokenConfig.getExpireTime().intValue(), TimeUnit.MILLISECONDS);
     }
 
     /**

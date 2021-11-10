@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
-                .antMatchers("/**/login").anonymous()
+                .antMatchers("/**/login", "/**/register").anonymous()
                 .antMatchers("/webjars/**").anonymous()
                 .antMatchers("/swagger-ui/**", "/**/api-docs", "/swagger-resources/**").anonymous()
                 // 除上面外的所有请求全部需要鉴权认证
@@ -127,7 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 强散列哈希加密实现
+     * 强散列哈希加密实现，用户验证时的密码需要用此类格式化
      */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

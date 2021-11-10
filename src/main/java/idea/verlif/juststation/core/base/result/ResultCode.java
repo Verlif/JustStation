@@ -1,4 +1,4 @@
-package idea.verlif.juststation.core.base;
+package idea.verlif.juststation.core.base.result;
 
 /**
  * @author Verlif
@@ -26,7 +26,11 @@ public enum ResultCode {
     /**
      * 权限不足错误
      */
-    FAILURE_UNAVAILABLE(504, "权限不足");
+    FAILURE_UNAVAILABLE(504, "权限不足"),
+    /**
+     * 参数错误
+     */
+    FAILURE_PARAMETER(510, "参数错误");
 
     private final Integer code;
 

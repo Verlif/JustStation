@@ -18,19 +18,19 @@ import org.springframework.stereotype.Service;
  * @author ruoyi
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl<T> implements UserDetailsService {
 
     private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
-    private BaseUserMapper userMapper;
+    private BaseUserMapper<T> userMapper;
 
     @Autowired
-    private PermissionMapper permissionMapper;
+    private PermissionMapper<T> permissionMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        BaseUser user = userMapper.getUserByUsername(username);
+        BaseUser<T> user = userMapper.getUserByUsername(username);
         if (user == null) {
             log.info("登录用户：{} 不存在.", username);
             throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
@@ -44,10 +44,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @param user 原始用户信息
      * @return 登录用户信息
      */
-    private UserDetails createLoginUser(BaseUser user) {
-        String username = user.getUsername();
+    private UserDetails createLoginUser(BaseUser<T> user) {
         return new LoginUser<>(user).withPermission(
-                permissionMapper.getUserKeySet(username),
-                permissionMapper.getUserRoleSet(username));
+                permissionMapper.getUserKeySet(user.getUserId()),
+                permissionMapper.getUserRoleSet(user.getUserId()));
     }
 }

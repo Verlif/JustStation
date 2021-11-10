@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.security.login.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +21,6 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
     /**
      * 用户登录Token
      */
-    @JsonProperty
     private String token;
 
     /**
@@ -106,16 +104,19 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return user.getUsername();

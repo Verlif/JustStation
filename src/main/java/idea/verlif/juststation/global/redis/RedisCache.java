@@ -1,5 +1,6 @@
 package idea.verlif.juststation.global.redis;
 
+import idea.verlif.juststation.global.config.CacheHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.BoundSetOperations;
@@ -23,19 +24,16 @@ import java.util.concurrent.TimeUnit;
  * @author ruoyi
  **/
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
-@Component
-public class RedisCache {
+public class RedisCache implements CacheHandler {
 
-    @Autowired
     public RedisTemplate redisTemplate;
 
-    @Bean
-    public RedisTemplate redisTemplateInit() {
+    public RedisCache(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
         //设置序列化Key的实例化对象
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         //设置序列化Value的实例化对象
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        return redisTemplate;
     }
 
     /**
@@ -56,6 +54,7 @@ public class RedisCache {
      * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
+    @Override
     public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
     }
@@ -79,6 +78,7 @@ public class RedisCache {
      * @param unit    时间单位
      * @return true=设置成功；false=设置失败
      */
+    @Override
     public boolean expire(final String key, final long timeout, final TimeUnit unit) {
         Boolean b = redisTemplate.expire(key, timeout, unit);
         return b != null && b;
@@ -90,6 +90,7 @@ public class RedisCache {
      * @param key 缓存键值
      * @return 缓存键值对应的数据
      */
+    @Override
     public <T> T getCacheObject(final String key) {
         ValueOperations<String, T> operation = redisTemplate.opsForValue();
         return operation.get(key);
@@ -100,7 +101,8 @@ public class RedisCache {
      *
      * @param key 缓存Key值
      */
-    public boolean deleteObject(final String key) {
+    @Override
+    public boolean deleteCacheObject(final String key) {
         Boolean b = redisTemplate.delete(key);
         return b == null || b;
     }
@@ -111,7 +113,7 @@ public class RedisCache {
      * @param collection 多个对象
      * @return 删除的数量
      */
-    public long deleteObject(final Collection collection) {
+    public long deleteCacheObject(final Collection collection) {
         Long l = redisTemplate.delete(collection);
         return l == null ? 0L : l;
     }
