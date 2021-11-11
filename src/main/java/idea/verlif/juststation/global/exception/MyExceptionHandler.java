@@ -28,4 +28,10 @@ public class MyExceptionHandler {
     public BaseResult<String> accessDenied(AccessDeniedException e) {
         return new BaseResult<>(ResultCode.FAILURE_UNAVAILABLE);
     }
+
+    @ResponseBody
+    @ExceptionHandler(value = CustomException.class)
+    public BaseResult<String> customException(CustomException e) {
+        return new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN);
+    }
 }

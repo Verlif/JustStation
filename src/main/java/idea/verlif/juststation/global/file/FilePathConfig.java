@@ -14,8 +14,16 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "file.path")
 public class FilePathConfig {
 
-    public static final String TAG = "/file";
+    public static final String TAG = "/file/";
+    public static final String DIR_SPLIT = "/";
 
-    private String main = "/upload";
+    private String main = "/upload/";
 
+    public void setMain(String main) {
+        if (!main.endsWith(DIR_SPLIT)) {
+            this.main = main + DIR_SPLIT;
+        } else {
+            this.main = main;
+        }
+    }
 }

@@ -88,6 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 .antMatchers("/**/login", "/**/register").anonymous()
+                .antMatchers("/file/**").permitAll()
                 .antMatchers("/webjars/**").anonymous()
                 .antMatchers("/swagger-ui/**", "/**/api-docs", "/swagger-resources/**").anonymous()
                 // 除上面外的所有请求全部需要鉴权认证

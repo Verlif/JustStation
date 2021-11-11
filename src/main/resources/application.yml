@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: druid, token, redis
+    active: druid, token, redis, file
   application:
     name: Station
   servlet:

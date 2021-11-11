@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -20,14 +21,15 @@ import java.lang.reflect.ParameterizedType;
  * @version 1.0
  * @date 2021/7/8 10:20
  */
+@Data
 @Schema(name = "可分页属性")
 public abstract class Pageable<T> {
 
     @Schema(name = "每页大小")
-    private Integer pageSize;
+    private Integer pageSize = 15;
 
     @Schema(name = "页码，从1开始")
-    private Integer pageNum;
+    private Integer pageNum = 1;
 
     @Schema(name = "排序列名，可以传入该对象的任意属性名")
     private String orderBy;
@@ -116,6 +118,11 @@ public abstract class Pageable<T> {
      */
     protected String nameColumn() {
         return null;
+    }
+
+    @Schema(hidden = true)
+    public Integer getPageHead() {
+        return (pageNum - 1) * pageSize;
     }
 
     /**

@@ -23,7 +23,6 @@ public class SecurityUtils {
         } catch (Exception e) {
             throw new CustomException("获取用户账户异常");
         }
-//		return "admin";
     }
 
     /**
