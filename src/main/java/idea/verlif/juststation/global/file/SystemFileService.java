@@ -187,6 +187,27 @@ public class SystemFileService {
     /**
      * 删除文件
      *
+     * @param fileCart 目标文件所在文件域
+     * @param type     文件子目录；可为空
+     * @param fileName 目标文件名
+     * @return 删除结果
+     */
+    public BaseResult<?> deleteFile(FileCart fileCart, String type, String fileName) {
+        File file = new File(getLocalFile(fileCart, type), fileName);
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return new OkResult<>().msg("删除成功");
+            } else {
+                return new FailResult<>("删除失败");
+            }
+        } else {
+            return new FailResult<>("文件不存在");
+        }
+    }
+
+    /**
+     * 删除文件
+     *
      * @param file 目标文件
      */
     private void deleteFiles(File file) {

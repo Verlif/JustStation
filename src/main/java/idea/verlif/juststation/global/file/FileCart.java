@@ -2,7 +2,8 @@ package idea.verlif.juststation.global.file;
 
 /**
  * 文件域 <br/>
- * 文件域的目的是方便维护，并且可以通过简单的修改来达到对文件的权限管控
+ * 文件域的目的是方便维护，并且可以通过简单的修改来达到对文件的权限管控 <br/>
+ * 建议文件相关的路径定义在文件域中
  *
  * @author Verlif
  * @version 1.0

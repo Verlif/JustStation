@@ -47,4 +47,10 @@ public class FileController {
     public BaseResult<IPage<FileInfo>> getFileList() {
         return fileService.getFileList(FileCart.TEST, SecurityUtils.getUsername(), new FileQuery());
     }
+
+    @DeleteMapping
+    @Operation(summary = "删除文件")
+    public BaseResult<?> deleteFile(@RequestParam String filename) {
+        return fileService.deleteFile(FileCart.TEST, SecurityUtils.getUsername(), filename);
+    }
 }
