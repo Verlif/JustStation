@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.security;
+package idea.verlif.juststation.global.security.permission;
 
 import java.util.Set;
 

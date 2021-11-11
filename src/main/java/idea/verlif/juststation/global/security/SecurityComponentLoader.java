@@ -3,6 +3,9 @@ package idea.verlif.juststation.global.security;
 import idea.verlif.juststation.core.test.handler.PermissionMapperImpl;
 import idea.verlif.juststation.core.test.handler.BaseUserMapperImpl;
 import idea.verlif.juststation.global.security.impl.PermissionDetectorImpl;
+import idea.verlif.juststation.global.security.login.BaseUserMapper;
+import idea.verlif.juststation.global.security.permission.PermissionDetector;
+import idea.verlif.juststation.global.security.permission.PermissionMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

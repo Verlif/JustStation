@@ -21,7 +21,20 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
     /**
      * 用户登录Token
      */
-    private String token;
+    @JsonIgnore
+    public String getToken() {
+        return getUsername() + ":" + tag + ":" + code;
+    }
+
+    /**
+     * 登录Code
+     */
+    private String code = "*";
+
+    /**
+     * 用户登录标识
+     */
+    private String tag;
 
     /**
      * 登录时间

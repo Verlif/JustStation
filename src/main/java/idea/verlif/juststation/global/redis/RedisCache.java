@@ -1,17 +1,15 @@
 package idea.verlif.juststation.global.redis;
 
 import idea.verlif.juststation.global.config.CacheHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +103,17 @@ public class RedisCache implements CacheHandler {
     public boolean deleteCacheObject(final String key) {
         Boolean b = redisTemplate.delete(key);
         return b == null || b;
+    }
+
+    @Override
+    public int deleteCacheByMatch(String match) {
+        Set<String> keys = redisTemplate.keys(match);
+        if (!CollectionUtils.isEmpty(keys)) {
+            redisTemplate.delete(keys);
+            return keys.size();
+        } else {
+            return 0;
+        }
     }
 
     /**

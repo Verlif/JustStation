@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.security;
+package idea.verlif.juststation.global.security.permission;
 
 /**
  * 权限判定器，对接口进行权限检测

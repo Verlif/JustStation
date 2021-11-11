@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.security.impl;
 
-import idea.verlif.juststation.global.security.BaseUserMapper;
-import idea.verlif.juststation.global.security.PermissionMapper;
+import idea.verlif.juststation.global.security.login.BaseUserMapper;
+import idea.verlif.juststation.global.security.permission.PermissionMapper;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import org.slf4j.Logger;

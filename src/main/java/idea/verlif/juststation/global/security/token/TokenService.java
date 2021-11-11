@@ -62,23 +62,22 @@ public class TokenService {
     public void delLoginUser(String token) {
         if (StringUtils.isNotEmpty(token)) {
             String userKey = getTokenKey(token);
-            cacheHandler.deleteCacheObject(userKey);
+            cacheHandler.deleteCacheByMatch(userKey);
         }
     }
 
     /**
-     * 创建令牌
+     * 创建用户令牌
      *
      * @param loginUser 用户信息
      * @return 令牌
      */
     public String createToken(LoginUser<?> loginUser) {
-        String token = UUID.randomUUID().toString();
-        loginUser.setToken(token);
+        loginUser.setCode(UUID.randomUUID().toString());
         refreshToken(loginUser);
 
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put(TokenConfig.TOKEN_NAME, token);
+        claims.put(TokenConfig.TOKEN_NAME, loginUser.getToken());
         return createToken(claims);
     }
 
@@ -159,6 +158,6 @@ public class TokenService {
     }
 
     private String getTokenKey(String uuid) {
-        return TokenConfig.TOKEN_NAME + ":" + uuid;
+        return tokenConfig.getDomain() + uuid;
     }
 }

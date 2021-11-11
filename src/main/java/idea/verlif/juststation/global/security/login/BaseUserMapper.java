@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.security;
+package idea.verlif.juststation.global.security.login;
 
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 

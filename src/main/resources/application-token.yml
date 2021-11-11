@@ -1,6 +1,8 @@
 token:
   # 请求header中的Token属性名
   header: Authorization
+  # TokenKey命名头
+  domain: 'station:token:'
   # Token密钥
   secret: abcdefghijklmnopqrstuvwxyz
   # Token有效期（单位：分钟）

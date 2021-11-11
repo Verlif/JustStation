@@ -2,7 +2,7 @@ package idea.verlif.juststation.core.test.handler;
 
 import idea.verlif.juststation.core.test.mapper.KeyMapper;
 import idea.verlif.juststation.core.test.mapper.RoleMapper;
-import idea.verlif.juststation.global.security.PermissionMapper;
+import idea.verlif.juststation.global.security.permission.PermissionMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 

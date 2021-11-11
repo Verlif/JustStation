@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.impl;
 
-import idea.verlif.juststation.global.security.PermissionDetector;
+import idea.verlif.juststation.global.security.permission.PermissionDetector;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.ServletUtil;

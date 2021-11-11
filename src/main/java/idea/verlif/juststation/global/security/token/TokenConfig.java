@@ -25,6 +25,11 @@ public class TokenConfig {
     private String header = "Authorization";
 
     /**
+     * TokenKey命名头
+     */
+    private String domain = "station:token:";
+
+    /**
      * Token密钥
      */
     private String secret = "abcdefghijklmnopqrstuvwxyz";

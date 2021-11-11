@@ -1,7 +1,7 @@
 package idea.verlif.juststation.core.test.handler;
 
 import idea.verlif.juststation.core.test.mapper.UserMapper;
-import idea.verlif.juststation.global.security.BaseUserMapper;
+import idea.verlif.juststation.global.security.login.BaseUserMapper;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;

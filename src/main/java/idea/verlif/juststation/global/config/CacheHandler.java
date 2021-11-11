@@ -1,11 +1,10 @@
 package idea.verlif.juststation.global.config;
 
-import org.springframework.data.redis.core.ValueOperations;
-
 import java.util.concurrent.TimeUnit;
 
 /**
  * 缓存处理器
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/11/10 8:59
@@ -44,7 +43,14 @@ public interface CacheHandler {
      * 删除单个对象
      *
      * @param key 缓存Key值
-     * @return 是否删除成功
      */
     boolean deleteCacheObject(final String key);
+
+    /**
+     * 删除匹配的Key值，行为由用户自定义
+     *
+     * @param match 关键词
+     * @return 删除的数量
+     */
+    int deleteCacheByMatch(final String match);
 }

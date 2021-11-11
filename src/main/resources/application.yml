@@ -1,16 +1,12 @@
 spring:
   profiles:
-    active: druid, token
+    active: druid, token, redis
   application:
     name: Station
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password:
 
 ###############################---mybatis---#########################
 mybatis-plus:
