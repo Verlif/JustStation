@@ -73,7 +73,7 @@ public class LoginService {
     }
 
     /**
-     * 用户登出
+     * 当前用户登出
      *
      * @return 登出结果
      */

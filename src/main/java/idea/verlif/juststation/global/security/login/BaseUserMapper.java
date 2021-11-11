@@ -15,5 +15,5 @@ public interface BaseUserMapper<T> {
      * @param username 用户登录名
      * @return 用户信息；null - 不存在该用户
      */
-    BaseUser<T> getUserByUsername(String username);
+    BaseUser getUserByUsername(String username);
 }

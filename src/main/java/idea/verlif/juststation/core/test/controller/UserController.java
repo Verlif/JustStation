@@ -4,45 +4,33 @@ import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.global.request.Check;
-import idea.verlif.juststation.global.security.login.LoginService;
+import idea.verlif.juststation.global.security.permission.Perm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Verlif
  * @version 1.0
- * @date 2021/11/9 9:11
+ * @date 2021/11/11 14:32
  */
-@Tag(name = "测试")
 @RestController
-@RequestMapping("/test")
-public class TestController {
-
-    @Autowired
-    private LoginService loginService;
+@RequestMapping("/user")
+@Tag(name = "用户管理")
+public class UserController {
 
     @Autowired
     private UserBiz userBiz;
 
-    @PreAuthorize("@pd.hasKey('test')")
-    @Operation(summary = "hello")
-    @GetMapping("/hello")
-    public BaseResult<String> hello() {
-        return new BaseResult<String>().msg("hello");
-    }
-
-    @Operation(summary = "登录")
-    @GetMapping("/login")
-    public BaseResult<?> login(
-            @RequestParam String username,
-            @RequestParam String password
-    ) {
-        return loginService.login(username, password);
-    }
-
+    /**
+     * 注册新用户 <br/>
+     * 这里使用Check注解来标记方法和参数 <br/>
+     * Check标记方法表示需要检测的接口，标记参数表示需要检测的对象（该对象需要实现Checkable接口）
+     *
+     * @param user 用户信息
+     * @return 注册结果
+     */
     @Operation(summary = "注册")
     @PostMapping("/register")
     @Check
@@ -52,7 +40,13 @@ public class TestController {
         return userBiz.register(user);
     }
 
-    @PreAuthorize("@pd.hasKey('all')")
+    @Operation(summary = "获取个人信息")
+    @GetMapping("/self")
+    public BaseResult<?> selfInfo() {
+        return userBiz.getSelfInfo();
+    }
+
+    @Perm(hasRole = "user")
     @Operation(summary = "获取用户信息")
     @GetMapping("/info")
     public BaseResult<User> getUserInfo(@RequestParam(required = false) String username) {

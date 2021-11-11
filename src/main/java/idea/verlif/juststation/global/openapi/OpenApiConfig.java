@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 /**
  * @author Verlif
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2021/11/9 9:44
  */
 @Configuration
+@EnableOpenApi
 public class OpenApiConfig {
 
     @Bean

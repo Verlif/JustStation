@@ -1,5 +1,6 @@
 package idea.verlif.juststation.global.security.permission;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Set;
  * @version 1.0
  * @date 2021/11/9 12:46
  */
-public interface PermissionMapper<T> {
+public interface PermissionMapper {
 
     /**
      * 通过用户唯一标识获取角色组
@@ -18,7 +19,7 @@ public interface PermissionMapper<T> {
      * @param userId 用户唯一标识
      * @return 用户所在的角色组
      */
-    Set<String> getUserRoleSet(T userId);
+    Set<String> getUserRoleSet(Serializable userId);
 
     /**
      * 通过用户唯一标识获取关键词组
@@ -26,5 +27,5 @@ public interface PermissionMapper<T> {
      * @param userId 用户唯一标识
      * @return 用户所在的关键词组
      */
-    Set<String> getUserKeySet(T userId);
+    Set<String> getUserKeySet(Serializable userId);
 }

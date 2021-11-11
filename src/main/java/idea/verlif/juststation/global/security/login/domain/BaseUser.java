@@ -1,5 +1,7 @@
 package idea.verlif.juststation.global.security.login.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
@@ -7,15 +9,14 @@ import java.io.Serializable;
 /**
  * 基础用户信息
  *
- * @param <T> 用户ID类型
  * @author Verlif
  * @version 1.0
  * @date 2021/11/9 11:52
  */
-public class BaseUser<T> implements Serializable {
+public class BaseUser implements Serializable {
 
     @Schema(name = "用户ID")
-    protected T userId;
+    protected Serializable userId;
 
     /**
      * 用户登录名
@@ -27,13 +28,14 @@ public class BaseUser<T> implements Serializable {
      * 用户密码
      */
     @Schema(name = "用户密码")
+    @JsonIgnore
     protected String password;
 
-    public T getUserId() {
+    public Serializable getUserId() {
         return userId;
     }
 
-    public void setUserId(T userId) {
+    public void setUserId(Serializable userId) {
         this.userId = userId;
     }
 

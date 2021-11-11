@@ -39,7 +39,7 @@ public class SecurityComponentLoader {
      * 权限获取组件
      */
     @Bean
-    public PermissionMapper<?> permissionMapper() {
+    public PermissionMapper permissionMapper() {
         return new PermissionMapperImpl();
     }
 }
