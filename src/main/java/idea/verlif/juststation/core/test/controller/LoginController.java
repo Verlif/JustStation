@@ -2,9 +2,9 @@ package idea.verlif.juststation.core.test.controller;
 
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.global.security.login.LoginService;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2021/11/9 9:11
  */
-@Tag(name = "登录与登出")
 @RestController
 @RequestMapping("/login")
+@Api(tags = "登录与登出")
 public class LoginController {
 
     @Autowired

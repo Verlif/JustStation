@@ -76,7 +76,7 @@ public class SystemFileService {
     private IPage<FileInfo> getInfoList(FileCart fileCart, String type, FileQuery query) {
         IPage<FileInfo> page = new Page<>();
         List<FileInfo> list = new ArrayList<>();
-        File file = new File(fileCart.getArea());
+        File file = getLocalFile(fileCart, type);
         if (file.exists()) {
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
@@ -146,7 +146,7 @@ public class SystemFileService {
             }
             File dir = new File(dirFile, name);
             file.transferTo(dir);
-            return new OkResult<>("上传成功");
+            return new OkResult<>().msg("上传成功");
         } catch (IOException e) {
             e.printStackTrace();
             return new FailResult<>("文件上传失败");

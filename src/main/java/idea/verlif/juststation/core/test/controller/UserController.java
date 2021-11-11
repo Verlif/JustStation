@@ -5,8 +5,8 @@ import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.global.request.Check;
 import idea.verlif.juststation.global.security.permission.Perm;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/user")
-@Tag(name = "用户管理")
+@Api(tags = "用户管理")
 public class UserController {
 
     @Autowired

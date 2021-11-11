@@ -22,6 +22,7 @@ public class User extends BaseUser implements Checkable {
 
     @Schema(name = "用户ID")
     @TableId(value = "user_id", type = IdType.AUTO)
+    @IgnoreCheck
     private Integer userId;
 
     @Schema(name = "用户昵称")

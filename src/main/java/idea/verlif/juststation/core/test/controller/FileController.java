@@ -7,8 +7,8 @@ import idea.verlif.juststation.global.file.FileInfo;
 import idea.verlif.juststation.global.file.FileQuery;
 import idea.verlif.juststation.global.file.SystemFileService;
 import idea.verlif.juststation.global.util.SecurityUtils;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/file")
-@Tag(name = "文件管理")
+@Api(tags = "文件管理")
 public class FileController {
 
     @Autowired

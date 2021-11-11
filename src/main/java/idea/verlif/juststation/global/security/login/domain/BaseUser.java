@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.security.login.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import idea.verlif.juststation.core.base.domain.Checkable;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
@@ -13,9 +12,10 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2021/11/9 11:52
  */
-public class BaseUser implements Serializable {
+public class BaseUser implements Serializable, Checkable {
 
     @Schema(name = "用户ID")
+    @IgnoreCheck
     protected Serializable userId;
 
     /**
@@ -28,7 +28,6 @@ public class BaseUser implements Serializable {
      * 用户密码
      */
     @Schema(name = "用户密码")
-    @JsonIgnore
     protected String password;
 
     public Serializable getUserId() {
