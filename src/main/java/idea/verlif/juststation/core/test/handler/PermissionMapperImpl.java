@@ -6,7 +6,6 @@ import idea.verlif.juststation.global.security.permission.PermissionMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -24,12 +23,12 @@ public class PermissionMapperImpl implements PermissionMapper {
     private RoleMapper roleMapper;
 
     @Override
-    public Set<String> getUserRoleSet(Serializable id) {
-        return roleMapper.getUserRoleSet((Integer) id);
+    public Set<String> getUserRoleSet(String username) {
+        return roleMapper.getUserRoleSet(username);
     }
 
     @Override
-    public Set<String> getUserKeySet(Serializable id) {
-        return keyMapper.getUserKeySet((Integer) id);
+    public Set<String> getUserKeySet(String username) {
+        return keyMapper.getUserKeySet(username);
     }
 }

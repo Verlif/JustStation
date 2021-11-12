@@ -4,6 +4,7 @@ import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
 import idea.verlif.juststation.core.base.result.ext.OkResult;
 import idea.verlif.juststation.core.test.domain.User;
+import idea.verlif.juststation.core.test.domain.query.UserQuery;
 import idea.verlif.juststation.core.test.mapper.UserMapper;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ public class UserBiz {
         if (user == null) {
             return new FailResult<>("用户不存在");
         } else {
+            // 对用户数据填充
+            user.fill();
             return new OkResult<>(user);
         }
     }
@@ -66,5 +69,14 @@ public class UserBiz {
         } catch (DuplicateKeyException ignored) {
             return new FailResult<>("已存在用户名 - " + user.getUsername());
         }
+    }
+
+    /**
+     * 获取所有用户信息
+     *
+     * @return 用户信息列表
+     */
+    public BaseResult<?> getAllUser(UserQuery query) {
+        return new OkResult<>(baseMapper.selectList(query.buildQueryWrapper()));
     }
 }

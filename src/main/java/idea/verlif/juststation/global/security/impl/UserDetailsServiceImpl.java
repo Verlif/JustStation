@@ -41,7 +41,7 @@ public class UserDetailsServiceImpl<T> implements UserDetailsService {
      */
     private UserDetails createLoginUser(BaseUser user) {
         return new LoginUser<>(user).withPermission(
-                permissionMapper.getUserKeySet(user.getUserId()),
-                permissionMapper.getUserRoleSet(user.getUserId()));
+                permissionMapper.getUserKeySet(user.getUsername()),
+                permissionMapper.getUserRoleSet(user.getUsername()));
     }
 }

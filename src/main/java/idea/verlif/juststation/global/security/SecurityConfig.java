@@ -44,12 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationEntryPoint unauthorizedHandler;
 
     /**
-     * 退出处理类
-     */
-    @Autowired
-    private LogoutSuccessHandler logoutSuccessHandler;
-
-    /**
      * Token过滤器
      */
     @Autowired
@@ -95,11 +89,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and()
                 .headers()
                 .frameOptions().disable()
-                .and()
-                // 登出接口
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(corsFilter, TokenFilter.class)

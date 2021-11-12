@@ -18,23 +18,22 @@ import java.io.Serializable;
 /**
  * 认证失败处理类 返回未授权
  *
- * @author ruoyi
+ * @author Verlif
  */
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable {
-
-    private static final long serialVersionUID = -8970718410437077606L;
 
     @Resource
     private TokenService tokenService;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
+        // 验证用户是否登录，这里采用判定token的方式
         LoginUser<?> loginUser = tokenService.getLoginUser(request);
         if (loginUser == null) {
-            ServletUtil.renderString(response, JSON.toJSONString(new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN)));
+            ServletUtil.sendResult(response, new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN));
         } else {
-            ServletUtil.renderString(response, JSON.toJSONString(new BaseResult<>(ResultCode.FAILURE_UNAVAILABLE)));
+            ServletUtil.sendResult(response, new BaseResult<>(ResultCode.FAILURE_UNAVAILABLE));
         }
     }
 }

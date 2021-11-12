@@ -1,5 +1,7 @@
-package idea.verlif.juststation.global.config;
+package idea.verlif.juststation.global.component;
 
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,8 +51,24 @@ public interface CacheHandler {
     /**
      * 删除匹配的Key值，行为由用户自定义
      *
-     * @param match 关键词
+     * @param match 匹配词
      * @return 删除的数量
      */
     int deleteCacheByMatch(final String match);
+
+    /**
+     * 获取匹配的所有Key值
+     *
+     * @param match 匹配词
+     * @return Key值集合
+     */
+    Set<String> findKeyByMatch(final String match);
+
+    /**
+     * 获得匹配的对象集合
+     *
+     * @param key 缓存的键值
+     * @return 缓存键值对应的数据集合
+     */
+    <T> List<T> getCacheList(final String key);
 }

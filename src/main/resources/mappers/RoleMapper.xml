@@ -4,7 +4,11 @@
 
     <select id="getUserRoleSet" resultType="java.lang.String">
         SELECT r.role_name FROM role r
-        WHERE r.role_id IN (SELECT role_id FROM user_role WHERE user_id = #{userId})
+        WHERE r.role_id IN (
+        SELECT ur.role_id FROM user_role ur
+        LEFT JOIN user u ON u.user_id = ur.user_id
+        WHERE u.username = #{username}
+        )
     </select>
 
 </mapper>

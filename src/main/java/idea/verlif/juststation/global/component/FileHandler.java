@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.config;
+package idea.verlif.juststation.global.component;
 
 /**
  * 文件控制器，用于管理实体文件

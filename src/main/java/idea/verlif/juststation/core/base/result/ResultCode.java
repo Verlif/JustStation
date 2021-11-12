@@ -10,11 +10,11 @@ public enum ResultCode {
     /**
      * 成功返回码
      */
-    SUCCESS(200, "访问成功"),
+    SUCCESS(200, "请求完成"),
     /**
      * 失败返回码
      */
-    FAILURE(500, "访问失败"),
+    FAILURE(500, "请求失败"),
     /**
      * Token错误
      */

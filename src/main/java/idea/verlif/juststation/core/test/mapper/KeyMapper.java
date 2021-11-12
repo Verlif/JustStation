@@ -17,8 +17,8 @@ public interface KeyMapper extends BaseMapper<Key> {
     /**
      * 获取用户的Key集
      *
-     * @param userId 用户ID
+     * @param username 用户名
      * @return Key集
      */
-    Set<String> getUserKeySet(Integer userId);
+    Set<String> getUserKeySet(String username);
 }

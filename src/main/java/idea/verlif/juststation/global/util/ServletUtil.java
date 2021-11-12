@@ -2,6 +2,7 @@ package idea.verlif.juststation.global.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import idea.verlif.juststation.core.base.result.BaseResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -214,9 +215,8 @@ public class ServletUtil {
      *
      * @param response 渲染对象
      * @param string   待渲染的字符串
-     * @return null
      */
-    public static String renderString(HttpServletResponse response, String string) {
+    public static void renderString(HttpServletResponse response, String string) {
         try {
             response.setStatus(200);
             response.setContentType("application/json");
@@ -225,6 +225,15 @@ public class ServletUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+    }
+
+    /**
+     * 向客户端发送结果响应
+     *
+     * @param response 请求响应
+     * @param result   结果对象
+     */
+    public static void sendResult(HttpServletResponse response, BaseResult<?> result) {
+        renderString(response, JSON.toJSONString(result));
     }
 }

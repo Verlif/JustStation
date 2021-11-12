@@ -45,7 +45,7 @@ public class TokenFilter extends OncePerRequestFilter {
         }
         //token解析失败
         if (StringUtils.isNotEmpty(token) && tokenService.parseToken(token) == null) {
-            ServletUtil.renderString(response, JSON.toJSONString(new BaseResult<>(ResultCode.FAILURE_TOKEN)));
+            ServletUtil.sendResult(response, new BaseResult<>(ResultCode.FAILURE_TOKEN));
             return;
         }
         LoginUser<?> loginUser = tokenService.getLoginUser(request);

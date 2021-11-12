@@ -74,13 +74,16 @@ public class SystemFileService {
     }
 
     private IPage<FileInfo> getInfoList(FileCart fileCart, String type, FileQuery query) {
+        // 创建分页对象
         IPage<FileInfo> page = new Page<>();
         List<FileInfo> list = new ArrayList<>();
+        // 获取文件夹对象
         File file = getLocalFile(fileCart, type);
         if (file.exists()) {
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
                 if (files != null) {
+                    // 遍历文件夹内的文件对象，载入列表
                     for (File f : files) {
                         FileInfo info = new FileInfo();
                         info.setFileName(f.getName());
@@ -91,6 +94,7 @@ public class SystemFileService {
                 }
             }
         }
+        // 开始过滤操作
         List<FileInfo> filterList;
         if (query.getName() != null) {
             filterList = list.stream()

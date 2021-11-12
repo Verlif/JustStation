@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.security.token;
 
-import idea.verlif.juststation.global.config.CacheHandler;
+import idea.verlif.juststation.global.component.CacheHandler;
+import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +47,16 @@ public class TokenService {
             return cacheHandler.getCacheObject(userKey);
         }
         return null;
+    }
+
+    /**
+     * 通过Token获取登录用户信息
+     *
+     * @param token 用户Token
+     * @return 登录用户信息
+     */
+    public LoginUser<? extends BaseUser> getUserByToken(String token) {
+        return cacheHandler.getCacheObject(token);
     }
 
     /**
@@ -145,6 +157,15 @@ public class TokenService {
     public String getUsernameFromToken(String token) {
         Claims claims = parseToken(token);
         return claims.getSubject();
+    }
+
+    /**
+     * 获取所有的在线用户信息
+     *
+     * @return 在线用户信息集合
+     */
+    public Set<String> getOnlineTokenList() {
+        return cacheHandler.findKeyByMatch(getTokenKey("*"));
     }
 
     /**

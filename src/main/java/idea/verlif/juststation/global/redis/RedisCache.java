@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.redis;
 
-import idea.verlif.juststation.global.config.CacheHandler;
-import org.apache.commons.lang3.StringUtils;
+import idea.verlif.juststation.global.component.CacheHandler;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -116,6 +115,11 @@ public class RedisCache implements CacheHandler {
         }
     }
 
+    @Override
+    public Set<String> findKeyByMatch(String match) {
+        return redisTemplate.keys(match);
+    }
+
     /**
      * 删除集合对象
      *
@@ -145,6 +149,7 @@ public class RedisCache implements CacheHandler {
      * @param key 缓存的键值
      * @return 缓存键值对应的数据
      */
+    @Override
     public <T> List<T> getCacheList(final String key) {
         return redisTemplate.opsForList().range(key, 0, -1);
     }

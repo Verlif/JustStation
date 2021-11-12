@@ -18,8 +18,8 @@ public interface RoleMapper extends BaseMapper<Role> {
     /**
      * 获取用户的角色集
      *
-     * @param userId 用户ID
+     * @param username 用户名
      * @return 角色集
      */
-    Set<String> getUserRoleSet(@Param("userId") Integer userId);
+    Set<String> getUserRoleSet(@Param("username") String username);
 }

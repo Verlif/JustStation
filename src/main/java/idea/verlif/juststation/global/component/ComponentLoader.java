@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.config;
+package idea.verlif.juststation.global.component;
 
 import idea.verlif.juststation.global.redis.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;

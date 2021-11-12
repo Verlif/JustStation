@@ -6,6 +6,7 @@ import idea.verlif.juststation.core.base.result.ext.FailResult;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,5 +51,11 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = MaxUploadSizeExceededException.class)
     public BaseResult<String> fileSizeLimitExceededException(MaxUploadSizeExceededException e) {
         return new FailResult<>("文件过大");
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = MissingServletRequestParameterException.class)
+    public FailResult<String> missingServletRequestParameterException(MissingServletRequestParameterException e) {
+        return new FailResult<>("缺少请求参数 - " + e.getParameterName());
     }
 }

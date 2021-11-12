@@ -23,7 +23,11 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
      */
     @JsonIgnore
     public String getToken() {
-        return getUsername() + ":" + tag + ":" + code;
+        return getToken(getUsername(), tag, code);
+    }
+
+    public static String getToken(String username, String tag, String code) {
+        return username + ":" + tag + ":" + code;
     }
 
     /**

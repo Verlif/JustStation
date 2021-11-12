@@ -2,10 +2,11 @@ package idea.verlif.juststation.core.test.controller;
 
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.global.security.login.LoginService;
+import idea.verlif.juststation.global.security.login.domain.BaseUser;
+import idea.verlif.juststation.global.security.login.domain.LoginInfo;
+import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,7 @@ public class LoginController {
     @Operation(summary = "登录")
     @PostMapping
     public BaseResult<?> login(@RequestBody LoginInfo loginInfo) {
-        return loginService.login(loginInfo.username, loginInfo.password);
+        return loginService.login(loginInfo);
     }
 
     /**
@@ -46,16 +47,5 @@ public class LoginController {
     @PostMapping("/logout")
     public BaseResult<?> logout() {
         return loginService.logout();
-    }
-
-    @Data
-    @Schema(name = "用户登录信息", description = "用于登录的用户名及密码")
-    private static final class LoginInfo {
-
-        @Schema(name = "用户登录名")
-        private String username;
-
-        @Schema(name = "用户登录密码")
-        private String password;
     }
 }
