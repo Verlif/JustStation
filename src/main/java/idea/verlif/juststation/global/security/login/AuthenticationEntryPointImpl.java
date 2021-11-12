@@ -1,11 +1,10 @@
 package idea.verlif.juststation.global.security.login;
 
-import com.alibaba.fastjson.JSON;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.TokenService;
-import idea.verlif.juststation.global.util.ServletUtil;
+import idea.verlif.juststation.global.util.ServletUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -31,9 +30,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
         // 验证用户是否登录，这里采用判定token的方式
         LoginUser<?> loginUser = tokenService.getLoginUser(request);
         if (loginUser == null) {
-            ServletUtil.sendResult(response, new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN));
+            ServletUtils.sendResult(response, new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN));
         } else {
-            ServletUtil.sendResult(response, new BaseResult<>(ResultCode.FAILURE_UNAVAILABLE));
+            ServletUtils.sendResult(response, new BaseResult<>(ResultCode.FAILURE_UNAVAILABLE));
         }
     }
 }

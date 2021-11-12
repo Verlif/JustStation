@@ -26,9 +26,11 @@ public class RequestParamHandler {
 
     @Around("@annotation(idea.verlif.juststation.global.request.Check)")
     public Object dsPointCut(ProceedingJoinPoint joinPoint) throws Throwable {
+        // 没有参数时跳过检测
         if (joinPoint.getArgs().length == 0) {
             joinPoint.proceed();
         }
+        // 获取调用方法
         Signature sig = joinPoint.getSignature();
         MethodSignature signature;
         if (!(sig instanceof MethodSignature)) {
@@ -38,6 +40,7 @@ public class RequestParamHandler {
         Object target = joinPoint.getTarget();
         Method currentMethod = target.getClass().getMethod(signature.getName(), signature.getParameterTypes());
 
+        // 筛选出需要检测的参数
         Annotation[][] parameterAnnotations = currentMethod.getParameterAnnotations();
         if (parameterAnnotations.length == 0) {
             return joinPoint.proceed();

@@ -94,7 +94,7 @@ public class TokenService {
     }
 
     /**
-     * 验证令牌有效期，相差不足20分钟，自动刷新缓存
+     * 验证令牌有效期，并刷新Token时间
      */
     public void verifyToken(LoginUser<?> loginUser) {
         long expireTime = loginUser.getExpireTime();

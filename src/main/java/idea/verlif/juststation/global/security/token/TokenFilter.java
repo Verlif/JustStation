@@ -1,11 +1,10 @@
 package idea.verlif.juststation.global.security.token;
 
-import com.alibaba.fastjson.JSON;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.util.SecurityUtils;
-import idea.verlif.juststation.global.util.ServletUtil;
+import idea.verlif.juststation.global.util.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,13 +44,13 @@ public class TokenFilter extends OncePerRequestFilter {
         }
         //token解析失败
         if (StringUtils.isNotEmpty(token) && tokenService.parseToken(token) == null) {
-            ServletUtil.sendResult(response, new BaseResult<>(ResultCode.FAILURE_TOKEN));
+            ServletUtils.sendResult(response, new BaseResult<>(ResultCode.FAILURE_TOKEN));
             return;
         }
         LoginUser<?> loginUser = tokenService.getLoginUser(request);
         //刷新token过期时间
         if (loginUser != null && SecurityUtils.getAuthentication() == null) {
-            tokenService.verifyToken(loginUser);
+            tokenService.refreshToken(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

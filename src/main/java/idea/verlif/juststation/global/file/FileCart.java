@@ -17,7 +17,7 @@ public enum FileCart {
     TEST("test/");
 
     /**
-     * 文件夹名（请注意格式，例如“test/”，以下格式不允许：“/test/”、“test”）
+     * 文件夹名（请注意格式，例如“test/”或“test/awsl/”，以下格式不允许：“/test/”、“test”）
      */
     private final String Area;
 

@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Describe: Servlet 工具类
  */
-public class ServletUtil {
+public class ServletUtils {
 
     /**
      * Describe: 获取 HttpServletRequest 对象
