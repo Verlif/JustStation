@@ -1,6 +1,6 @@
-package idea.verlif.juststation.global.redis;
+package idea.verlif.juststation.global.cache.redis;
 
-import idea.verlif.juststation.global.component.CacheHandler;
+import idea.verlif.juststation.global.cache.CacheHandler;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -52,7 +52,7 @@ public class RedisCache implements CacheHandler {
      * @param timeUnit 时间颗粒度
      */
     @Override
-    public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
+    public <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
     }
 

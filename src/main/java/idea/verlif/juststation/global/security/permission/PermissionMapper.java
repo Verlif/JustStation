@@ -5,7 +5,6 @@ import java.util.Set;
 /**
  * 权限Mapper，用于获取角色的关键词组与角色组
  *
- * @param <T> 角色标识类型，例如ID
  * @author Verlif
  * @version 1.0
  * @date 2021/11/9 12:46

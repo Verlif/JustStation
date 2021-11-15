@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.token;
 
-import idea.verlif.juststation.global.component.CacheHandler;
+import idea.verlif.juststation.global.cache.CacheHandler;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;

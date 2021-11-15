@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.component;
+package idea.verlif.juststation.global.cache;
 
 import java.util.List;
 import java.util.Set;
@@ -21,7 +21,7 @@ public interface CacheHandler {
      * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
-    <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit);
+    <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit);
 
     /**
      * 设置有效时间
