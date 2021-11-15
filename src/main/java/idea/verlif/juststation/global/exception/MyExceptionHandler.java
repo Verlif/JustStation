@@ -26,7 +26,7 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public BaseResult<String> exceptionHandler(Exception e) {
         e.printStackTrace();
-        return new FailResult<String>().msg(e.getMessage());
+        return new FailResult<String>().msg(e.getMessage() == null ? "服务器错误" : e.getMessage());
     }
 
     @ResponseBody
