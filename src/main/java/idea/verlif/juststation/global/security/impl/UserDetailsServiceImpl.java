@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 用户验证处理
  *
@@ -18,11 +21,40 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl<T> implements UserDetailsService {
 
-    @Autowired
-    private BaseUserMapper<T> userMapper;
+    private final BaseUserMapper<T> userMapper;
 
-    @Autowired
-    private PermissionMapper permissionMapper;
+    private final PermissionMapper permissionMapper;
+
+    public UserDetailsServiceImpl(
+            @Autowired(required = false) BaseUserMapper<T> userMapper,
+            @Autowired(required = false) PermissionMapper permissionMapper) {
+        if (userMapper == null) {
+            this.userMapper = new BaseUserMapper<T>() {
+                @Override
+                public BaseUser getUserByUsername(String username) {
+                    return null;
+                }
+            };
+        } else {
+            this.userMapper = userMapper;
+        }
+
+        if (permissionMapper == null) {
+            this.permissionMapper = new PermissionMapper() {
+                @Override
+                public Set<String> getUserRoleSet(String username) {
+                    return new HashSet<>();
+                }
+
+                @Override
+                public Set<String> getUserKeySet(String username) {
+                    return new HashSet<>();
+                }
+            };
+        } else {
+            this.permissionMapper = permissionMapper;
+        }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

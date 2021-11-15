@@ -1,10 +1,9 @@
 package idea.verlif.juststation.global.security.impl;
 
-import idea.verlif.juststation.global.security.permission.PermissionDetector;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
+import idea.verlif.juststation.global.security.permission.PermissionDetector;
 import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.ServletUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Verlif
@@ -13,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class PermissionDetectorImpl implements PermissionDetector {
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
+
+    public PermissionDetectorImpl(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @Override
     public boolean hasRole(String role) {

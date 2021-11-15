@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.filter.CorsFilter;
 
 /**
@@ -81,9 +80,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
+                // 登录与注册接口开放
                 .antMatchers("/**/login", "/**/register").anonymous()
+                // 文件访问系统开放（仅限测试）
                 .antMatchers("/file/**").permitAll()
                 .antMatchers("/webjars/**").anonymous()
+                // Swagger文档开放
                 .antMatchers("/swagger-ui/**", "/**/api-docs", "/swagger-resources/**").anonymous()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated().and()

@@ -22,12 +22,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 文件访问重定向
         registry.addResourceHandler(FilePathConfig.TAG + "**")
                 .addResourceLocations("file:" + pathConfig.getMain());
+        // swagger文档访问重定向
         registry.addResourceHandler("swagger-ui.html", "doc.html")
                 .addResourceLocations("classpath:/META-INF/resources/", "classpath:/META-INF/resources/webjars/");
+        // 静态资源访问重定向
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+        // web资源访问重定向
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
