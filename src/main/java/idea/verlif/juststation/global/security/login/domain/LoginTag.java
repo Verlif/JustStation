@@ -21,8 +21,7 @@ public enum LoginTag {
     /**
      * PC端登录
      */
-    PC("pc")
-    ;
+    PC("pc");
 
     /**
      * 登录标识

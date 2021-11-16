@@ -3,7 +3,7 @@ package idea.verlif.juststation.global.exception;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import idea.verlif.juststation.global.util.MessagesUtils;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -26,7 +26,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public BaseResult<String> exceptionHandler(Exception e) {
         e.printStackTrace();
-        return new FailResult<String>().msg(e.getMessage() == null ? "服务器错误" : e.getMessage());
+        return new FailResult<String>().msg(
+                e.getMessage() == null ? MessagesUtils.message("error.default") : e.getMessage());
     }
 
     @ResponseBody
@@ -44,18 +45,18 @@ public class MyExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = SizeException.class)
     public BaseResult<String> sizeLimitExceededException(SizeLimitExceededException e) {
-        return new FailResult<>("资源过大");
+        return new FailResult<>(MessagesUtils.message("result.fail.large_resource"));
     }
 
     @ResponseBody
     @ExceptionHandler(value = MaxUploadSizeExceededException.class)
     public BaseResult<String> fileSizeLimitExceededException(MaxUploadSizeExceededException e) {
-        return new FailResult<>("文件过大");
+        return new FailResult<>(MessagesUtils.message("result.fail.file.large"));
     }
 
     @ResponseBody
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public FailResult<String> missingServletRequestParameterException(MissingServletRequestParameterException e) {
-        return new FailResult<>("缺少请求参数 - " + e.getParameterName());
+    public BaseResult<String> missingServletRequestParameterException(MissingServletRequestParameterException e) {
+        return new BaseResult<String>(ResultCode.FAILURE_PARAMETER_LACK).withParam(e.getParameterName());
     }
 }

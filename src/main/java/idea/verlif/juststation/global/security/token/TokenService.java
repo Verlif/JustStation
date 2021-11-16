@@ -94,17 +94,6 @@ public class TokenService {
     }
 
     /**
-     * 验证令牌有效期，并刷新Token时间
-     */
-    public void verifyToken(LoginUser<?> loginUser) {
-        long expireTime = loginUser.getExpireTime();
-        long currentTime = System.currentTimeMillis();
-        if (expireTime - currentTime <= tokenConfig.getExpireTime()) {
-            refreshToken(loginUser);
-        }
-    }
-
-    /**
      * 刷新令牌有效期
      *
      * @param loginUser 登录信息

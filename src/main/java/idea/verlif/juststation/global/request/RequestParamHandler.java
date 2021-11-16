@@ -34,7 +34,7 @@ public class RequestParamHandler {
         Signature sig = joinPoint.getSignature();
         MethodSignature signature;
         if (!(sig instanceof MethodSignature)) {
-            throw new IllegalArgumentException("该注解只能用于方法");
+            throw new IllegalArgumentException();
         }
         signature = (MethodSignature) sig;
         Object target = joinPoint.getTarget();
@@ -54,7 +54,7 @@ public class RequestParamHandler {
                     if (o instanceof Checkable) {
                         String nu = ((Checkable) o).hasNull(check.tag());
                         if (nu != null) {
-                            return new BaseResult<>(ResultCode.FAILURE_PARAMETER).msg("缺少必要参数 - " + nu);
+                            return new BaseResult<String>(ResultCode.FAILURE_PARAMETER_LACK).withParam(nu);
                         }
                     }
                     break;

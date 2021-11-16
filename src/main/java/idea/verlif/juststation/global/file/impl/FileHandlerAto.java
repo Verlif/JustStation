@@ -1,14 +1,19 @@
-package idea.verlif.juststation.global.file;
+package idea.verlif.juststation.global.file.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
 import idea.verlif.juststation.core.base.result.ext.OkResult;
-import org.springframework.stereotype.Service;
+import idea.verlif.juststation.global.component.FileHandler;
+import idea.verlif.juststation.global.file.FileCart;
+import idea.verlif.juststation.global.file.FileInfo;
+import idea.verlif.juststation.global.file.FilePathConfig;
+import idea.verlif.juststation.global.file.FileQuery;
+import idea.verlif.juststation.global.util.PageUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,11 +29,13 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2021/9/13 10:27
  */
-@Service
-public class SystemFileService {
+public class FileHandlerAto implements FileHandler {
 
-    @Resource
-    private FilePathConfig pathConfig;
+    private final FilePathConfig pathConfig;
+
+    public FileHandlerAto(FilePathConfig config) {
+        this.pathConfig = config;
+    }
 
     /**
      * 获取本地文件夹地址
@@ -37,6 +44,7 @@ public class SystemFileService {
      * @param type     文件子目录；可为空
      * @return 本地文件地址
      */
+    @Override
     public File getLocalFile(FileCart fileCart, String type) {
         String path = fileCart.getArea();
         if (!path.endsWith(FilePathConfig.DIR_SPLIT)) {
@@ -53,6 +61,7 @@ public class SystemFileService {
      * @param fileName 文件名
      * @return 文件地址
      */
+    @Override
     public String getAccessiblePath(FileCart fileCart, String type, String fileName) {
         String path = fileCart.getArea();
         if (!path.endsWith(FilePathConfig.DIR_SPLIT)) {
@@ -69,13 +78,12 @@ public class SystemFileService {
      * @param type     文件自目录；可为空
      * @return 文件列表信息
      */
+    @Override
     public BaseResult<IPage<FileInfo>> getFileList(FileCart fileCart, String type, FileQuery query) {
         return new OkResult<>(getInfoList(fileCart, type, query));
     }
 
     private IPage<FileInfo> getInfoList(FileCart fileCart, String type, FileQuery query) {
-        // 创建分页对象
-        IPage<FileInfo> page = new Page<>();
         List<FileInfo> list = new ArrayList<>();
         // 获取文件夹对象
         File file = getLocalFile(fileCart, type);
@@ -108,20 +116,8 @@ public class SystemFileService {
         }
         list.clear();
         list.addAll(filterList);
-        page.setTotal(list.size());
-        page.setSize(query.getPageSize());
-        page.setPages(page.getTotal() / page.getSize());
-        if (page.getTotal() % page.getSize() > 0) {
-            page.setPages(page.getPages() + 1);
-        }
-        page.setCurrent(query.getPageNum());
-        if (query.getPageHead() > list.size()) {
-            page.setRecords(new ArrayList<>());
-        } else {
-            int end = query.getPageHead() + query.getPageSize();
-            page.setRecords(list.subList(query.getPageHead(), Math.min(end, list.size())));
-        }
-        return page;
+        // 创建分页对象
+        return PageUtils.page(list, query);
     }
 
     /**
@@ -132,28 +128,29 @@ public class SystemFileService {
      * @param file     目标文件
      * @return 是否上传成功
      */
+    @Override
     public BaseResult<?> uploadFile(FileCart fileCart, String type, MultipartFile file) {
         if (file == null) {
-            return new FailResult<>("不允许上传空文件");
+            return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING);
         }
         File dirFile = getLocalFile(fileCart, type);
         // 创建目标文件域
         if (!dirFile.exists()) {
             if (!dirFile.mkdirs()) {
-                return new FailResult<>("无法创建对应文件区域 - " + fileCart.name());
+                return new BaseResult<>(ResultCode.FAILURE_FILE).withParam(fileCart.name());
             }
         }
         try {
             String name = file.getOriginalFilename();
             if (name == null) {
-                return new FailResult<>("上传的文件需要文件名");
+                return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING);
             }
             File dir = new File(dirFile, name);
             file.transferTo(dir);
-            return new OkResult<>().msg("上传成功");
+            return new OkResult<>();
         } catch (IOException e) {
             e.printStackTrace();
-            return new FailResult<>("文件上传失败");
+            return new BaseResult<>(ResultCode.FAILURE_FILE_UPLOAD);
         }
     }
 
@@ -166,6 +163,7 @@ public class SystemFileService {
      * @param fileName 目标文件名
      * @return 下载结果
      */
+    @Override
     public BaseResult<?> downloadFile(HttpServletResponse response, FileCart fileCart, String type, String fileName) {
         File file = new File(getLocalFile(fileCart, type), fileName);
         if (file.exists()) {
@@ -178,13 +176,13 @@ public class SystemFileService {
                 while ((length = fis.read(b)) > 0) {
                     os.write(b, 0, length);
                 }
-                return new OkResult<>("文件下载请求成功");
+                return new OkResult<>();
             } catch (IOException e) {
                 e.printStackTrace();
-                return new FailResult<>("文件下载失败");
+                return new BaseResult<>(ResultCode.FAILURE_FILE_DOWNLOAD);
             }
         } else {
-            return new FailResult<>("文件不存在");
+            return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING).withParam(fileName);
         }
     }
 
@@ -196,16 +194,17 @@ public class SystemFileService {
      * @param fileName 目标文件名
      * @return 删除结果
      */
+    @Override
     public BaseResult<?> deleteFile(FileCart fileCart, String type, String fileName) {
         File file = new File(getLocalFile(fileCart, type), fileName);
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
-                return new OkResult<>().msg("删除成功");
+                return new OkResult<>();
             } else {
-                return new FailResult<>("删除失败");
+                return new FailResult<>();
             }
         } else {
-            return new FailResult<>("文件不存在");
+            return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING).withParam(fileName);
         }
     }
 

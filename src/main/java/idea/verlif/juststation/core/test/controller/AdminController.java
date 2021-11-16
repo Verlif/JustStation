@@ -1,5 +1,6 @@
 package idea.verlif.juststation.core.test.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.query.UserQuery;
@@ -13,8 +14,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author Verlif
@@ -42,7 +41,7 @@ public class AdminController {
     @GetMapping("/user/online")
     @Perm(hasRole = "admin")
     @Operation(summary = "获取所有在线用户列表")
-    public BaseResult<List<LoginUser<? extends BaseUser>>> listOnlineUser(UserQuery query) {
+    public BaseResult<IPage<LoginUser<? extends BaseUser>>> listOnlineUser(UserQuery query) {
         return loginService.getOnlineUser(query);
     }
 

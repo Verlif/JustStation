@@ -21,7 +21,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getUser().getUsername();
         } catch (Exception e) {
-            throw new CustomException("获取用户账户异常");
+            throw new CustomException(MessagesUtils.message("error.no_user"));
         }
     }
 
@@ -32,7 +32,7 @@ public class SecurityUtils {
         try {
             return (LoginUser<? extends BaseUser>) getAuthentication().getPrincipal();
         } catch (Exception e) {
-            throw new CustomException("获取用户信息异常");
+            throw new CustomException(MessagesUtils.message("error.no_user"));
         }
     }
 

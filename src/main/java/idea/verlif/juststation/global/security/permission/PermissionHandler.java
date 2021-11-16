@@ -2,7 +2,7 @@ package idea.verlif.juststation.global.security.permission;
 
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
-import idea.verlif.juststation.global.security.impl.PermissionDetectorImpl;
+import idea.verlif.juststation.global.security.permission.impl.PermissionDetectorImpl;
 import idea.verlif.juststation.global.security.token.TokenService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;

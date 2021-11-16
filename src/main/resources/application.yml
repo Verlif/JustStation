@@ -3,6 +3,8 @@ spring:
     active: druid, token, redis, file
   application:
     name: Station
+  messages:
+    basename: i18n/messages
   servlet:
     multipart:
       max-file-size: 50MB
@@ -16,10 +18,8 @@ mybatis-plus:
 
 logging:
   level:
-    idea:
-      verlif:
-        juststation:
-          core: debug
+    idea.verlif.juststation.core: debug
+  file: log/log.log
 
 server:
   port: 8888

@@ -1,7 +1,7 @@
 package idea.verlif.juststation.core.test.handler;
 
 import idea.verlif.juststation.core.test.mapper.UserMapper;
-import idea.verlif.juststation.global.security.login.BaseUserMapper;
+import idea.verlif.juststation.global.security.login.BaseUserCollector;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @date 2021/11/10 11:27
  */
 @Component
-public class BaseUserMapperImpl<T> implements BaseUserMapper<T> {
+public class BaseUserCollectorImpl<T> implements BaseUserCollector<T> {
 
     @Autowired
     private UserMapper userMapper;

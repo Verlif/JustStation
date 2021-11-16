@@ -5,7 +5,7 @@ import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.global.file.FileCart;
 import idea.verlif.juststation.global.file.FileInfo;
 import idea.verlif.juststation.global.file.FileQuery;
-import idea.verlif.juststation.global.file.SystemFileService;
+import idea.verlif.juststation.global.file.FileService;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class FileController {
 
     @Autowired
-    private SystemFileService fileService;
+    private FileService fileService;
 
     @PostMapping
     @Operation(summary = "上传文件")
@@ -44,8 +44,8 @@ public class FileController {
 
     @GetMapping("/list")
     @Operation(summary = "文件列表")
-    public BaseResult<IPage<FileInfo>> getFileList() {
-        return fileService.getFileList(FileCart.TEST, SecurityUtils.getUsername(), new FileQuery());
+    public BaseResult<IPage<FileInfo>> getFileList(FileQuery fileQuery) {
+        return fileService.getFileList(FileCart.TEST, SecurityUtils.getUsername(), fileQuery);
     }
 
     @DeleteMapping

@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.impl;
 
-import idea.verlif.juststation.global.security.login.BaseUserMapper;
+import idea.verlif.juststation.global.security.login.BaseUserCollector;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.permission.PermissionMapper;
@@ -21,15 +21,15 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl<T> implements UserDetailsService {
 
-    private final BaseUserMapper<T> userMapper;
+    private final BaseUserCollector<T> userMapper;
 
     private final PermissionMapper permissionMapper;
 
     public UserDetailsServiceImpl(
-            @Autowired(required = false) BaseUserMapper<T> userMapper,
+            @Autowired(required = false) BaseUserCollector<T> userMapper,
             @Autowired(required = false) PermissionMapper permissionMapper) {
         if (userMapper == null) {
-            this.userMapper = new BaseUserMapper<T>() {
+            this.userMapper = new BaseUserCollector<T>() {
                 @Override
                 public BaseUser getUserByUsername(String username) {
                     return null;

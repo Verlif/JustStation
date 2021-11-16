@@ -125,6 +125,14 @@ public abstract class Pageable<T> {
         return (pageNum - 1) * pageSize;
     }
 
+    public void setPageNum(Integer pageNum) {
+        if (pageNum < 1) {
+            this.pageNum = 1;
+        } else {
+            this.pageNum = pageNum;
+        }
+    }
+
     /**
      * 获取分页对象
      */

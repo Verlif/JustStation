@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.security.impl;
+package idea.verlif.juststation.global.security.permission.impl;
 
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.permission.PermissionDetector;

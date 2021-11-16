@@ -52,6 +52,16 @@ public class BaseResult<T> {
         return this;
     }
 
+    public BaseResult<T> appendMsg(String append) {
+        this.msg += append;
+        return this;
+    }
+
+    public BaseResult<T> withParam(String param) {
+        this.msg += " - " + param;
+        return this;
+    }
+
     public BaseResult<T> data(T data) {
         this.data = data;
         return this;
