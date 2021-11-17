@@ -3,7 +3,6 @@ package idea.verlif.juststation.core.test.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import idea.verlif.juststation.core.base.domain.Checkable;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -18,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @TableName("user")
 @Schema(name = "用户信息")
-public class User extends BaseUser implements Checkable {
+public class User extends BaseUser {
 
     @Schema(name = "用户ID")
     @TableId(value = "user_id", type = IdType.AUTO)

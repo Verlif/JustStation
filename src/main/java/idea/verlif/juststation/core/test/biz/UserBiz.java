@@ -98,7 +98,7 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
      * @return 注册结果
      */
     public BaseResult<?> register(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         try {
             if (baseMapper.insert(user) > 0) {
                 return new OkResult<>(user).msg("注册成功");

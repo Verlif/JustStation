@@ -1,5 +1,6 @@
 package idea.verlif.juststation.global.security.login.domain;
 
+import idea.verlif.juststation.core.base.domain.Checkable;
 import idea.verlif.juststation.core.base.domain.Fillable;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -12,7 +13,7 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2021/11/9 11:52
  */
-public class BaseUser implements Serializable, Fillable {
+public class BaseUser implements Serializable, Fillable, Checkable {
 
     /**
      * 用户登录名

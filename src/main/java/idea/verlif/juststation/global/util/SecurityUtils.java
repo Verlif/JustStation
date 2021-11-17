@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 /**
  * 安全服务工具类
  *
- * @author ruoyi
+ * @author Verlif
  */
 @Component("SecurityUtils")
 public class SecurityUtils {
@@ -78,4 +78,7 @@ public class SecurityUtils {
         return encoder.matches(rawPassword, encodedPassword);
     }
 
+    public static PasswordEncoder getEncoder() {
+        return encoder;
+    }
 }
