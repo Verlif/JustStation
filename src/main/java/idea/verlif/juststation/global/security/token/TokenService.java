@@ -33,7 +33,9 @@ public class TokenService {
 
     private final CacheHandler cacheHandler;
 
-    public TokenService(@Autowired CacheHandler cacheHandler, @Autowired RedisTemplate<?, ?> redisTemplate) {
+    public TokenService(
+            @Autowired(required = false) CacheHandler cacheHandler,
+            @Autowired RedisTemplate<?, ?> redisTemplate) {
         if (cacheHandler == null) {
             this.cacheHandler = new RedisCache(redisTemplate);
         } else {
