@@ -62,9 +62,25 @@ public enum ResultCode {
      */
     FAILURE_NOT_LOGIN(532, MessagesUtils.message("result.fail.login.not")),
     /**
-     * 服务器粗欧文
+     * 没有相关数据
      */
-    FAILURE_ERROR(599, MessagesUtils.message("error.default"));
+    FAILURE_DATA_MISSING(540, MessagesUtils.message("request.data.missing")),
+    /**
+     * 添加失败
+     */
+    FAILURE_INSERT(550, MessagesUtils.message("request.insert")),
+    /**
+     * 更新失败
+     */
+    FAILURE_UPDATE(560, MessagesUtils.message("request.update")),
+    /**
+     * 删除失败
+     */
+    FAILURE_DELETE(570, MessagesUtils.message("request.delete")),
+    /**
+     * 服务器错误
+     */
+    FAILURE_ERROR(999, MessagesUtils.message("error.default"));
 
     private final Integer code;
 

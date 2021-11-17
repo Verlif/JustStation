@@ -3,16 +3,30 @@ package idea.verlif.juststation.global.util;
 import idea.verlif.juststation.global.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 /**
  * 安全服务工具类
  *
  * @author ruoyi
  */
+@Component("SecurityUtils")
 public class SecurityUtils {
+
+    private static PasswordEncoder encoder;
+
+    public SecurityUtils(@Autowired(required = false) PasswordEncoder passwordEncoder) {
+        if (passwordEncoder == null) {
+            encoder = new BCryptPasswordEncoder();
+        } else {
+            encoder = passwordEncoder;
+        }
+    }
 
     /**
      * 获取用户账户
@@ -50,8 +64,7 @@ public class SecurityUtils {
      * @return 加密字符串
      */
     public static String encryptPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(password);
+        return encoder.encode(password);
     }
 
     /**
@@ -62,8 +75,7 @@ public class SecurityUtils {
      * @return 结果
      */
     public static boolean matchesPassword(String rawPassword, String encodedPassword) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+        return encoder.matches(rawPassword, encodedPassword);
     }
 
 }

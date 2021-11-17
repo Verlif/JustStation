@@ -30,7 +30,8 @@ public class BaseResult<T> {
     @Schema(name = "返回数据")
     protected T data;
 
-    public BaseResult() {}
+    public BaseResult() {
+    }
 
     public BaseResult(ResultCode code) {
         this.code = code.getCode();
@@ -71,5 +72,15 @@ public class BaseResult<T> {
         this.code = code.getCode();
         this.msg = code.getMsg();
         return this;
+    }
+
+    /**
+     * 判断结果Code是否与目标相同
+     *
+     * @param code 目标结果
+     * @return 是否相同
+     */
+    public boolean equals(ResultCode code) {
+        return code.getCode().equals(this.code);
     }
 }

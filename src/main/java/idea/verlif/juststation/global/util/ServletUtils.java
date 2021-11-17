@@ -137,7 +137,7 @@ public class ServletUtils {
      */
     public static String getRemoteHost() {
         String remoteHost = getRequest().getRemoteHost();
-        if (remoteHost.equals("0:0:0:0:0:0:0:1")) {
+        if ("0:0:0:0:0:0:0:1".equals(remoteHost)) {
             remoteHost = "127.0.0.1";
         }
         return remoteHost;

@@ -5,4 +5,9 @@
         SELECT u.* FROM user u
         WHERE u.username = #{username}
     </select>
+
+    <select id="selectByNameAndPwd" resultType="idea.verlif.juststation.core.test.domain.User">
+        SELECT u.* FROM user u
+        WHERE u.username = #{username} AND u.password = #{password}
+    </select>
 </mapper>

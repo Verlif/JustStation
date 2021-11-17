@@ -20,4 +20,13 @@ public interface UserMapper extends BaseMapper<User> {
      * @return 用户信息；null - 不存在的用户名
      */
     User getUserByName(@Param("username") String username);
+
+    /**
+     * 通过用户名与用户密码获取用户信息
+     *
+     * @param username 用户名
+     * @param password 用户密码
+     * @return 用户信息；null - 数据不匹配
+     */
+    User selectByNameAndPwd(@Param("username") String username, @Param("password") String password);
 }
