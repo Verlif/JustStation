@@ -1,12 +1,15 @@
 package idea.verlif.juststation.global.security.token;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
+import idea.verlif.juststation.global.cache.redis.RedisCache;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -28,8 +31,15 @@ public class TokenService {
     @Resource
     private TokenConfig tokenConfig;
 
-    @Resource
-    private CacheHandler cacheHandler;
+    private final CacheHandler cacheHandler;
+
+    public TokenService(@Autowired CacheHandler cacheHandler, @Autowired RedisTemplate<?, ?> redisTemplate) {
+        if (cacheHandler == null) {
+            this.cacheHandler = new RedisCache(redisTemplate);
+        } else {
+            this.cacheHandler = cacheHandler;
+        }
+    }
 
     /**
      * 获取用户身份信息
