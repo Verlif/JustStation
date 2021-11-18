@@ -1,7 +1,9 @@
 package idea.verlif.juststation.core.test.command;
 
 import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.global.command.Command;
+import idea.verlif.juststation.global.command.CommandCode;
 import idea.verlif.juststation.global.command.exception.CommandException;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
@@ -21,7 +23,7 @@ public class LoginCommand implements Command {
     private LoginService loginService;
 
     @Override
-    public void run(String[] params) {
+    public CommandCode run(String[] params) {
         if (params.length == 0) {
             throw new CommandException("缺少登录的用户");
         } else if (params.length == 1) {
@@ -37,6 +39,11 @@ public class LoginCommand implements Command {
         }
         BaseResult<?> result = loginService.login(loginInfo);
         OutUtils.printLine(result.toString());
+        if (!result.equals(ResultCode.SUCCESS)) {
+            return CommandCode.FAIL;
+        } else {
+            return CommandCode.OK;
+        }
     }
 
     @Override

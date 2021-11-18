@@ -79,25 +79,27 @@ public class CommandManager {
         }
     }
 
-    private void command(String[] input) {
+    public CommandCode command(String[] input) {
         if (input != null && input.length > 0) {
             Command command = getCommand(input[0].toUpperCase(Locale.ROOT));
             if (command != null) {
                 try {
                     if (input.length > 1) {
-                        command.run(Arrays.copyOfRange(input, 1, input.length));
+                        return command.run(Arrays.copyOfRange(input, 1, input.length));
                     } else {
-                        command.run(new String[]{});
+                        return command.run(new String[]{});
                     }
                 } catch (CommandException e) {
                     OutUtils.printLine("[" + input[0] + "] - " + e.getMessage());
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
+                return CommandCode.ERROR;
             } else {
                 OutUtils.printLine(MessagesUtils.message("command.error.unknown") + "[" + input[0] + "]");
             }
         }
+        return CommandCode.UNKNOWN;
     }
 
     /**

@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.command.impl;
 
 import idea.verlif.juststation.global.command.Command;
+import idea.verlif.juststation.global.command.CommandCode;
 import idea.verlif.juststation.global.command.CommandManager;
 import idea.verlif.juststation.global.util.OutUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,16 @@ import java.util.Set;
 @Command.CommandInfo(key = {"help", "h"}, description = "帮助")
 public class HelpCommand implements Command {
 
+    /**
+     * 排版间距
+     */
     private static final int LEFT = 30;
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
-    public void run(String[] params) {
+    public CommandCode run(String[] params) {
         Set<Command> commandSet = applicationContext.getBean(CommandManager.class).getAllCommand();
         for (Command command : commandSet) {
             CommandInfo info = command.getClass().getAnnotation(CommandInfo.class);
@@ -48,6 +52,7 @@ public class HelpCommand implements Command {
             }
             OutUtils.printLine(sb.toString());
         }
+        return CommandCode.OK;
     }
 
 }

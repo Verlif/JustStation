@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.command.impl;
 
 import idea.verlif.juststation.global.command.Command;
+import idea.verlif.juststation.global.command.CommandCode;
 import idea.verlif.juststation.global.command.exception.CommandException;
 
 /**
@@ -12,7 +13,7 @@ import idea.verlif.juststation.global.command.exception.CommandException;
 public class NoSuchCommand implements Command {
 
     @Override
-    public void run(String[] params) {
+    public CommandCode run(String[] params) {
         if (params.length > 0) {
             throw new CommandException("没有找到相关指令 - " + params[0]);
         } else {

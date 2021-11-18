@@ -17,9 +17,10 @@ public interface Command {
      * 命令的执行内容
      * 此方法运行于主线程
      *
-     * @param params 指令后的
+     * @param params 指令后的参数
+     * @return 指令结果
      */
-    void run(String[] params);
+    CommandCode run(String[] params);
 
     /**
      * 参数说明
