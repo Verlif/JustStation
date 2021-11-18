@@ -30,8 +30,8 @@ public class FileController {
 
     @PostMapping
     @Operation(summary = "上传文件")
-    public BaseResult<?> uploadFile(MultipartFile file) {
-        return fileService.uploadFile(FileCart.TEST, SecurityUtils.getUsername(), file);
+    public BaseResult<?> uploadFile(MultipartFile[] files) {
+        return fileService.uploadFile(FileCart.TEST, SecurityUtils.getUsername(), files);
     }
 
     @GetMapping

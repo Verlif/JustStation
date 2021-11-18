@@ -53,10 +53,10 @@ public interface FileHandler {
      *
      * @param fileCart 文件域
      * @param type     文件子路径；可为空
-     * @param file     目标文件
+     * @param files    目标文件组
      * @return 是否上传成功
      */
-    BaseResult<?> uploadFile(FileCart fileCart, String type, MultipartFile file);
+    BaseResult<?> uploadFile(FileCart fileCart, String type, MultipartFile... files);
 
     /**
      * 下载文件

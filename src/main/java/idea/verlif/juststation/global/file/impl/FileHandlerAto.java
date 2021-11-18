@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.file.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
@@ -120,17 +119,9 @@ public class FileHandlerAto implements FileHandler {
         return PageUtils.page(list, query);
     }
 
-    /**
-     * 上传文件
-     *
-     * @param fileCart 文件域
-     * @param type     文件子路径；可为空
-     * @param file     目标文件
-     * @return 是否上传成功
-     */
     @Override
-    public BaseResult<?> uploadFile(FileCart fileCart, String type, MultipartFile file) {
-        if (file == null) {
+    public BaseResult<?> uploadFile(FileCart fileCart, String type, MultipartFile... files) {
+        if (files == null || files.length == 0) {
             return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING);
         }
         File dirFile = getLocalFile(fileCart, type);
@@ -141,12 +132,14 @@ public class FileHandlerAto implements FileHandler {
             }
         }
         try {
-            String name = file.getOriginalFilename();
-            if (name == null) {
-                return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING);
+            for (MultipartFile file : files) {
+                String name = file.getOriginalFilename();
+                if (name == null) {
+                    return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING);
+                }
+                File dir = new File(dirFile, name);
+                file.transferTo(dir);
             }
-            File dir = new File(dirFile, name);
-            file.transferTo(dir);
             return new OkResult<>();
         } catch (IOException e) {
             e.printStackTrace();

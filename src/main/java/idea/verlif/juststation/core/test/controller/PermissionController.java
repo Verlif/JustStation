@@ -22,9 +22,9 @@ public class PermissionController {
     /**
      * 拥有角色[role]时可访问
      */
-    @Operation(summary = "拥有角色 - role")
-    @Perm(hasRole = "role")
-    // 等效于 @PreAuthorize("@pd.hasRole('role')")
+    @Operation(summary = "拥有角色 - user")
+    @Perm(hasRole = "user")
+    // 等效于 @PreAuthorize("@pd.hasRole('user')")
     @GetMapping("/hasRole")
     public BaseResult<Object> hasRole() {
         return new OkResult<>().msg("拥有角色");
@@ -44,9 +44,9 @@ public class PermissionController {
     /**
      * 未拥有角色[role]时可访问
      */
-    @Operation(summary = "未拥有角色 - role")
-    @Perm(noRole = "role")
-    // 等效于 @PreAuthorize("@pd.noRole('role')")
+    @Operation(summary = "未拥有角色 - user")
+    @Perm(noRole = "user")
+    // 等效于 @PreAuthorize("@pd.noRole('user')")
     @GetMapping("/noRole")
     public BaseResult<Object> noRole() {
         return new OkResult<>().msg("未拥有角色");

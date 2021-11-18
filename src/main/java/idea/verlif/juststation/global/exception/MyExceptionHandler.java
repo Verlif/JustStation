@@ -3,7 +3,9 @@ package idea.verlif.juststation.global.exception;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
+import idea.verlif.juststation.global.command.exception.CommandException;
 import idea.verlif.juststation.global.util.MessagesUtils;
+import idea.verlif.juststation.global.util.OutUtils;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -40,6 +42,11 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = CustomException.class)
     public BaseResult<String> customException(CustomException e) {
         return new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN);
+    }
+
+    @ExceptionHandler(value = CommandException.class)
+    public void commandException(CommandException e) {
+        OutUtils.printLine(e.getMessage());
     }
 
     @ResponseBody

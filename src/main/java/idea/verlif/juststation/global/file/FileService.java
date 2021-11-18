@@ -45,6 +45,10 @@ public class FileService {
         return fileHandler.uploadFile(fileCart, type, file);
     }
 
+    public BaseResult<?> uploadFile(FileCart fileCart, String type, MultipartFile[] files) {
+        return fileHandler.uploadFile(fileCart, type, files);
+    }
+
     public BaseResult<?> downloadFile(HttpServletResponse response, FileCart fileCart, String type, String fileName) {
         return fileHandler.downloadFile(response, fileCart, type, fileName);
     }
