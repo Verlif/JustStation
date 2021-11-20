@@ -82,6 +82,7 @@ public class EmailNotice implements NoticeHandler {
             }
             transport.sendMessage(msg, addresses);
             transport.close();
+            return targetList;
         } catch (MessagingException e) {
             OutUtils.printLog(Level.SEVERE, e.getMessage());
         }
@@ -95,7 +96,7 @@ public class EmailNotice implements NoticeHandler {
         props.setProperty("mail.smtp.auth", "true");
         props.setProperty("mail.host", emailConfig.getHost());
         props.setProperty("mail.transport.protocol", emailConfig.getProtocol());
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", emailConfig.getPort());
         props.put("mail.user", emailConfig.getEmail());
         props.put("mail.password", emailConfig.getPassword());
 

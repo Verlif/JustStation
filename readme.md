@@ -8,23 +8,25 @@ JustStation是一个基于Spring Boot的快速开发框架，目的是简化配�
 * 标识化登录，支持单点登录、多设备登录、共享登录等登录模式
 * 简单的文件系统，支持自定义文件域
 * 请求参数检测，通过注解的方式标注请求参数即可检测参数完整性
+* 简单后台指令，运行后台命令行执行自定义指令
+* 通知发送模块，发送短信、邮件等的通知接口
 
 ### 举例
-* 接口化配置的使用
+* 接口化配置的使用，只需要使用Spring的自动注入即可
 
-  因为项目中需要对权限做限定，所以内置了登录服务。开发者可以通过实现`BaseUserMapper`来完成登录验证
+  例如：因为项目中需要对权限做限定，所以内置了登录服务。开发者可以通过实现`BaseUserMapper`来完成登录验证
   ```
-    @Component
-    public class BaseUserMapperImpl<T> implements BaseUserMapper<T> {
-
+  @Component
+  public class BaseUserCollectorImpl<T> implements BaseUserCollector<T> {
+  
       @Autowired
       private UserMapper userMapper;
-    
+  
       @Override
       public BaseUser getUserByUsername(String username) {
-        return userMapper.getUserByName(username);
+          return userMapper.getUserByName(username);
       }
-    }
+  }
   ```
 * 注解化权限检测
 
@@ -82,7 +84,7 @@ JustStation是一个基于Spring Boot的快速开发框架，目的是简化配�
 
   ```
   
-* 请求参数检测
+* 请求参数检测，便于自动化检测传入参数
 
   这里用的是自定义的Check注解
   ```
@@ -105,3 +107,5 @@ JustStation是一个基于Spring Boot的快速开发框架，目的是简化配�
 * `PermissionDetector` 权限验证接口，实现一些特殊的验证方式。比如不想用权限就直接全部返回`true`就OK
 * `PermissionMapper` 权限获取接口，实现不同源的权限获取方式
 * `BaseUserCollector` 用户信息获取接口，实现不同源的登录用户信息获取方式
+* `Command` 指令接口，自定义指令以便与测试
+* `NoticeHandler` 通知处理器，自定义如短信、邮件等的通知发送接口
