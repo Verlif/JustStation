@@ -40,7 +40,7 @@ public class HelpCommand implements Command {
             }
             sb.append(" - ").append(info.description());
             String[] commandParams = command.params();
-            if (commandParams.length > 0) {
+            if (commandParams != null && commandParams.length > 0) {
                 sb.append("\n");
                 for (int i = 0; i < LEFT; i++) {
                     sb.append(" ");

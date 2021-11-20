@@ -37,7 +37,7 @@ public class TokenConfig {
     /**
      * Token存活时间（单位：毫秒）
      */
-    private Long expireTime = 30L;
+    private Long expireTime = 3600000L;
 
     public TokenConfig setExpireTime(Long expireTime) {
         this.expireTime = expireTime * 60000;

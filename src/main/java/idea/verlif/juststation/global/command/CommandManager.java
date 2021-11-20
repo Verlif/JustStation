@@ -84,11 +84,24 @@ public class CommandManager {
             Command command = getCommand(input[0].toUpperCase(Locale.ROOT));
             if (command != null) {
                 try {
+                    CommandCode code;
                     if (input.length > 1) {
-                        return command.run(Arrays.copyOfRange(input, 1, input.length));
+                        code = command.run(Arrays.copyOfRange(input, 1, input.length));
                     } else {
-                        return command.run(new String[]{});
+                        code = command.run(new String[]{});
                     }
+                    switch (code) {
+                        case OK:
+                            OutUtils.printLine("[" + input[0] + "] - " + MessagesUtils.message("command.code.ok"));
+                            break;
+                        case FAIL:
+                            OutUtils.printLine("[" + input[0] + "] - " + MessagesUtils.message("command.code.fail"));
+                            break;
+                        default:
+                            OutUtils.printLine("[" + input[0] + "] - " + MessagesUtils.message("command.code.error"));
+                            break;
+                    }
+                    return code;
                 } catch (CommandException e) {
                     OutUtils.printLine("[" + input[0] + "] - " + e.getMessage());
                 } catch (Throwable throwable) {

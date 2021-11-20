@@ -24,10 +24,11 @@ public interface Command {
 
     /**
      * 参数说明
+     *
      * @return 指令可用参数说明
      */
     default String[] params() {
-        return new String[]{};
+        return null;
     }
 
     /**
