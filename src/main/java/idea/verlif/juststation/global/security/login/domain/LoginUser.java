@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * 登录用户权限信息
  *
- * @author Enzo
+ * @author Verlif
  */
 @Data
 public class LoginUser<T extends BaseUser> implements UserDetails {

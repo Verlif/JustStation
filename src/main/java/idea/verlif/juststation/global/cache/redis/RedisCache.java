@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedisCache implements CacheHandler {
 
-    public RedisTemplate redisTemplate;
+    public final RedisTemplate redisTemplate;
 
     public RedisCache(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;

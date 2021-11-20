@@ -22,7 +22,7 @@ import java.io.IOException;
 /**
  * token过滤器 验证token有效性
  *
- * @author Enzo
+ * @author Verlif
  */
 @Component
 public class TokenFilter extends OncePerRequestFilter {

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: druid, token, redis, file
+    active: druid, token, redis, file, server
   application:
     name: Station
   messages:
@@ -15,11 +15,3 @@ mybatis-plus:
   mapper-locations: classpath*:mappers/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-
-logging:
-  level:
-    idea.verlif.juststation.core: debug
-  file: log/log.log
-
-server:
-  port: 8888

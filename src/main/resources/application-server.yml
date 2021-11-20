@@ -1,0 +1,7 @@
+logging:
+  level:
+    idea.verlif.juststation.core: debug
+  file: log/log.log
+
+server:
+  port: 8888
