@@ -13,21 +13,16 @@ import idea.verlif.juststation.global.security.login.impl.LoginHandlerAto;
 import idea.verlif.juststation.global.security.token.OnlineUserQuery;
 import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.PageUtils;
-import idea.verlif.juststation.global.util.PrintUtils;
-import idea.verlif.juststation.global.util.SecurityUtils;
-import idea.verlif.juststation.global.util.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Verlif
@@ -111,6 +106,7 @@ public class LoginService {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
             LoginUser<? extends BaseUser> loginUser = (LoginUser<?>) authentication.getPrincipal();
+            loginUser.setLoginTime(new Date());
             // 设定用户登录标志
             loginUser.setTag(loginInfo.getTag() == null ? LoginTag.LOCAL.getTag() : loginInfo.getTag().getTag());
             // 删除之前同标志的登录
