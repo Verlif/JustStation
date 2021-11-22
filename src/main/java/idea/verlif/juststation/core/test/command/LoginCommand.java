@@ -8,7 +8,7 @@ import idea.verlif.juststation.global.command.exception.CommandException;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
-import idea.verlif.juststation.global.util.OutUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -38,7 +38,7 @@ public class LoginCommand implements Command {
             loginInfo.setTag(LoginTag.LOCAL);
         }
         BaseResult<?> result = loginService.login(loginInfo);
-        OutUtils.printLine(result.toString());
+        PrintUtils.println(result.toString());
         if (!result.equals(ResultCode.SUCCESS)) {
             return CommandCode.FAIL;
         } else {

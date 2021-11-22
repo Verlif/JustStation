@@ -3,7 +3,6 @@ package idea.verlif.juststation.global.security.token;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
-import idea.verlif.juststation.global.util.SecurityUtils;
 import idea.verlif.juststation.global.util.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class TokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        String token = request.getHeader(tokenConfig.getHeader());
+        String token = tokenService.getTokenFromRequest(request);
         // 没有token则移交给下一个过滤器
         if (token == null) {
             doFilter(request, response, chain);
@@ -47,10 +46,11 @@ public class TokenFilter extends OncePerRequestFilter {
             ServletUtils.sendResult(response, new BaseResult<>(ResultCode.FAILURE_TOKEN));
             return;
         }
-        LoginUser<?> loginUser = tokenService.getLoginUser(request);
+        LoginUser<?> loginUser = tokenService.getUserByToken(token);
         //刷新token过期时间
-        if (loginUser != null && SecurityUtils.getAuthentication() == null) {
-            tokenService.refreshToken(loginUser);
+        if (loginUser != null) {
+            // 填充本次的登录用户信息
+            tokenService.refreshUser(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

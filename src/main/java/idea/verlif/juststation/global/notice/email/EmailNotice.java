@@ -4,7 +4,7 @@ import idea.verlif.juststation.global.notice.Notice;
 import idea.verlif.juststation.global.notice.NoticeHandler;
 import idea.verlif.juststation.global.notice.NoticeService;
 import idea.verlif.juststation.global.notice.NoticeTag;
-import idea.verlif.juststation.global.util.OutUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +55,7 @@ public class EmailNotice implements NoticeHandler {
             transport.close();
             return true;
         } catch (MessagingException e) {
-            OutUtils.printLog(Level.SEVERE, e.getMessage());
+            PrintUtils.printLog(Level.SEVERE, e.getMessage());
             return false;
         }
     }
@@ -84,7 +84,7 @@ public class EmailNotice implements NoticeHandler {
             transport.close();
             return targetList;
         } catch (MessagingException e) {
-            OutUtils.printLog(Level.SEVERE, e.getMessage());
+            PrintUtils.printLog(Level.SEVERE, e.getMessage());
         }
         return list;
     }

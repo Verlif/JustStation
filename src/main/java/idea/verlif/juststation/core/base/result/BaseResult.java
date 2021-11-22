@@ -48,8 +48,8 @@ public class BaseResult<T> {
         return this;
     }
 
-    public BaseResult<T> msg(String msg) {
-        this.msg = msg;
+    public BaseResult<T> msg(Object msg) {
+        this.msg = msg.toString();
         return this;
     }
 

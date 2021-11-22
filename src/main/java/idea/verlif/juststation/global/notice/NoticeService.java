@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.notice;
 
-import idea.verlif.juststation.global.util.OutUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class NoticeService {
     public boolean sendNotice(String target, Notice notice, NoticeTag tag) {
         NoticeHandler handler = HANDLER_HASH_MAP.get(tag);
         if (handler == null) {
-            OutUtils.printLog(Level.WARNING, "no such notice - " + tag);
+            PrintUtils.printLog(Level.WARNING, "no such notice - " + tag);
             return false;
         } else {
             return handler.sendNotice(target, notice);

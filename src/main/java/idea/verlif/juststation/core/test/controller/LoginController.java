@@ -3,7 +3,7 @@ package idea.verlif.juststation.core.test.controller;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
-import idea.verlif.juststation.global.util.OutUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class LoginController {
     @Operation(summary = "登录")
     @PostMapping
     public BaseResult<?> login(@RequestBody LoginInfo loginInfo) {
-        OutUtils.printLog(Level.INFO, "有用户登录");
+        PrintUtils.printLog(Level.INFO, "有用户登录");
         return loginService.login(loginInfo);
     }
 

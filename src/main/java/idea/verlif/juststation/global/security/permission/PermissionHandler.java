@@ -3,7 +3,6 @@ package idea.verlif.juststation.global.security.permission;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.global.security.permission.impl.PermissionDetectorImpl;
-import idea.verlif.juststation.global.security.token.TokenService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -28,10 +27,9 @@ public class PermissionHandler {
     private final PermissionDetector permissionDetector;
 
     public PermissionHandler(
-            @Autowired(required = false) PermissionDetector permissionDetector,
-            @Autowired TokenService tokenService) {
+            @Autowired(required = false) PermissionDetector permissionDetector) {
         if (permissionDetector == null) {
-            this.permissionDetector = new PermissionDetectorImpl(tokenService);
+            this.permissionDetector = new PermissionDetectorImpl();
         } else {
             this.permissionDetector = permissionDetector;
         }

@@ -9,6 +9,7 @@ import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.permission.Perm;
+import idea.verlif.juststation.global.security.token.OnlineUserQuery;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -41,7 +42,7 @@ public class AdminController {
     @GetMapping("/user/online")
     @Perm(hasRole = "admin")
     @Operation(summary = "获取所有在线用户列表")
-    public BaseResult<IPage<LoginUser<? extends BaseUser>>> listOnlineUser(UserQuery query) {
+    public BaseResult<IPage<LoginUser<? extends BaseUser>>> listOnlineUser(OnlineUserQuery query) {
         return loginService.getOnlineUser(query);
     }
 

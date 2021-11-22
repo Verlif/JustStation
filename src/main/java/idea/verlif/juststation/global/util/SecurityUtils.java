@@ -3,6 +3,7 @@ package idea.verlif.juststation.global.util;
 import idea.verlif.juststation.global.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
+import idea.verlif.juststation.global.security.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,9 @@ public class SecurityUtils {
 
     private static PasswordEncoder encoder;
 
-    public SecurityUtils(@Autowired(required = false) PasswordEncoder passwordEncoder) {
+    public SecurityUtils(
+            @Autowired TokenService tokenService,
+            @Autowired(required = false) PasswordEncoder passwordEncoder) {
         if (passwordEncoder == null) {
             encoder = new BCryptPasswordEncoder();
         } else {
@@ -44,8 +47,13 @@ public class SecurityUtils {
      **/
     public static LoginUser<? extends BaseUser> getLoginUser() {
         try {
-            return (LoginUser<? extends BaseUser>) getAuthentication().getPrincipal();
+            Authentication authentication = getAuthentication();
+            if (authentication == null) {
+                return null;
+            }
+            return (LoginUser<? extends BaseUser>) authentication.getPrincipal();
         } catch (Exception e) {
+            PrintUtils.printException(e);
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }
     }

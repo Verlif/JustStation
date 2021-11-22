@@ -16,7 +16,7 @@ public interface PrintInfoHandler {
      *
      * @param msg 需要打印的信息
      */
-    void printLine(String msg);
+    void println(String msg);
 
     /**
      * 打印Log信息
@@ -25,4 +25,11 @@ public interface PrintInfoHandler {
      * @param msg   log信息
      */
     void printLog(Level level, String msg);
+
+    /**
+     * 打印错误信息
+     *
+     * @param e 错误对象
+     */
+    void printException(Exception e);
 }

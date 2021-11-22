@@ -2,7 +2,7 @@ package idea.verlif.juststation.global.command;
 
 import idea.verlif.juststation.global.command.exception.CommandException;
 import idea.verlif.juststation.global.util.MessagesUtils;
-import idea.verlif.juststation.global.util.OutUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -72,7 +72,7 @@ public class CommandManager {
      */
     public void start() {
         // 接受命令并执行
-        OutUtils.printLog(Level.INFO, MessagesUtils.message("command.info.init") + ": " + getAllCommandKey().size());
+        PrintUtils.printLog(Level.INFO, MessagesUtils.message("command.info.init") + ": " + getAllCommandKey().size());
         Scanner scanner = new Scanner(System.in);
         while (true) {
             command(scanner.nextLine().trim().replaceAll(" +", " ").split(" "));
@@ -92,24 +92,24 @@ public class CommandManager {
                     }
                     switch (code) {
                         case OK:
-                            OutUtils.printLine("[" + input[0] + "] - " + MessagesUtils.message("command.code.ok"));
+                            PrintUtils.println("[" + input[0] + "] - " + MessagesUtils.message("command.code.ok"));
                             break;
                         case FAIL:
-                            OutUtils.printLine("[" + input[0] + "] - " + MessagesUtils.message("command.code.fail"));
+                            PrintUtils.println("[" + input[0] + "] - " + MessagesUtils.message("command.code.fail"));
                             break;
                         default:
-                            OutUtils.printLine("[" + input[0] + "] - " + MessagesUtils.message("command.code.error"));
+                            PrintUtils.println("[" + input[0] + "] - " + MessagesUtils.message("command.code.error"));
                             break;
                     }
                     return code;
                 } catch (CommandException e) {
-                    OutUtils.printLine("[" + input[0] + "] - " + e.getMessage());
+                    PrintUtils.println("[" + input[0] + "] - " + e.getMessage());
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
                 return CommandCode.ERROR;
             } else {
-                OutUtils.printLine(MessagesUtils.message("command.error.unknown") + "[" + input[0] + "]");
+                PrintUtils.println(MessagesUtils.message("command.error.unknown") + "[" + input[0] + "]");
             }
         }
         return CommandCode.UNKNOWN;

@@ -3,9 +3,8 @@ package idea.verlif.juststation.global.security.permission.impl;
 import idea.verlif.juststation.global.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.permission.PermissionDetector;
-import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.MessagesUtils;
-import idea.verlif.juststation.global.util.ServletUtils;
+import idea.verlif.juststation.global.util.SecurityUtils;
 
 /**
  * @author Verlif
@@ -14,15 +13,12 @@ import idea.verlif.juststation.global.util.ServletUtils;
  */
 public class PermissionDetectorImpl implements PermissionDetector {
 
-    private final TokenService tokenService;
-
-    public PermissionDetectorImpl(TokenService tokenService) {
-        this.tokenService = tokenService;
+    public PermissionDetectorImpl() {
     }
 
     @Override
     public boolean hasRole(String role) {
-        LoginUser<?> loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        LoginUser<?> loginUser = SecurityUtils.getLoginUser();
         if (loginUser == null) {
             throw new CustomException(MessagesUtils.message("result.fail.login.not"));
         }
@@ -31,7 +27,7 @@ public class PermissionDetectorImpl implements PermissionDetector {
 
     @Override
     public boolean hasKey(String key) {
-        LoginUser<?> loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        LoginUser<?> loginUser = SecurityUtils.getLoginUser();
         if (loginUser == null) {
             throw new CustomException(MessagesUtils.message("result.fail.login.not"));
         }

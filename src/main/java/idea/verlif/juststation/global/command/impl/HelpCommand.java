@@ -3,7 +3,7 @@ package idea.verlif.juststation.global.command.impl;
 import idea.verlif.juststation.global.command.Command;
 import idea.verlif.juststation.global.command.CommandCode;
 import idea.verlif.juststation.global.command.CommandManager;
-import idea.verlif.juststation.global.util.OutUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
@@ -50,7 +50,7 @@ public class HelpCommand implements Command {
                     sb.append("[").append(commandParam).append("]").append(" ");
                 }
             }
-            OutUtils.printLine(sb.toString());
+            PrintUtils.println(sb.toString());
         }
         return CommandCode.OK;
     }

@@ -5,7 +5,7 @@ import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
 import idea.verlif.juststation.global.command.exception.CommandException;
 import idea.verlif.juststation.global.util.MessagesUtils;
-import idea.verlif.juststation.global.util.OutUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -25,8 +25,8 @@ import javax.naming.SizeLimitExceededException;
 public class MyExceptionHandler {
 
     @ResponseBody
-    @ExceptionHandler(value = Exception.class)
-    public BaseResult<String> exceptionHandler(Exception e) {
+    @ExceptionHandler(value = Throwable.class)
+    public BaseResult<String> exceptionHandler(Throwable e) {
         e.printStackTrace();
         return new FailResult<String>().msg(
                 e.getMessage() == null ? MessagesUtils.message("error.default") : e.getMessage());
@@ -46,7 +46,7 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(value = CommandException.class)
     public void commandException(CommandException e) {
-        OutUtils.printLine(e.getMessage());
+        PrintUtils.println(e.getMessage());
     }
 
     @ResponseBody

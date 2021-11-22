@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @date 2021/11/16 9:09
  */
 @Component
-public class OutUtils {
+public class PrintUtils {
 
     /**
      * 打印基础类
@@ -27,7 +27,7 @@ public class OutUtils {
         handler = new ConsolePrintHandler();
     }
 
-    public OutUtils(@Autowired(required = false) PrintInfoHandler printInfoHandler) {
+    public PrintUtils(@Autowired(required = false) PrintInfoHandler printInfoHandler) {
         if (printInfoHandler != null) {
             handler = printInfoHandler;
         }
@@ -37,10 +37,10 @@ public class OutUtils {
      * 单行打印信息
      *
      * @param msg 需单行打印的信息
-     * @see PrintInfoHandler#printLine(String)
+     * @see PrintInfoHandler#println(String)
      */
-    public static void printLine(String msg) {
-        handler.printLine(msg);
+    public static void println(String msg) {
+        handler.println(msg);
     }
 
     /**
@@ -52,6 +52,15 @@ public class OutUtils {
      */
     public static void printLog(Level level, String msg) {
         handler.printLog(level, msg);
+    }
+
+    /**
+     * 打印错误信息
+     *
+     * @param e 错误对象
+     */
+    public static void printException(Exception e) {
+        handler.printException(e);
     }
 
     /**
@@ -67,7 +76,7 @@ public class OutUtils {
         }
 
         @Override
-        public void printLine(String msg) {
+        public void println(String msg) {
             System.out.println(msg);
         }
 
@@ -82,6 +91,11 @@ public class OutUtils {
                 logger = getOrCreateLogger(ConsolePrintHandler.class.getSimpleName());
             }
             logger.log(level, msg);
+        }
+
+        @Override
+        public void printException(Exception e) {
+            e.printStackTrace();
         }
 
         private Logger getOrCreateLogger(String loggerName) {

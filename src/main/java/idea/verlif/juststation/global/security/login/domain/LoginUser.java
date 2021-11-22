@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -43,12 +44,7 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
     /**
      * 登录时间
      */
-    private Long loginTime;
-
-    /**
-     * 登录信息过期时间
-     */
-    private Long expireTime;
+    private Date loginTime;
 
     /**
      * 用户信息

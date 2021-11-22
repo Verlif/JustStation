@@ -2,18 +2,27 @@ package idea.verlif.juststation.global.security.login;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.core.base.result.ResultCode;
+import idea.verlif.juststation.core.base.result.ext.FailResult;
 import idea.verlif.juststation.core.base.result.ext.OkResult;
-import idea.verlif.juststation.core.test.domain.query.UserQuery;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.login.impl.LoginHandlerAto;
+import idea.verlif.juststation.global.security.token.OnlineUserQuery;
 import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.PageUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import idea.verlif.juststation.global.util.SecurityUtils;
+import idea.verlif.juststation.global.util.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +40,9 @@ public class LoginService {
     private final LoginHandler loginHandler;
 
     private final TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public LoginService(
             @Autowired TokenService tokenService,
@@ -50,11 +62,12 @@ public class LoginService {
      * @return 登出结果
      */
     public BaseResult<?> logoutAll() {
-        LoginUser<?> user = SecurityUtils.getLoginUser();
-        user.setTag("*");
-        user.setCode("*");
-        tokenService.delLoginUser(user.getToken());
-        return new OkResult<>();
+        int count = tokenService.logoutAll();
+        if (count > 0) {
+            return new OkResult<>().msg(count);
+        } else {
+            return new FailResult<>();
+        }
     }
 
     /**
@@ -64,7 +77,7 @@ public class LoginService {
      * @return 强退结果
      */
     public BaseResult<?> logoutUser(String userToken) {
-        tokenService.delLoginUser(userToken);
+        tokenService.logout(userToken);
         return new OkResult<>();
     }
 
@@ -85,27 +98,39 @@ public class LoginService {
      * @param query 查询条件
      * @return 在线用户信息
      */
-    public BaseResult<IPage<LoginUser<? extends BaseUser>>> getOnlineUser(UserQuery query) {
-        Set<String> set = tokenService.getOnlineTokenList();
-        List<LoginUser<? extends BaseUser>> list = new ArrayList<>();
-        for (String s : set) {
-            LoginUser<? extends BaseUser> loginUser = tokenService.getUserByToken(s);
-            if (loginUser != null) {
-                list.add(loginUser);
-            }
-        }
-        return new OkResult<>(PageUtils.page(list, query));
+    public BaseResult<IPage<LoginUser<? extends BaseUser>>> getOnlineUser(OnlineUserQuery query) {
+        List<LoginUser<? extends BaseUser>> set = tokenService.getOnlineUser(query);
+        return new OkResult<>(PageUtils.page(set, query));
     }
 
-    public <T extends LoginInfo> BaseResult<?> login(T t) {
-        return loginHandler.login(t);
+    public <T extends LoginInfo> BaseResult<?> login(T loginInfo) {
+        // 用户验证
+        Authentication authentication;
+        try {
+            // 该方法会去调用UserDetailsService#loadUserByUsername(String)方法，请在该方法中实现用户登录验证
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
+            LoginUser<? extends BaseUser> loginUser = (LoginUser<?>) authentication.getPrincipal();
+            // 设定用户登录标志
+            loginUser.setTag(loginInfo.getTag() == null ? LoginTag.LOCAL.getTag() : loginInfo.getTag().getTag());
+            // 删除之前同标志的登录
+            tokenService.logout(loginUser.getToken());
+            // 调用方法
+            loginHandler.loginAfterAuth(loginUser);
+            // 记录并返回登录Token
+            return new OkResult<>(tokenService.loginUser(loginUser));
+        } catch (UsernameNotFoundException e) {
+            return new BaseResult<>(ResultCode.FAILURE_LOGIN_MISSING);
+        } catch (BadCredentialsException e) {
+            return new BaseResult<>(ResultCode.FAILURE_LOGIN_FAIL);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new BaseResult<>(ResultCode.FAILURE_ERROR).withParam(e.getMessage());
+        }
     }
 
     public BaseResult<?> logout() {
         return loginHandler.logout();
     }
 
-    public BaseResult<?> logout(LoginTag tag) {
-        return loginHandler.logout(tag);
-    }
 }
