@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,12 +30,7 @@ public class UserDetailsServiceImpl<T> implements UserDetailsService {
             @Autowired(required = false) BaseUserCollector<T> userMapper,
             @Autowired(required = false) PermissionMapper permissionMapper) {
         if (userMapper == null) {
-            this.userMapper = new BaseUserCollector<T>() {
-                @Override
-                public BaseUser getUserByUsername(String username) {
-                    return null;
-                }
-            };
+            this.userMapper = username -> null;
         } else {
             this.userMapper = userMapper;
         }
@@ -43,12 +39,12 @@ public class UserDetailsServiceImpl<T> implements UserDetailsService {
             this.permissionMapper = new PermissionMapper() {
                 @Override
                 public Set<String> getUserRoleSet(String username) {
-                    return new HashSet<>();
+                    return Collections.EMPTY_SET;
                 }
 
                 @Override
                 public Set<String> getUserKeySet(String username) {
-                    return new HashSet<>();
+                    return Collections.EMPTY_SET;
                 }
             };
         } else {

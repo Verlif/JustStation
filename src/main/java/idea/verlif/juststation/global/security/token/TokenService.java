@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * token验证处理
  *
- * @author ruoyi
+ * @author Verlif
  */
 @Component
 public class TokenService {

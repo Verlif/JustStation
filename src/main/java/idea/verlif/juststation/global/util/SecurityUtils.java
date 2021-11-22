@@ -53,7 +53,7 @@ public class SecurityUtils {
             }
             return (LoginUser<? extends BaseUser>) authentication.getPrincipal();
         } catch (Exception e) {
-            PrintUtils.printException(e);
+            PrintUtils.print(e);
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }
     }

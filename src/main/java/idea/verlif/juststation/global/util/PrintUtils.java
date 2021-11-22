@@ -1,6 +1,5 @@
 package idea.verlif.juststation.global.util;
 
-import idea.verlif.juststation.global.component.PrintInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,7 +49,7 @@ public class PrintUtils {
      * @param msg   log信息
      * @see PrintInfoHandler#printLog(Level, String)
      */
-    public static void printLog(Level level, String msg) {
+    public static void print(Level level, String msg) {
         handler.printLog(level, msg);
     }
 
@@ -59,8 +58,40 @@ public class PrintUtils {
      *
      * @param e 错误对象
      */
-    public static void printException(Exception e) {
+    public static void print(Exception e) {
         handler.printException(e);
+    }
+
+    /**
+     * 信息打印接口
+     *
+     * @author Verlif
+     * @version 1.0
+     * @date 2021/11/16 9:11
+     */
+    public interface PrintInfoHandler {
+
+        /**
+         * 打印单行数据
+         *
+         * @param msg 需要打印的信息
+         */
+        void println(String msg);
+
+        /**
+         * 打印Log信息
+         *
+         * @param level log等级
+         * @param msg   log信息
+         */
+        void printLog(Level level, String msg);
+
+        /**
+         * 打印错误信息
+         *
+         * @param e 错误对象
+         */
+        void printException(Exception e);
     }
 
     /**

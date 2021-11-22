@@ -36,7 +36,7 @@ public class LoginController {
     @Operation(summary = "登录")
     @PostMapping
     public BaseResult<?> login(@RequestBody LoginInfo loginInfo) {
-        PrintUtils.printLog(Level.INFO, "有用户登录");
+        PrintUtils.print(Level.INFO, "有用户登录");
         return loginService.login(loginInfo);
     }
 

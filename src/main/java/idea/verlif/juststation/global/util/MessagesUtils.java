@@ -21,7 +21,7 @@ public class MessagesUtils {
      *
      * @param messageSource 信息源
      */
-    public MessagesUtils(@Autowired(required = false) MessageSource messageSource) {
+    public MessagesUtils(@Autowired MessageSource messageSource) {
         ms = messageSource;
     }
 

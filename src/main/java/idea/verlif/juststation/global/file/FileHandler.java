@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.component;
+package idea.verlif.juststation.global.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;

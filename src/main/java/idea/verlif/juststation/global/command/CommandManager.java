@@ -72,7 +72,7 @@ public class CommandManager {
      */
     public void start() {
         // 接受命令并执行
-        PrintUtils.printLog(Level.INFO, MessagesUtils.message("command.info.init") + ": " + getAllCommandKey().size());
+        PrintUtils.print(Level.INFO, MessagesUtils.message("command.info.init") + ": " + getAllCommandKey().size());
         Scanner scanner = new Scanner(System.in);
         while (true) {
             command(scanner.nextLine().trim().replaceAll(" +", " ").split(" "));

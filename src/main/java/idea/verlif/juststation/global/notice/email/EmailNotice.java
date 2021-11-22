@@ -55,7 +55,7 @@ public class EmailNotice implements NoticeHandler {
             transport.close();
             return true;
         } catch (MessagingException e) {
-            PrintUtils.printLog(Level.SEVERE, e.getMessage());
+            PrintUtils.print(Level.SEVERE, e.getMessage());
             return false;
         }
     }
@@ -84,7 +84,7 @@ public class EmailNotice implements NoticeHandler {
             transport.close();
             return targetList;
         } catch (MessagingException e) {
-            PrintUtils.printLog(Level.SEVERE, e.getMessage());
+            PrintUtils.print(Level.SEVERE, e.getMessage());
         }
         return list;
     }

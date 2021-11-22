@@ -2,7 +2,6 @@ package idea.verlif.juststation.global.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.global.component.FileHandler;
 import idea.verlif.juststation.global.file.impl.FileHandlerAto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

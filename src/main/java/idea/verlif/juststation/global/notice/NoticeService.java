@@ -43,7 +43,7 @@ public class NoticeService {
     public boolean sendNotice(String target, Notice notice, NoticeTag tag) {
         NoticeHandler handler = HANDLER_HASH_MAP.get(tag);
         if (handler == null) {
-            PrintUtils.printLog(Level.WARNING, "no such notice - " + tag);
+            PrintUtils.print(Level.WARNING, "no such notice - " + tag);
             return false;
         } else {
             return handler.sendNotice(target, notice);

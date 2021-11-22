@@ -5,7 +5,7 @@ import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
 import idea.verlif.juststation.core.base.result.ext.OkResult;
-import idea.verlif.juststation.global.component.FileHandler;
+import idea.verlif.juststation.global.file.FileHandler;
 import idea.verlif.juststation.global.file.FileCart;
 import idea.verlif.juststation.global.file.FileInfo;
 import idea.verlif.juststation.global.file.FilePathConfig;
