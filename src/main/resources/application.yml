@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: druid, token, redis, file, server, email
+    active: druid, token, redis, file, server, email, command
   application:
     name: Station
   messages:

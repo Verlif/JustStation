@@ -22,12 +22,28 @@ import java.util.logging.Level;
 public class CommandManager {
 
     private final HashMap<String, Command> commandHashMap;
-    private final Set<String> commandFilter;
+    private final Set<String> allowedKey;
+    private final Set<String> blockKey;
 
-    public CommandManager(@Autowired ApplicationContext appContext) {
+    /**
+     * 屏蔽模式；当开启屏蔽模式时，会忽略允许列表；反之则只会检测允许列表
+     */
+    private static boolean MODE_BLOCK = true;
+
+    public CommandManager(
+            @Autowired ApplicationContext appContext,
+            @Autowired CommandConfig commandConfig) {
         // 初始化命令集
         commandHashMap = new HashMap<>();
-        commandFilter = new HashSet<>();
+        allowedKey = new HashSet<>();
+        blockKey = new HashSet<>();
+
+        // 加载指令模式与屏蔽名单
+        if (commandConfig.getAllowed().length > 0) {
+            MODE_BLOCK = false;
+        }
+        allowedKey.addAll(Arrays.asList(commandConfig.getAllowed()));
+        blockKey.addAll(Arrays.asList(commandConfig.getBlocked()));
 
         // 加载指令
         String[] commandArray = appContext.getBeanNamesForType(Command.class);
@@ -40,7 +56,7 @@ public class CommandManager {
     public void loadCommand(Set<Class<? extends Command>> commandSet) {
         // 指令清空
         this.commandHashMap.clear();
-        this.commandFilter.clear();
+        this.blockKey.clear();
         // 加载用户指令
         for (Class<? extends Command> command : commandSet) {
             addCommand(command);
@@ -60,11 +76,11 @@ public class CommandManager {
     }
 
     public void addFilter(String key) {
-        commandFilter.add(key);
+        blockKey.add(key);
     }
 
     public void removeFilter(String key) {
-        commandFilter.remove(key);
+        blockKey.remove(key);
     }
 
     /**
@@ -81,8 +97,12 @@ public class CommandManager {
 
     public CommandCode command(String[] input) {
         if (input != null && input.length > 0) {
-            Command command = getCommand(input[0].toUpperCase(Locale.ROOT));
+            String key = input[0].toUpperCase(Locale.ROOT);
+            Command command = getCommand(key);
             if (command != null) {
+                if (blockKey.contains(key)) {
+                    throw new CommandException("指令被屏蔽 - " + key);
+                }
                 try {
                     CommandCode code;
                     if (input.length > 1) {
@@ -92,24 +112,24 @@ public class CommandManager {
                     }
                     switch (code) {
                         case OK:
-                            PrintUtils.println("[" + input[0] + "] - " + MessagesUtils.message("command.code.ok"));
+                            PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.ok"));
                             break;
                         case FAIL:
-                            PrintUtils.println("[" + input[0] + "] - " + MessagesUtils.message("command.code.fail"));
+                            PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.fail"));
                             break;
                         default:
-                            PrintUtils.println("[" + input[0] + "] - " + MessagesUtils.message("command.code.error"));
+                            PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.error"));
                             break;
                     }
                     return code;
                 } catch (CommandException e) {
-                    PrintUtils.println("[" + input[0] + "] - " + e.getMessage());
+                    PrintUtils.println("[" + key + "] >> " + e.getMessage());
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
                 return CommandCode.ERROR;
             } else {
-                PrintUtils.println(MessagesUtils.message("command.error.unknown") + "[" + input[0] + "]");
+                PrintUtils.println(MessagesUtils.message("command.error.unknown") + "[" + key + "]");
             }
         }
         return CommandCode.UNKNOWN;
@@ -122,9 +142,6 @@ public class CommandManager {
      * @param params 指令参数
      */
     public void runCommand(String key, String[] params) {
-        if (commandFilter.contains(key)) {
-            throw new CommandException("指令被屏蔽 - " + key);
-        }
         Command command = getCommand(key);
         if (command == null) {
             command = getCommand("nsc");
@@ -165,6 +182,15 @@ public class CommandManager {
         String[] commandName = commandInfo.key();
         // 注入命令
         for (String s : commandName) {
+            if (MODE_BLOCK) {
+                if (blockKey.contains(s)) {
+                    continue;
+                }
+            } else {
+                if (!allowedKey.contains(s)) {
+                    continue;
+                }
+            }
             addCommandKey(s, command);
         }
     }
