@@ -19,7 +19,7 @@
 * 接口化配置的使用，只需要使用Spring的自动注入即可
 
   例如：因为项目中需要对权限做限定，所以内置了登录服务。开发者可以通过实现`BaseUserMapper`来完成登录验证
-  ```
+  ```java
   @Component
   public class BaseUserCollectorImpl<T> implements BaseUserCollector<T> {
   
@@ -35,7 +35,7 @@
 * 注解化权限检测
 
   这里用的时Spring提供的切面方式进行的注入，需要配合`PermissionMapper`类获取权限
-  ```
+  ```java
     @RestController
     @RequestMapping("/permission")
     @Api(tags = "权限测试")
@@ -91,7 +91,7 @@
 * 请求参数检测，便于自动化检测传入参数
 
   这里用的是自定义的`Check`注解
-  ```
+  ```java
   @Operation(summary = "注册")
   @PostMapping("/register")
   @Check // 方法上的注解表示这个方法需要被拦截
