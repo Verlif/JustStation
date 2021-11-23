@@ -41,7 +41,8 @@ public interface Command {
     @Component
     @interface CommandInfo {
         /**
-         * 命令标识, 用于标记命令
+         * 命令标识, 用于标记命令 <br/>
+         * 区分大小写
          *
          * @return 该命令可用的所有命令标识
          */

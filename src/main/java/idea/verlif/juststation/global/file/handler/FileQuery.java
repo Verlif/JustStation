@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.file;
+package idea.verlif.juststation.global.file.handler;
 
 import idea.verlif.juststation.core.base.domain.Pageable;
 import io.swagger.v3.oas.annotations.media.Schema;

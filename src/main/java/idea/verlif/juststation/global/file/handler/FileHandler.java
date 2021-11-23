@@ -1,10 +1,7 @@
-package idea.verlif.juststation.global.file;
+package idea.verlif.juststation.global.file.handler;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.global.file.FileCart;
-import idea.verlif.juststation.global.file.FileInfo;
-import idea.verlif.juststation.global.file.FileQuery;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;

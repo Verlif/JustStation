@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.file;
+package idea.verlif.juststation.global.file.handler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;

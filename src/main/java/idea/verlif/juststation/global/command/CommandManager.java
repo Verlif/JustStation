@@ -97,7 +97,7 @@ public class CommandManager {
 
     public CommandCode command(String[] input) {
         if (input != null && input.length > 0) {
-            String key = input[0].toUpperCase(Locale.ROOT);
+            String key = input[0];
             Command command = getCommand(key);
             if (command != null) {
                 if (blockKey.contains(key)) {
@@ -168,11 +168,11 @@ public class CommandManager {
     }
 
     private void deleteCommandKey(String commandKey) {
-        commandHashMap.remove(commandKey.toUpperCase(Locale.ROOT));
+        commandHashMap.remove(commandKey);
     }
 
     private void addCommandKey(String commandKey, Command command) {
-        commandHashMap.put(commandKey.toUpperCase(Locale.ROOT), command);
+        commandHashMap.put(commandKey, command);
     }
 
     public void addCommand(Command command) {

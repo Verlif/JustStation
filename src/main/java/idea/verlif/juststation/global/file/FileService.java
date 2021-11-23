@@ -2,13 +2,15 @@ package idea.verlif.juststation.global.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.global.file.impl.FileHandlerAto;
+import idea.verlif.juststation.global.file.handler.*;
+import idea.verlif.juststation.global.file.parser.FileParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * @author Verlif
@@ -18,11 +20,25 @@ import java.io.File;
 @Service
 public class FileService {
 
+    /**
+     * 文件管理器
+     */
     private final FileHandler fileHandler;
 
-    public FileService(@Autowired(required = false) FileHandler fileHandler, @Autowired FilePathConfig config) {
+    /**
+     * 文件解析表
+     */
+    private static final HashMap<FileType, FileParser> PARSER_HASH_MAP;
+
+    static {
+        PARSER_HASH_MAP = new HashMap<>();
+    }
+
+    public FileService(
+            @Autowired(required = false) FileHandler fileHandler,
+            @Autowired FilePathConfig config) {
         if (fileHandler == null) {
-            this.fileHandler = new FileHandlerAto(config);
+            this.fileHandler = new DefaultFileHandler(config);
         } else {
             this.fileHandler = fileHandler;
         }
@@ -54,5 +70,18 @@ public class FileService {
 
     public BaseResult<?> deleteFile(FileCart fileCart, String type, String fileName) {
         return fileHandler.deleteFile(fileCart, type, fileName);
+    }
+
+    /**
+     * 注册
+     * @param type
+     * @param parser
+     */
+    public static void register(FileType type, FileParser parser) {
+        PARSER_HASH_MAP.put(type, parser);
+    }
+
+    public FileParser getParser(FileType type) {
+        return PARSER_HASH_MAP.get(type);
     }
 }

@@ -2,9 +2,9 @@ package idea.verlif.juststation.core.test.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.global.file.FileCart;
-import idea.verlif.juststation.global.file.FileInfo;
-import idea.verlif.juststation.global.file.FileQuery;
+import idea.verlif.juststation.global.file.handler.FileCart;
+import idea.verlif.juststation.global.file.handler.FileInfo;
+import idea.verlif.juststation.global.file.handler.FileQuery;
 import idea.verlif.juststation.global.file.FileService;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import io.swagger.annotations.Api;

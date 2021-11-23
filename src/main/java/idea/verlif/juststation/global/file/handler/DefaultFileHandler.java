@@ -1,15 +1,15 @@
-package idea.verlif.juststation.global.file.impl;
+package idea.verlif.juststation.global.file.handler;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
 import idea.verlif.juststation.core.base.result.ext.OkResult;
-import idea.verlif.juststation.global.file.FileHandler;
-import idea.verlif.juststation.global.file.FileCart;
-import idea.verlif.juststation.global.file.FileInfo;
+import idea.verlif.juststation.global.file.handler.FileHandler;
+import idea.verlif.juststation.global.file.handler.FileCart;
+import idea.verlif.juststation.global.file.handler.FileInfo;
 import idea.verlif.juststation.global.file.FilePathConfig;
-import idea.verlif.juststation.global.file.FileQuery;
+import idea.verlif.juststation.global.file.handler.FileQuery;
 import idea.verlif.juststation.global.util.PageUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2021/9/13 10:27
  */
-public class FileHandlerAto implements FileHandler {
+public class DefaultFileHandler implements FileHandler {
 
     private final FilePathConfig pathConfig;
 
-    public FileHandlerAto(FilePathConfig config) {
+    public DefaultFileHandler(FilePathConfig config) {
         this.pathConfig = config;
     }
 

@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.file;
+package idea.verlif.juststation.global.file.handler;
 
 /**
  * 文件域 <br/>
