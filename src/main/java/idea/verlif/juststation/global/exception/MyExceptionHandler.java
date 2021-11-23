@@ -1,5 +1,6 @@
 package idea.verlif.juststation.global.exception;
 
+import com.alibaba.fastjson.JSONObject;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
@@ -8,6 +9,10 @@ import idea.verlif.juststation.global.util.MessagesUtils;
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.naming.SizeLimitExceededException;
+import java.util.List;
 
 /**
  * @author Verlif
@@ -65,5 +71,20 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public BaseResult<String> missingServletRequestParameterException(MissingServletRequestParameterException e) {
         return new BaseResult<String>(ResultCode.FAILURE_PARAMETER_LACK).withParam(e.getParameterName());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public BaseResult<?> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        BindingResult result = e.getBindingResult();
+        StringBuilder sb = new StringBuilder();
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            errors.forEach(p -> {
+                FieldError fieldError = (FieldError) p;
+                sb.append(fieldError.getField()).append(" - ").append(fieldError.getDefaultMessage());
+            });
+        }
+        return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(sb.toString());
     }
 }

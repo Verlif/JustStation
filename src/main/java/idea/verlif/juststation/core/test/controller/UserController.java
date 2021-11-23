@@ -4,11 +4,13 @@ import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.core.test.domain.req.UpdatePassword;
-import idea.verlif.juststation.global.request.Check;
 import idea.verlif.juststation.global.security.permission.Perm;
+import idea.verlif.juststation.global.validation.Insert;
+import idea.verlif.juststation.global.validation.Update;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,9 +36,8 @@ public class UserController {
      */
     @Operation(summary = "注册")
     @PostMapping("/register")
-    @Check
     public BaseResult<?> register(
-            @RequestBody @Check User user
+            @RequestBody @Validated(Insert.class) User user
     ) {
         return userBiz.register(user);
     }
@@ -58,7 +59,7 @@ public class UserController {
     @Perm(hasRole = "user")
     @Operation(summary = "修改个人信息")
     @PutMapping
-    public BaseResult<?> update(@RequestBody User user) {
+    public BaseResult<?> update(@RequestBody @Validated(Update.class) User user) {
         return userBiz.update(user);
     }
 

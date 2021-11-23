@@ -10,13 +10,17 @@ import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 
 /**
  * @author Verlif
  * @version 1.0
  * @date 2021/11/18 13:12
  */
-@Command.CommandInfo(key = "login", description = "后台登录指令")
+@ShellComponent("login")
+@Command.CommandInfo(key = "login")
 public class LoginCommand implements Command {
 
     @Autowired
@@ -44,6 +48,19 @@ public class LoginCommand implements Command {
         } else {
             return CommandCode.OK;
         }
+    }
+
+    @ShellMethod("命令行用户登录")
+    public String login(
+            @ShellOption(help = "登录用户名") String username,
+            @ShellOption(help = "用户密码") String password) {
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setUsername(username);
+        loginInfo.setPassword(password);
+        loginInfo.setTag(LoginTag.LOCAL);
+        BaseResult<?> result = loginService.login(loginInfo);
+        PrintUtils.println(result.toString());
+        return result.getMsg();
     }
 
     @Override

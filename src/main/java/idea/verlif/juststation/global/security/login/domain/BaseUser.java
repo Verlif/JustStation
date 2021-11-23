@@ -1,9 +1,14 @@
 package idea.verlif.juststation.global.security.login.domain;
 
-import idea.verlif.juststation.core.base.domain.Checkable;
 import idea.verlif.juststation.core.base.domain.Fillable;
+import idea.verlif.juststation.global.validation.Insert;
+import idea.verlif.juststation.global.validation.Update;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -13,12 +18,14 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2021/11/9 11:52
  */
-public class BaseUser implements Serializable, Fillable, Checkable {
+public class BaseUser implements Serializable, Fillable {
 
     /**
      * 用户登录名
      */
     @Schema(name = "用户登录名")
+    @NotNull
+    @Size(min = 4, max = 24)
     protected String username;
 
     /**
@@ -27,6 +34,9 @@ public class BaseUser implements Serializable, Fillable, Checkable {
      */
     @AutoFill(value = "", mode = FillMode.ALWAYS)
     @Schema(name = "用户密码")
+    @NotNull(groups = Insert.class)
+    @Null(groups = Update.class)
+    @Pattern(regexp = "[a-zA-Z0-9,.!@#]{8,24}", groups = Insert.class)
     protected String password;
 
     public String getUsername() {

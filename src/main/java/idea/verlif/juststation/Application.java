@@ -21,8 +21,9 @@ public class Application extends SpringBootServletInitializer {
         context = SpringApplication.run(Application.class, args);
 
         // 开启指令
-        CommandManager commandManager = context.getBean(CommandManager.class);
-        commandManager.start();
+        // 这里用的时SpringShell，所以不用CommandManager了
+//        CommandManager commandManager = context.getBean(CommandManager.class);
+//        commandManager.start();
     }
 
     @Override

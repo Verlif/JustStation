@@ -135,24 +135,6 @@ public class CommandManager {
         return CommandCode.UNKNOWN;
     }
 
-    /**
-     * 运行指令
-     *
-     * @param key    指令Key
-     * @param params 指令参数
-     */
-    public void runCommand(String key, String[] params) {
-        Command command = getCommand(key);
-        if (command == null) {
-            command = getCommand("nsc");
-            if (command != null) {
-                command.run(new String[]{key});
-            }
-        } else {
-            command.run(params);
-        }
-    }
-
     public void deleteCommand(Class<? extends Command> cl) {
         Command.CommandInfo commandInfo = cl.getAnnotation(Command.CommandInfo.class);
         if (commandInfo == null) {
@@ -178,20 +160,27 @@ public class CommandManager {
     public void addCommand(Command command) {
         // 获取注释标记
         Command.CommandInfo commandInfo = command.getClass().getAnnotation(Command.CommandInfo.class);
-        // 获取命令属性
-        String[] commandName = commandInfo.key();
-        // 注入命令
-        for (String s : commandName) {
-            if (MODE_BLOCK) {
-                if (blockKey.contains(s)) {
-                    continue;
-                }
-            } else {
-                if (!allowedKey.contains(s)) {
-                    continue;
-                }
+        if (commandInfo == null) {
+            String key = command.getClass().getSimpleName();
+            if (MODE_BLOCK && !blockKey.contains(key) || !MODE_BLOCK && allowedKey.contains(key)) {
+                addCommandKey(key, command);
             }
-            addCommandKey(s, command);
+        } else {
+            // 获取命令属性
+            String[] commandName = commandInfo.key();
+            // 注入命令
+            for (String s : commandName) {
+                if (MODE_BLOCK) {
+                    if (blockKey.contains(s)) {
+                        continue;
+                    }
+                } else {
+                    if (!allowedKey.contains(s)) {
+                        continue;
+                    }
+                }
+                addCommandKey(s, command);
+            }
         }
     }
 
