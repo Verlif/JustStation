@@ -8,6 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 指令标志
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/11/24 14:20

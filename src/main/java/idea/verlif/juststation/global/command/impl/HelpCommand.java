@@ -1,13 +1,16 @@
 package idea.verlif.juststation.global.command.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import idea.verlif.juststation.global.command.Rci;
 import idea.verlif.juststation.global.command.RemCommand;
 import idea.verlif.juststation.global.command.RemCommandManager;
 import idea.verlif.juststation.global.command.RemCommandResult;
 import idea.verlif.juststation.global.util.PrintUtils;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -48,30 +51,29 @@ public class HelpCommand extends RemCommand {
         // 对指令Key进行排序
         list.sort(Comparator.comparingInt(o -> hashMap.get(o).charAt(0)));
 
+        JSONArray array = new JSONArray();
         for (RemCommand command : list) {
+            CommandInfo commandInfo = new CommandInfo();
             Rci info = command.getClass().getAnnotation(Rci.class);
-            String[] commandName = info.key();
-            StringBuilder sb = new StringBuilder();
-            sb.append(Arrays.toString(commandName));
-            int length = sb.length();
-            for (int i = length; i < LEFT; i++) {
-                sb.append(" ");
-            }
-            sb.append(" - ").append(info.description());
-            String[] commandParams = command.params();
-            if (commandParams != null && commandParams.length > 0) {
-                sb.append("\n");
-                for (int i = 0; i < LEFT; i++) {
-                    sb.append(" ");
-                }
-                sb.append(" └ ");
-                for (String commandParam : commandParams) {
-                    sb.append("[").append(commandParam).append("]").append(" ");
-                }
-            }
-            outLine(sb.toString());
+            // 设定指令Key
+            commandInfo.setKey(info.key());
+            // 设定指令描述
+            commandInfo.setDesc(info.description());
+            // 设定指令参数说明
+            commandInfo.setParams(command.params());
+            array.add(commandInfo);
         }
+        outData(array);
         return RemCommandResult.Code.OK;
     }
 
+    @Data
+    private static class CommandInfo implements Serializable {
+
+        private String[] key;
+
+        private String desc;
+
+        private String[] params;
+    }
 }

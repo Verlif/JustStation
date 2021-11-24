@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 /**
  * 指令管理器 <br/>
@@ -95,7 +96,7 @@ public class RemCommandManager {
             RemCommand command = getCommand(key);
             if (command != null) {
                 if (blockKey.contains(key)) {
-                    throw new CommandException("指令被屏蔽 - " + key);
+                    throw new CommandException("blocked - " + key);
                 }
                 try {
                     RemCommandResult result;
@@ -106,24 +107,24 @@ public class RemCommandManager {
                     }
                     switch (result.getCode()) {
                         case OK:
-                            PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.ok"));
+                            PrintUtils.print(Level.INFO, "[" + key + "] >> " + MessagesUtils.message("command.code.ok"));
                             break;
                         case FAIL:
-                            PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.fail"));
+                            PrintUtils.print(Level.INFO, "[" + key + "] >> " + MessagesUtils.message("command.code.fail"));
                             break;
                         default:
-                            PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.error"));
+                            PrintUtils.print(Level.INFO, "[" + key + "] >> " + MessagesUtils.message("command.code.error"));
                             break;
                     }
                     return result;
                 } catch (CommandException e) {
-                    PrintUtils.println("[" + key + "] >> " + e.getMessage());
+                    PrintUtils.print(Level.SEVERE, "[" + key + "] >> " + e.getMessage());
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
                 return RemCommandResult.build(RemCommandResult.Code.ERROR);
             } else {
-                PrintUtils.println(MessagesUtils.message("command.error.unknown") + "[" + key + "]");
+                PrintUtils.print(Level.INFO, MessagesUtils.message("command.error.unknown") + "[" + key + "]");
             }
         }
         return RemCommandResult.build(RemCommandResult.Code.FAIL, MessagesUtils.message("command.code.unknown"));

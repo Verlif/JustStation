@@ -73,14 +73,21 @@ public class FileService {
     }
 
     /**
-     * 注册
-     * @param type
-     * @param parser
+     * 注册文件解析器
+     *
+     * @param type   文件标志
+     * @param parser 文件解析器
      */
-    public static void register(FileType type, FileParser parser) {
+    public static <T extends FileParser> void register(FileType type, T parser) {
         PARSER_HASH_MAP.put(type, parser);
     }
 
+    /**
+     * 获取文件解析器
+     *
+     * @param type 文件标志
+     * @return 文件解析器
+     */
     public FileParser getParser(FileType type) {
         return PARSER_HASH_MAP.get(type);
     }
