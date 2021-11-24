@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
@@ -28,12 +27,11 @@ public class User extends BaseUser {
 
     @Schema(name = "用户ID")
     @TableId(value = "user_id", type = IdType.AUTO)
-    @Null(groups = Insert.class)
-    @NotNull(groups = Update.class)
+    @Null(groups = {Insert.class, Update.class})
     private Integer userId;
 
     @Schema(name = "用户昵称")
-    @NotBlank
+    @NotBlank(groups = {Insert.class, Update.class})
     @Size(min = 1, max = 24)
     private String nickname;
 

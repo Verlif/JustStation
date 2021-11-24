@@ -75,10 +75,14 @@ public class MyExceptionHandler {
             List<ObjectError> errors = result.getAllErrors();
             errors.forEach(p -> {
                 FieldError fieldError = (FieldError) p;
-                sb.append(fieldError.getField()).append(" - ").append(fieldError.getDefaultMessage());
+                sb.append(fieldError.getField()).append(" - ").append(fieldError.getDefaultMessage()).append(", ");
             });
         }
-        return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(sb.toString());
+        if (sb.length() >= 2) {
+            return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(sb.substring(0, sb.length() - 2));
+        } else {
+            return new BaseResult<>(ResultCode.FAILURE_PARAMETER);
+        }
     }
 
     @ResponseBody

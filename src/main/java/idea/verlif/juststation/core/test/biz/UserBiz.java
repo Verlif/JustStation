@@ -54,12 +54,8 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
 
     @Override
     public BaseResult<User> update(User user) {
-        // 用户修改屏蔽ID修改
-        user.setUserId(null);
         // 用户修改限定修改个人信息
         user.setUsername(SecurityUtils.getUsername());
-        // 用户修改不涉及密码修改
-        user.setPassword(null);
         return super.update(user);
     }
 

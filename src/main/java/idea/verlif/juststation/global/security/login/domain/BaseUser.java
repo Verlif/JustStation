@@ -5,7 +5,9 @@ import idea.verlif.juststation.global.validation.Insert;
 import idea.verlif.juststation.global.validation.Update;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -21,8 +23,7 @@ public class BaseUser implements Serializable, Fillable {
      * 用户登录名
      */
     @Schema(name = "用户登录名")
-    @NotBlank
-    @Size(min = 4, max = 24)
+    @Size(min = 4, max = 24, groups = {Insert.class, Update.class})
     protected String username;
 
     /**
