@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
-import java.util.logging.Level;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 指令管理器 <br/>
@@ -19,9 +21,9 @@ import java.util.logging.Level;
  * @date 2021/11/15 10:30
  */
 @Component
-public class CommandManager {
+public class RemCommandManager {
 
-    private final HashMap<String, Command> commandHashMap;
+    private final HashMap<String, RemCommand> commandHashMap;
     private final Set<String> allowedKey;
     private final Set<String> blockKey;
 
@@ -30,35 +32,35 @@ public class CommandManager {
      */
     private static boolean MODE_BLOCK = true;
 
-    public CommandManager(
+    public RemCommandManager(
             @Autowired ApplicationContext appContext,
-            @Autowired CommandConfig commandConfig) {
+            @Autowired RemCommandConfig remCommandConfig) {
         // 初始化命令集
         commandHashMap = new HashMap<>();
         allowedKey = new HashSet<>();
         blockKey = new HashSet<>();
 
         // 加载指令模式与屏蔽名单
-        if (commandConfig.getAllowed().length > 0) {
+        if (remCommandConfig.getAllowed().length > 0) {
             MODE_BLOCK = false;
         }
-        allowedKey.addAll(Arrays.asList(commandConfig.getAllowed()));
-        blockKey.addAll(Arrays.asList(commandConfig.getBlocked()));
+        allowedKey.addAll(Arrays.asList(remCommandConfig.getAllowed()));
+        blockKey.addAll(Arrays.asList(remCommandConfig.getBlocked()));
 
         // 加载指令
-        String[] commandArray = appContext.getBeanNamesForType(Command.class);
+        String[] commandArray = appContext.getBeanNamesForType(RemCommand.class);
         for (String s : commandArray) {
-            Command command = (Command) appContext.getBean(s);
+            RemCommand command = (RemCommand) appContext.getBean(s);
             addCommand(command);
         }
     }
 
-    public void loadCommand(Set<Class<? extends Command>> commandSet) {
+    public void loadCommand(Set<Class<? extends RemCommand>> commandSet) {
         // 指令清空
         this.commandHashMap.clear();
         this.blockKey.clear();
         // 加载用户指令
-        for (Class<? extends Command> command : commandSet) {
+        for (Class<? extends RemCommand> command : commandSet) {
             addCommand(command);
         }
     }
@@ -67,11 +69,11 @@ public class CommandManager {
         return commandHashMap.keySet();
     }
 
-    public Set<Command> getAllCommand() {
+    public Set<RemCommand> getAllCommand() {
         return new HashSet<>(commandHashMap.values());
     }
 
-    public Command getCommand(String key) {
+    public RemCommand getCommand(String key) {
         return commandHashMap.get(key);
     }
 
@@ -83,34 +85,26 @@ public class CommandManager {
         blockKey.remove(key);
     }
 
-    /**
-     * 开启指令处理
-     */
-    public void start() {
-        // 接受命令并执行
-        PrintUtils.print(Level.INFO, MessagesUtils.message("command.info.init") + ": " + getAllCommand().size());
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            command(scanner.nextLine().trim().replaceAll(" +", " ").split(" "));
-        }
+    public RemCommandResult command(String input) {
+        return command(input.trim().replaceAll(" +", " ").split(" "));
     }
 
-    public CommandCode command(String[] input) {
+    public RemCommandResult command(String[] input) {
         if (input != null && input.length > 0) {
             String key = input[0];
-            Command command = getCommand(key);
+            RemCommand command = getCommand(key);
             if (command != null) {
                 if (blockKey.contains(key)) {
                     throw new CommandException("指令被屏蔽 - " + key);
                 }
                 try {
-                    CommandCode code;
+                    RemCommandResult result;
                     if (input.length > 1) {
-                        code = command.run(Arrays.copyOfRange(input, 1, input.length));
+                        result = command.exec(Arrays.copyOfRange(input, 1, input.length));
                     } else {
-                        code = command.run(new String[]{});
+                        result = command.exec(new String[]{});
                     }
-                    switch (code) {
+                    switch (result.getCode()) {
                         case OK:
                             PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.ok"));
                             break;
@@ -121,27 +115,27 @@ public class CommandManager {
                             PrintUtils.println("[" + key + "] >> " + MessagesUtils.message("command.code.error"));
                             break;
                     }
-                    return code;
+                    return result;
                 } catch (CommandException e) {
                     PrintUtils.println("[" + key + "] >> " + e.getMessage());
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
-                return CommandCode.ERROR;
+                return RemCommandResult.build(RemCommandResult.Code.ERROR);
             } else {
                 PrintUtils.println(MessagesUtils.message("command.error.unknown") + "[" + key + "]");
             }
         }
-        return CommandCode.UNKNOWN;
+        return RemCommandResult.build(RemCommandResult.Code.FAIL, MessagesUtils.message("command.code.unknown"));
     }
 
-    public void deleteCommand(Class<? extends Command> cl) {
-        Command.CommandInfo commandInfo = cl.getAnnotation(Command.CommandInfo.class);
-        if (commandInfo == null) {
+    public void deleteCommand(Class<? extends RemCommand> cl) {
+        Rci rci = cl.getAnnotation(Rci.class);
+        if (rci == null) {
             deleteCommandKey(cl.getSimpleName());
         } else {
             // 获取命令属性
-            String[] commandName = commandInfo.key();
+            String[] commandName = rci.key();
             // 清除命令
             for (String s : commandName) {
                 deleteCommandKey(s);
@@ -153,21 +147,26 @@ public class CommandManager {
         commandHashMap.remove(commandKey);
     }
 
-    private void addCommandKey(String commandKey, Command command) {
+    private void addCommandKey(String commandKey, RemCommand command) {
         commandHashMap.put(commandKey, command);
     }
 
-    public void addCommand(Command command) {
+    /**
+     * 底层添加指令方法
+     *
+     * @param command 指令对象
+     */
+    public void addCommand(RemCommand command) {
         // 获取注释标记
-        Command.CommandInfo commandInfo = command.getClass().getAnnotation(Command.CommandInfo.class);
-        if (commandInfo == null) {
+        Rci rci = command.getClass().getAnnotation(Rci.class);
+        if (rci == null) {
             String key = command.getClass().getSimpleName();
             if (MODE_BLOCK && !blockKey.contains(key) || !MODE_BLOCK && allowedKey.contains(key)) {
                 addCommandKey(key, command);
             }
         } else {
             // 获取命令属性
-            String[] commandName = commandInfo.key();
+            String[] commandName = rci.key();
             // 注入命令
             for (String s : commandName) {
                 if (MODE_BLOCK) {
@@ -184,13 +183,13 @@ public class CommandManager {
         }
     }
 
-    public void addCommand(Class<? extends Command> cl) {
+    public void addCommand(Class<? extends RemCommand> cl) {
         // 获取注释标记
-        Command.CommandInfo commandInfo = cl.getAnnotation(Command.CommandInfo.class);
+        Rci rci = cl.getAnnotation(Rci.class);
         // 获取命令属性
-        String[] commandName = commandInfo.key();
+        String[] commandName = rci.key();
         try {
-            Command co = cl.newInstance();
+            RemCommand co = cl.newInstance();
             // 注入命令
             for (String s : commandName) {
                 addCommandKey(s, co);

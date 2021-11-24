@@ -5,6 +5,7 @@ spring:
     name: Station
   messages:
     basename: i18n/messages
+    encoding: utf-8
   servlet:
     multipart:
       max-file-size: 50MB

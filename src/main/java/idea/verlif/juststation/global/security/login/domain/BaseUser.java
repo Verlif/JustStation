@@ -5,10 +5,7 @@ import idea.verlif.juststation.global.validation.Insert;
 import idea.verlif.juststation.global.validation.Update;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -24,7 +21,7 @@ public class BaseUser implements Serializable, Fillable {
      * 用户登录名
      */
     @Schema(name = "用户登录名")
-    @NotNull
+    @NotBlank
     @Size(min = 4, max = 24)
     protected String username;
 
@@ -34,7 +31,6 @@ public class BaseUser implements Serializable, Fillable {
      */
     @AutoFill(value = "", mode = FillMode.ALWAYS)
     @Schema(name = "用户密码")
-    @NotNull(groups = Insert.class)
     @Null(groups = Update.class)
     @Pattern(regexp = "[a-zA-Z0-9,.!@#]{8,24}", groups = Insert.class)
     protected String password;
@@ -44,7 +40,7 @@ public class BaseUser implements Serializable, Fillable {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.trim();
     }
 
     public String getPassword() {

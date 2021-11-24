@@ -1,8 +1,9 @@
 package idea.verlif.juststation.global.command.impl;
 
-import idea.verlif.juststation.global.command.Command;
-import idea.verlif.juststation.global.command.CommandCode;
-import idea.verlif.juststation.global.command.CommandManager;
+import idea.verlif.juststation.global.command.Rci;
+import idea.verlif.juststation.global.command.RemCommand;
+import idea.verlif.juststation.global.command.RemCommandManager;
+import idea.verlif.juststation.global.command.RemCommandResult;
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -14,8 +15,8 @@ import java.util.*;
  * @version 1.0
  * @date 2021/11/18 11:56
  */
-@Command.CommandInfo(key = {"help", "h"}, description = "帮助")
-public class HelpCommand implements Command {
+@Rci(key = {"help", "h"}, description = "帮助")
+public class HelpCommand extends RemCommand {
 
     /**
      * 排版间距
@@ -26,18 +27,18 @@ public class HelpCommand implements Command {
     private ApplicationContext applicationContext;
 
     @Override
-    public CommandCode run(String[] params) {
+    public RemCommandResult.Code run(String[] params) {
         // 获取所有指令
-        Set<Command> commandSet = applicationContext.getBean(CommandManager.class).getAllCommand();
+        Set<RemCommand> commandSet = applicationContext.getBean(RemCommandManager.class).getAllCommand();
 
-        HashMap<Command, String> hashMap = new HashMap<>(commandSet.size() * 2);
-        List<Command> list = new ArrayList<>(commandSet);
+        HashMap<RemCommand, String> hashMap = new HashMap<>(commandSet.size() * 2);
+        List<RemCommand> list = new ArrayList<>(commandSet);
         // 加载所有指令Key
-        for (Command command : commandSet) {
+        for (RemCommand command : commandSet) {
             // 获取注释标记
-            Command.CommandInfo commandInfo = command.getClass().getAnnotation(Command.CommandInfo.class);
+            Rci rci = command.getClass().getAnnotation(Rci.class);
             // 获取命令属性
-            String[] commandName = commandInfo.key();
+            String[] commandName = rci.key();
             // 注入命令
             for (String s : commandName) {
                 hashMap.put(command, s);
@@ -47,8 +48,8 @@ public class HelpCommand implements Command {
         // 对指令Key进行排序
         list.sort(Comparator.comparingInt(o -> hashMap.get(o).charAt(0)));
 
-        for (Command command : list) {
-            CommandInfo info = command.getClass().getAnnotation(CommandInfo.class);
+        for (RemCommand command : list) {
+            Rci info = command.getClass().getAnnotation(Rci.class);
             String[] commandName = info.key();
             StringBuilder sb = new StringBuilder();
             sb.append(Arrays.toString(commandName));
@@ -68,9 +69,9 @@ public class HelpCommand implements Command {
                     sb.append("[").append(commandParam).append("]").append(" ");
                 }
             }
-            PrintUtils.println(sb.toString());
+            outLine(sb.toString());
         }
-        return CommandCode.OK;
+        return RemCommandResult.Code.OK;
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "command")
-public class CommandConfig {
+public class RemCommandConfig {
 
     /**
      * 允许的指令，当允许指令存在元素时，则屏蔽指令无效

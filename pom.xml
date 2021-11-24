@@ -51,6 +51,10 @@
             <artifactId>spring-shell-starter</artifactId>
             <version>2.0.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -95,20 +99,20 @@
             <version>${fastjson.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
+        <!-- Api文档 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-spring-boot-starter -->
+        <!-- Api文档皮肤 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.3</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        <!-- Commons工具类 -->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -132,7 +136,7 @@
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+        <!-- 参数校验 -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>

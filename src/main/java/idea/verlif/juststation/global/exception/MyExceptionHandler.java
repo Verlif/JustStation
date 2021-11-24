@@ -1,13 +1,11 @@
 package idea.verlif.juststation.global.exception;
 
-import com.alibaba.fastjson.JSONObject;
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.FailResult;
-import idea.verlif.juststation.global.command.exception.CommandException;
 import idea.verlif.juststation.global.util.MessagesUtils;
-import idea.verlif.juststation.global.util.PrintUtils;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -50,11 +48,6 @@ public class MyExceptionHandler {
         return new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN);
     }
 
-    @ExceptionHandler(value = CommandException.class)
-    public void commandException(CommandException e) {
-        PrintUtils.println(e.getMessage());
-    }
-
     @ResponseBody
     @ExceptionHandler(value = SizeException.class)
     public BaseResult<String> sizeLimitExceededException(SizeLimitExceededException e) {
@@ -86,5 +79,11 @@ public class MyExceptionHandler {
             });
         }
         return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(sb.toString());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = DuplicateKeyException.class)
+    public BaseResult<?> duplicateKeyException(DuplicateKeyException e) {
+        return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(MessagesUtils.message("error.duplicate_key"));
     }
 }

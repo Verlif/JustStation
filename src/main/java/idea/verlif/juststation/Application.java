@@ -1,6 +1,5 @@
 package idea.verlif.juststation;
 
-import idea.verlif.juststation.global.command.CommandManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -19,11 +18,6 @@ public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         context = SpringApplication.run(Application.class, args);
-
-        // 开启指令
-        // 这里用的时SpringShell，所以不用CommandManager了
-//        CommandManager commandManager = context.getBean(CommandManager.class);
-//        commandManager.start();
     }
 
     @Override
