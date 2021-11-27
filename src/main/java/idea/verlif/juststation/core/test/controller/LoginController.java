@@ -2,9 +2,9 @@ package idea.verlif.juststation.core.test.controller;
 
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.global.log.LogIt;
+import idea.verlif.juststation.global.log.LogType;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
-import idea.verlif.juststation.global.util.PrintUtils;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.logging.Level;
 
 /**
  * @author Verlif
@@ -34,11 +32,10 @@ public class LoginController {
      * @param loginInfo 用户登录信息
      * @return 登录结果
      */
-    @LogIt(type = LogIt.Type.LOGIN, message = "有人登录啦啦啦")
+    @LogIt(type = LogType.LOGIN, message = "有人登录啦啦啦")
     @Operation(summary = "登录")
     @PostMapping
     public BaseResult<?> login(@RequestBody LoginInfo loginInfo) {
-        PrintUtils.print(Level.INFO, "有用户登录");
         return loginService.login(loginInfo);
     }
 

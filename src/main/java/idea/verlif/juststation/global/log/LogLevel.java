@@ -14,7 +14,7 @@ public enum LogLevel {
     /**
      * debug
      */
-    DEBUG(0, Level.FINE),
+    DEBUG(0, Level.CONFIG),
     /**
      * info
      */

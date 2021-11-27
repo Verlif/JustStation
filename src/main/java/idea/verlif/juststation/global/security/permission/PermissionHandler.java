@@ -38,11 +38,10 @@ public class PermissionHandler {
     @Around("@annotation(idea.verlif.juststation.global.security.permission.Perm)")
     public Object dsPointCut(ProceedingJoinPoint joinPoint) throws Throwable {
         Signature sig = joinPoint.getSignature();
-        MethodSignature signature;
         if (!(sig instanceof MethodSignature)) {
             throw new IllegalArgumentException("only method can use it!");
         }
-        signature = (MethodSignature) sig;
+        MethodSignature signature = (MethodSignature) sig;
         Object target = joinPoint.getTarget();
         Method currentMethod = target.getClass().getMethod(signature.getName(), signature.getParameterTypes());
 

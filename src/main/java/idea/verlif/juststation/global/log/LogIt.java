@@ -19,7 +19,7 @@ public @interface LogIt {
     /**
      * 日志类型
      */
-    Type type();
+    LogType type() default LogType.DEFAULT;
 
     /**
      * 记录附加信息
@@ -29,35 +29,6 @@ public @interface LogIt {
     /**
      * 日志等级
      */
-    LogLevel level() default LogLevel.DEBUG;
-
-    enum Type {
-        /**
-         * 登录
-         */
-        LOGIN("INSERT"),
-        /**
-         * 更新
-         */
-        UPDATE("UPDATE"),
-        /**
-         * 新增
-         */
-        INSERT("INSERT"),
-        /**
-         * 删除
-         */
-        DELETE("DELETE");
-
-        private final String name;
-
-        Type(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
+    LogLevel level() default LogLevel.INFO;
 
 }
