@@ -40,7 +40,7 @@ public class PermissionHandler {
         Signature sig = joinPoint.getSignature();
         MethodSignature signature;
         if (!(sig instanceof MethodSignature)) {
-            throw new IllegalArgumentException("该注解只能用于方法");
+            throw new IllegalArgumentException("only method can use it!");
         }
         signature = (MethodSignature) sig;
         Object target = joinPoint.getTarget();

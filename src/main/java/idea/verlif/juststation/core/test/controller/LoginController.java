@@ -1,6 +1,7 @@
 package idea.verlif.juststation.core.test.controller;
 
 import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.util.PrintUtils;
@@ -33,6 +34,7 @@ public class LoginController {
      * @param loginInfo 用户登录信息
      * @return 登录结果
      */
+    @LogIt(type = LogIt.Type.LOGIN, message = "有人登录啦啦啦")
     @Operation(summary = "登录")
     @PostMapping
     public BaseResult<?> login(@RequestBody LoginInfo loginInfo) {
