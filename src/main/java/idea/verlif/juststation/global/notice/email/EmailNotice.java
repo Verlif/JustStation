@@ -1,12 +1,11 @@
 package idea.verlif.juststation.global.notice.email;
 
 import idea.verlif.juststation.global.notice.Notice;
+import idea.verlif.juststation.global.notice.NoticeComponent;
 import idea.verlif.juststation.global.notice.NoticeHandler;
-import idea.verlif.juststation.global.notice.NoticeService;
 import idea.verlif.juststation.global.notice.NoticeTag;
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -21,8 +20,8 @@ import java.util.logging.Level;
  *
  * @author Verlif
  */
-@Component
-public class EmailNotice implements NoticeHandler {
+@NoticeComponent(tags = NoticeTag.EMAIL)
+public class EmailNotice extends NoticeHandler {
 
     private final EmailConfig emailConfig;
 
@@ -33,8 +32,6 @@ public class EmailNotice implements NoticeHandler {
         this.emailConfig = emailConfig;
         props = buildProp();
         authenticator = buildAuthenticator(props);
-
-        NoticeService.registerHandler(NoticeTag.EMAIL, this);
     }
 
     @Override

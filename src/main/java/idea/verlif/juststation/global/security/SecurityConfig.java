@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 登录与注册接口开放
-                .antMatchers("/**/login", "/**/register").anonymous()
+                .antMatchers("/login", "/register").anonymous()
                 // 文件访问系统开放（仅限测试）
                 .antMatchers("/file/**").permitAll()
                 .antMatchers("/webjars/**").anonymous()

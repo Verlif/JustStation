@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import javax.annotation.PostConstruct;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
@@ -33,8 +31,10 @@ public class RemCommandManager {
      */
     private static boolean MODE_BLOCK = true;
 
+    @Autowired
+    private ApplicationContext appContext;
+
     public RemCommandManager(
-            @Autowired ApplicationContext appContext,
             @Autowired RemCommandConfig remCommandConfig) {
         // 初始化命令集
         commandHashMap = new HashMap<>();
@@ -48,10 +48,13 @@ public class RemCommandManager {
         allowedKey.addAll(Arrays.asList(remCommandConfig.getAllowed()));
         blockKey.addAll(Arrays.asList(remCommandConfig.getBlocked()));
 
+    }
+
+    @PostConstruct
+    public void init() {
         // 加载指令
-        String[] commandArray = appContext.getBeanNamesForType(RemCommand.class);
-        for (String s : commandArray) {
-            RemCommand command = (RemCommand) appContext.getBean(s);
+        Map<String, RemCommand> beans = appContext.getBeansOfType(RemCommand.class);
+        for (RemCommand command : beans.values()) {
             addCommand(command);
         }
     }
@@ -90,9 +93,20 @@ public class RemCommandManager {
         return command(input.trim().replaceAll(" +", " ").split(" "));
     }
 
+    public RemCommandResult command(String key, String params) {
+        if (params != null) {
+            return command(key, params.trim().replaceAll(" +", " ").split(" "));
+        } else {
+            return command(key, (String[]) null);
+        }
+    }
+
     public RemCommandResult command(String[] input) {
-        if (input != null && input.length > 0) {
-            String key = input[0];
+        return command(input[0], Arrays.copyOfRange(input, 1, input.length));
+    }
+
+    public RemCommandResult command(String key, String[] params) {
+        if (key != null && key.length() > 0) {
             RemCommand command = getCommand(key);
             if (command != null) {
                 if (blockKey.contains(key)) {
@@ -100,8 +114,8 @@ public class RemCommandManager {
                 }
                 try {
                     RemCommandResult result;
-                    if (input.length > 1) {
-                        result = command.exec(Arrays.copyOfRange(input, 1, input.length));
+                    if (params != null && params.length > 1) {
+                        result = command.exec(params);
                     } else {
                         result = command.exec(new String[]{});
                     }

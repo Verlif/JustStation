@@ -1,11 +1,15 @@
 package idea.verlif.juststation.global.notice;
 
 import idea.verlif.juststation.global.util.PrintUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -22,14 +26,33 @@ public class NoticeService {
         HANDLER_HASH_MAP = new HashMap<>();
     }
 
+    @Autowired
+    private ApplicationContext appContext;
+
+    public NoticeService() {
+    }
+
+    @PostConstruct
+    public void init() {
+        // 加载通知组件
+        Map<String, NoticeHandler> beans = appContext.getBeansOfType(NoticeHandler.class);
+        for (NoticeHandler handler : beans.values()) {
+            registerHandler(handler);
+        }
+    }
+
     /**
      * 向通知服务中注册服务
      *
-     * @param tag           通知标志
      * @param noticeHandler 需要注册的服务；已存在的通知标志会覆盖
      */
-    public static void registerHandler(NoticeTag tag, NoticeHandler noticeHandler) {
-        HANDLER_HASH_MAP.put(tag, noticeHandler);
+    public void registerHandler(NoticeHandler noticeHandler) {
+        NoticeComponent component = noticeHandler.getClass().getAnnotation(NoticeComponent.class);
+        if (component != null) {
+            for (NoticeTag tag : component.tags()) {
+                HANDLER_HASH_MAP.put(tag, noticeHandler);
+            }
+        }
     }
 
     /**

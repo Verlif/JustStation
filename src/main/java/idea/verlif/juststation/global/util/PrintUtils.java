@@ -36,9 +36,9 @@ public class PrintUtils {
      * 单行打印信息
      *
      * @param msg 需单行打印的信息
-     * @see PrintInfoHandler#println(String)
+     * @see PrintInfoHandler#println(Object)
      */
-    public static void println(String msg) {
+    public static void println(Object msg) {
         handler.println(msg);
     }
 
@@ -63,6 +63,13 @@ public class PrintUtils {
     }
 
     /**
+     * 打点标记
+     */
+    public static void pin() {
+        handler.printLog(Level.INFO, " > PIN < ");
+    }
+
+    /**
      * 信息打印接口
      *
      * @author Verlif
@@ -76,7 +83,7 @@ public class PrintUtils {
          *
          * @param msg 需要打印的信息
          */
-        void println(String msg);
+        void println(Object msg);
 
         /**
          * 打印Log信息
@@ -107,7 +114,7 @@ public class PrintUtils {
         }
 
         @Override
-        public void println(String msg) {
+        public void println(Object msg) {
             System.out.println(msg);
         }
 

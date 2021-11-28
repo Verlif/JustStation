@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Verlif
  */
-public interface NoticeHandler {
+public abstract class NoticeHandler {
 
     /**
      * 发送通知
@@ -16,7 +16,7 @@ public interface NoticeHandler {
      * @param notice 通知内容
      * @return 是否发送成功
      */
-    boolean sendNotice(String target, Notice notice);
+    public abstract boolean sendNotice(String target, Notice notice);
 
     /**
      * 批量发送通知
@@ -25,5 +25,5 @@ public interface NoticeHandler {
      * @param notice     通知内容
      * @return 已成功发送的目标列表
      */
-    List<String> sendNotices(List<String> targetList, Notice notice);
+    public abstract List<String> sendNotices(List<String> targetList, Notice notice);
 }

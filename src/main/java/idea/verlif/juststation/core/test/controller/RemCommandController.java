@@ -6,10 +6,7 @@ import idea.verlif.juststation.global.security.permission.Perm;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Verlif
@@ -19,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/command")
 @Api(tags = "指令URL")
-public class CommandController {
+public class RemCommandController {
 
     @Autowired
     private RemCommandManager commandManager;
@@ -31,9 +28,11 @@ public class CommandController {
      * @return 指令执行结果
      */
     @Perm(hasRole = "admin")
-    @GetMapping
+    @PostMapping("/{command}")
     @Operation(summary = "远程指令")
-    public RemCommandResult command(@RequestParam("command") String command) {
-        return commandManager.command(command);
+    public RemCommandResult command(
+            @PathVariable("command") String command,
+            @RequestParam(required = false) String[] params) {
+        return commandManager.command(command, params);
     }
 }
