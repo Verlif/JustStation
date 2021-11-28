@@ -5,11 +5,11 @@ import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.core.base.result.ext.OkResult;
 import idea.verlif.juststation.global.security.login.LoginHandler;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
+import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 
 /**
  * @author Verlif
@@ -20,13 +20,14 @@ public class LoginHandlerAto implements LoginHandler {
 
     private final TokenService tokenService;
 
-    private final AuthenticationManager authenticationManager;
-
     public LoginHandlerAto(
-            @Autowired TokenService tokenService,
-            @Autowired AuthenticationManager authenticationManager) {
+            @Autowired TokenService tokenService) {
         this.tokenService = tokenService;
-        this.authenticationManager = authenticationManager;
+    }
+
+    @Override
+    public <T extends LoginInfo> LoginResult onLogin(T t) {
+        return LoginResult.allowed();
     }
 
     @Override

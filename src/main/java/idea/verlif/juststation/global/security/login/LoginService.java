@@ -41,11 +41,10 @@ public class LoginService {
 
     public LoginService(
             @Autowired TokenService tokenService,
-            @Autowired AuthenticationManager authenticationManager,
             @Autowired(required = false) LoginHandler loginHandler) {
         this.tokenService = tokenService;
         if (loginHandler == null) {
-            this.loginHandler = new LoginHandlerAto(tokenService, authenticationManager);
+            this.loginHandler = new LoginHandlerAto(tokenService);
         } else {
             this.loginHandler = loginHandler;
         }
@@ -99,29 +98,34 @@ public class LoginService {
     }
 
     public <T extends LoginInfo> BaseResult<?> login(T loginInfo) {
-        // 用户验证
-        Authentication authentication;
-        try {
-            // 该方法会去调用UserDetailsService#loadUserByUsername(String)方法，请在该方法中实现用户登录验证
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
-            LoginUser<? extends BaseUser> loginUser = (LoginUser<?>) authentication.getPrincipal();
-            loginUser.setLoginTime(new Date());
-            // 设定用户登录标志
-            loginUser.setTag(loginInfo.getTag() == null ? LoginTag.LOCAL.getTag() : loginInfo.getTag().getTag());
-            // 删除之前同标志的登录
-            tokenService.logout(loginUser.getToken());
-            // 调用方法
-            loginHandler.loginAfterAuth(loginUser);
-            // 记录并返回登录Token
-            return new OkResult<>(tokenService.loginUser(loginUser));
-        } catch (UsernameNotFoundException e) {
-            return new BaseResult<>(ResultCode.FAILURE_LOGIN_MISSING);
-        } catch (BadCredentialsException e) {
-            return new BaseResult<>(ResultCode.FAILURE_LOGIN_FAIL);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new BaseResult<>(ResultCode.FAILURE_ERROR).withParam(e.getMessage());
+        LoginHandler.LoginResult result = loginHandler.onLogin(loginInfo);
+        if (result.allow) {
+            // 用户验证
+            Authentication authentication;
+            try {
+                // 该方法会去调用UserDetailsService#loadUserByUsername(String)方法，请在该方法中实现用户登录验证
+                authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
+                LoginUser<? extends BaseUser> loginUser = (LoginUser<?>) authentication.getPrincipal();
+                loginUser.setLoginTime(new Date());
+                // 设定用户登录标志
+                loginUser.setTag(loginInfo.getTag() == null ? LoginTag.LOCAL.getTag() : loginInfo.getTag().getTag());
+                // 删除之前同标志的登录
+                tokenService.logout(loginUser.getToken());
+                // 调用方法
+                loginHandler.loginAfterAuth(loginUser);
+                // 记录并返回登录Token
+                return new OkResult<>(tokenService.loginUser(loginUser));
+            } catch (UsernameNotFoundException e) {
+                return new BaseResult<>(ResultCode.FAILURE_LOGIN_MISSING);
+            } catch (BadCredentialsException e) {
+                return new BaseResult<>(ResultCode.FAILURE_LOGIN_FAIL);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new BaseResult<>(ResultCode.FAILURE_ERROR).withParam(e.getMessage());
+            }
+        } else {
+            return new FailResult<>(result.deniedMessage);
         }
     }
 

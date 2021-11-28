@@ -31,7 +31,7 @@ public class LogAspect {
     }
 
     @Around("@annotation(idea.verlif.juststation.global.log.LogIt)")
-    public void log(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         Signature sig = joinPoint.getSignature();
         if (!(sig instanceof MethodSignature)) {
             throw new IllegalArgumentException("only method can use it!");
@@ -44,6 +44,7 @@ public class LogAspect {
         logHandler.onLog(currentMethod, logIt);
         Object o = joinPoint.proceed();
         logHandler.onReturn(currentMethod, logIt, o);
+        return o;
     }
 
     public static final class LogHandlerAto implements LogHandler {

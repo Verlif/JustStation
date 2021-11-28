@@ -2,7 +2,9 @@ package idea.verlif.juststation.global.security.login;
 
 import idea.verlif.juststation.core.base.result.BaseResult;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
+import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
+import lombok.Data;
 
 /**
  * 用户登录接口
@@ -12,6 +14,15 @@ import idea.verlif.juststation.global.security.login.domain.LoginUser;
  * @date 2021/11/16 10:10
  */
 public interface LoginHandler {
+
+    /**
+     * 登录过滤
+     *
+     * @param t   登录信息
+     * @param <T> 登录信息泛型
+     * @return 登录结果
+     */
+    <T extends LoginInfo> LoginResult onLogin(T t);
 
     /**
      * 用户登录认证后
@@ -27,4 +38,38 @@ public interface LoginHandler {
      */
     BaseResult<?> logout();
 
+    @Data
+    class LoginResult {
+
+        /**
+         * 是否允许登录
+         */
+        boolean allow;
+
+        /**
+         * 拒接登录时的提示
+         */
+        String deniedMessage;
+
+        /**
+         * 允许登录
+         */
+        public static LoginResult allowed() {
+            LoginResult result = new LoginResult();
+            result.setAllow(true);
+            return result;
+        }
+
+        /**
+         * 拒接登录
+         *
+         * @param message 拒接信息
+         */
+        public static LoginResult denied(String message) {
+            LoginResult result = new LoginResult();
+            result.setAllow(false);
+            result.setDeniedMessage(message);
+            return result;
+        }
+    }
 }
