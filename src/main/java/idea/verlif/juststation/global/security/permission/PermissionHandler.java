@@ -1,14 +1,14 @@
 package idea.verlif.juststation.global.security.permission;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
 import idea.verlif.juststation.global.security.permission.impl.PermissionDetectorImpl;
+import idea.verlif.juststation.global.util.MessagesUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -49,29 +49,29 @@ public class PermissionHandler {
         if (perm != null) {
             if (perm.hasKey().length() > 0) {
                 if (!permissionDetector.hasKey(perm.hasKey())) {
-                    return noPermission();
+                    noPermission();
                 }
             }
             if (perm.hasRole().length() > 0) {
                 if (!permissionDetector.hasRole(perm.hasRole())) {
-                    return noPermission();
+                    noPermission();
                 }
             }
             if (perm.noRole().length() > 0) {
                 if (!permissionDetector.noRole(perm.noRole())) {
-                    return noPermission();
+                    noPermission();
                 }
             }
             if (perm.noKey().length() > 0) {
                 if (!permissionDetector.noKey(perm.noKey())) {
-                    return noPermission();
+                    noPermission();
                 }
             }
         }
         return joinPoint.proceed();
     }
 
-    public BaseResult<?> noPermission() {
-        return new BaseResult<>(ResultCode.FAILURE_UNAVAILABLE);
+    public void noPermission() {
+        throw new AccessDeniedException(MessagesUtils.message("result.fail.unavailable"));
     }
 }
