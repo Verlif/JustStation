@@ -5,6 +5,7 @@ import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Verlif
@@ -63,12 +64,20 @@ public interface TokenHandler {
     <T extends LoginUser<? extends BaseUser>> void refreshUser(T loginUser);
 
     /**
+     * 获取所有在线用户
+     *
+     * @param query 在线用户查询条件
+     * @return 在线用户列表
+     */
+    <T extends OnlineUserQuery> List<LoginUser<? extends BaseUser>> getOnlineUser(T query);
+
+    /**
      * 获取所有在线用户Token
      *
      * @param query 在线用户查询条件
      * @return 在线用户Token列表
      */
-    <T extends OnlineUserQuery> List<LoginUser<? extends BaseUser>> getOnlineUser(T query);
+    <T extends OnlineUserQuery> Set<String> getLoginKeyList(T query);
 
     /**
      * 从令牌中获取数据声明

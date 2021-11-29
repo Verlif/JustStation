@@ -45,7 +45,7 @@ public class TokenHandlerAto implements TokenHandler {
     @Override
     public boolean logout(String token) {
         if (StringUtils.isNotEmpty(token)) {
-            String userKey = getTokenKey(token);
+            String userKey = getTokenKey(token.replace(tokenConfig.getDomain(), ""));
             return cacheHandler.deleteCacheByMatch(userKey) > 0;
         } else {
             return false;
@@ -87,7 +87,11 @@ public class TokenHandlerAto implements TokenHandler {
     @Override
     public <T extends LoginUser<? extends BaseUser>> void refreshUser(T loginUser) {
         String key = getTokenKey(loginUser.getToken());
-        cacheHandler.setCacheObject(key, loginUser, tokenConfig.getExpireTime(), TimeUnit.MILLISECONDS);
+        if (loginUser.isRemember()) {
+            cacheHandler.setCacheObject(key, loginUser, tokenConfig.getRemember(), TimeUnit.MILLISECONDS);
+        } else {
+            cacheHandler.setCacheObject(key, loginUser, tokenConfig.getExpireTime(), TimeUnit.MILLISECONDS);
+        }
     }
 
     @Override
@@ -103,7 +107,8 @@ public class TokenHandlerAto implements TokenHandler {
         return list;
     }
 
-    private Set<String> getLoginKeyList(OnlineUserQuery query) {
+    @Override
+    public <T extends OnlineUserQuery> Set<String> getLoginKeyList(T query) {
         StringBuilder sb = new StringBuilder();
         if (query.getUserKey() == null) {
             sb.append("*:");

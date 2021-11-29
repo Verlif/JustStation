@@ -8,8 +8,12 @@ import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.TokenService;
+import idea.verlif.juststation.global.util.PrintUtils;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+import java.util.Set;
 
 /**
  * @author Verlif
@@ -28,6 +32,16 @@ public class LoginHandlerAto implements LoginHandler {
     @Override
     public <T extends LoginInfo> LoginResult onLogin(T t) {
         return LoginResult.allowed();
+    }
+
+    @Override
+    public BaseResult<?> loginWithExist(Set<String> tokens) {
+        PrintUtils.println(Arrays.toString(tokens.toArray()));
+        // 删除之前同标志的登录
+        for (String token : tokens) {
+            tokenService.logout(token);
+        }
+        return new OkResult<>();
     }
 
     @Override

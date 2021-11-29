@@ -6,6 +6,8 @@ import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import lombok.Data;
 
+import java.util.Set;
+
 /**
  * 用户登录接口
  *
@@ -23,6 +25,14 @@ public interface LoginHandler {
      * @return 登录结果
      */
     <T extends LoginInfo> LoginResult onLogin(T t);
+
+    /**
+     * 当已存在相同的登录标志时的回调方法
+     *
+     * @param tokens 存在的同标志登录Token
+     * @return 处理结果。当结果为成功时，继续后续登录流程；反之则结束登录流程并返回处理结果。
+     */
+    BaseResult<?> loginWithExist(Set<String> tokens);
 
     /**
      * 用户登录认证后

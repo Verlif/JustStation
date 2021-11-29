@@ -39,8 +39,16 @@ public class TokenConfig {
      */
     private Long expireTime = 3600000L;
 
-    public TokenConfig setExpireTime(Long expireTime) {
+    /**
+     * 记住登录时间（单位：毫秒）
+     */
+    private Long remember = 14515200000L;
+
+    public void setExpireTime(Long expireTime) {
         this.expireTime = expireTime * 60000;
-        return this;
+    }
+
+    public void setRemember(Long remember) {
+        this.remember = remember * 86400000;
     }
 }

@@ -7,3 +7,5 @@ token:
   secret: abcdefghijklmnopqrstuvwxyz
   # Token有效期（单位：分钟）
   expireTime: 60
+  # 记住登录有效时间（单位：小时）
+  remember: 168

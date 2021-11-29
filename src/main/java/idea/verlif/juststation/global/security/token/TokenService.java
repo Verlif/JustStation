@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 /**
  * token验证处理
@@ -67,6 +68,10 @@ public class TokenService {
 
     public <T extends OnlineUserQuery> List<LoginUser<? extends BaseUser>> getOnlineUser(T query) {
         return tokenHandler.getOnlineUser(query);
+    }
+
+    public <T extends OnlineUserQuery> Set<String> getLoginKeyList(T query) {
+        return tokenHandler.getLoginKeyList(query);
     }
 
     /**

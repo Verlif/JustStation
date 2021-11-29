@@ -21,6 +21,9 @@ public class LoginInfo {
     @Schema(name = "登录标识")
     private LoginTag tag;
 
+    @Schema(name = "记住登录")
+    private boolean rememberMe;
+
     public void setTag(LoginTag tag) {
         this.tag = tag;
     }

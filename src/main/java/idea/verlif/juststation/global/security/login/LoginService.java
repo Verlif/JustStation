@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Verlif
@@ -108,10 +109,20 @@ public class LoginService {
                         new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
                 LoginUser<? extends BaseUser> loginUser = (LoginUser<?>) authentication.getPrincipal();
                 loginUser.setLoginTime(new Date());
+                loginUser.setRemember(loginInfo.isRememberMe());
                 // 设定用户登录标志
                 loginUser.setTag(loginInfo.getTag() == null ? LoginTag.LOCAL.getTag() : loginInfo.getTag().getTag());
-                // 删除之前同标志的登录
-                tokenService.logout(loginUser.getToken());
+                // 重复登录检测
+                OnlineUserQuery query = new OnlineUserQuery();
+                query.setUserKey(loginUser.getUsername());
+                query.setLoginTag(LoginTag.getTag(loginUser.getTag()));
+                Set<String> tokens = tokenService.getLoginKeyList(query);
+                if (tokens != null && tokens.size() > 0) {
+                    BaseResult<?> repeatResult = loginHandler.loginWithExist(tokens);
+                    if (!repeatResult.equals(ResultCode.SUCCESS)) {
+                        return repeatResult;
+                    }
+                }
                 // 调用方法
                 loginHandler.loginAfterAuth(loginUser);
                 // 记录并返回登录Token

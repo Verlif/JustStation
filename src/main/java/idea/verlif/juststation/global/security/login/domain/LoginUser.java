@@ -61,6 +61,11 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
      */
     private Set<String> roleSet;
 
+    /**
+     * 是否记住登录
+     */
+    private boolean remember;
+
     public LoginUser() {
     }
 
