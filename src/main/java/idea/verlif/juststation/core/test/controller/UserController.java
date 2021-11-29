@@ -1,6 +1,6 @@
 package idea.verlif.juststation.core.test.controller;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.core.test.domain.req.UpdatePassword;

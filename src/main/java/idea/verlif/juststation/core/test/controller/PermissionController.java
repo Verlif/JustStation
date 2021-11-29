@@ -1,7 +1,7 @@
 package idea.verlif.juststation.core.test.controller;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ext.OkResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.security.permission.Perm;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.token;
 
-import idea.verlif.juststation.core.base.domain.Pageable;
+import idea.verlif.juststation.global.base.domain.Pageable;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
 import io.swagger.v3.oas.annotations.media.Schema;

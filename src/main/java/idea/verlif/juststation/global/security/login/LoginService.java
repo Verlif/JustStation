@@ -1,10 +1,10 @@
 package idea.verlif.juststation.global.security.login;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
-import idea.verlif.juststation.core.base.result.ext.FailResult;
-import idea.verlif.juststation.core.base.result.ext.OkResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.ext.FailResult;
+import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;

@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.file.handler.*;
 import idea.verlif.juststation.global.file.parser.FileParser;
 import org.springframework.beans.factory.annotation.Autowired;

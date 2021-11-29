@@ -1,15 +1,11 @@
 package idea.verlif.juststation.global.file.handler;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
-import idea.verlif.juststation.core.base.result.ext.FailResult;
-import idea.verlif.juststation.core.base.result.ext.OkResult;
-import idea.verlif.juststation.global.file.handler.FileHandler;
-import idea.verlif.juststation.global.file.handler.FileCart;
-import idea.verlif.juststation.global.file.handler.FileInfo;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.ext.FailResult;
+import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.file.FilePathConfig;
-import idea.verlif.juststation.global.file.handler.FileQuery;
 import idea.verlif.juststation.global.util.PageUtils;
 import org.springframework.web.multipart.MultipartFile;
 

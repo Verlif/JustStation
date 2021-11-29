@@ -2,7 +2,7 @@ package idea.verlif.juststation.core.base.biz;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.core.base.domain.Pageable;
+import idea.verlif.juststation.global.base.domain.Pageable;
 
 import java.io.Serializable;
 

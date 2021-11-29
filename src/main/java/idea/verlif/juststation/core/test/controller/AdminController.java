@@ -1,7 +1,7 @@
 package idea.verlif.juststation.core.test.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.query.UserQuery;
 import idea.verlif.juststation.global.security.login.LoginService;

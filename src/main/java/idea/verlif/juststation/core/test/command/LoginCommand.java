@@ -1,6 +1,6 @@
 package idea.verlif.juststation.core.test.command;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;

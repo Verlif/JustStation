@@ -18,10 +18,10 @@ public class LoginInfo {
     @Schema(name = "用户登录密码", required = true)
     private String password;
 
-    @Schema(name = "登录标识")
+    @Schema(name = "登录标识", defaultValue = "local")
     private LoginTag tag;
 
-    @Schema(name = "记住登录")
+    @Schema(name = "记住登录", defaultValue = "false")
     private boolean rememberMe;
 
     public void setTag(LoginTag tag) {
@@ -29,9 +29,6 @@ public class LoginInfo {
     }
 
     public void setTag(String tag) {
-        try {
-            this.tag = LoginTag.getTag(tag);
-        } catch (IllegalArgumentException ignored) {
-        }
+        this.tag = LoginTag.getTag(tag);
     }
 }

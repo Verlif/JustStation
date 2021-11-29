@@ -1,6 +1,6 @@
 package idea.verlif.juststation.core.test.controller;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.log.LogType;
 import idea.verlif.juststation.global.security.login.LoginService;

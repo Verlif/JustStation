@@ -1,8 +1,8 @@
 package idea.verlif.juststation.global.exception;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
-import idea.verlif.juststation.core.base.result.ext.FailResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.util.MessagesUtils;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.dao.DuplicateKeyException;

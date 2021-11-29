@@ -1,7 +1,7 @@
-package idea.verlif.juststation.core.base.result.ext;
+package idea.verlif.juststation.global.base.result.ext;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**

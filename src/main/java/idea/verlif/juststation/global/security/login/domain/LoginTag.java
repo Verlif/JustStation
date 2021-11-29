@@ -37,12 +37,17 @@ public enum LoginTag {
         return tag;
     }
 
+    /**
+     * 获取登录标识
+     *
+     * @param tag 标识名称
+     * @return 登录标识元素；当不存在标识名称对应的元素时，返回{@linkplain LoginTag#LOCAL}
+     */
     public static LoginTag getTag(String tag) {
-        for (LoginTag value : LoginTag.values()) {
-            if (value.tag.equals(tag)) {
-                return value;
-            }
+        try {
+            return LoginTag.valueOf(tag);
+        } catch (IllegalArgumentException ignored) {
+            return LOCAL;
         }
-        return null;
     }
 }

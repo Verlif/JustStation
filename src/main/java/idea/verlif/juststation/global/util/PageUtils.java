@@ -2,7 +2,7 @@ package idea.verlif.juststation.global.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import idea.verlif.juststation.core.base.domain.Pageable;
+import idea.verlif.juststation.global.base.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.login.domain;
 
-import idea.verlif.juststation.core.base.domain.Fillable;
+import idea.verlif.juststation.global.base.domain.Fillable;
 import idea.verlif.juststation.global.validation.Insert;
 import idea.verlif.juststation.global.validation.Update;
 import io.swagger.v3.oas.annotations.media.Schema;

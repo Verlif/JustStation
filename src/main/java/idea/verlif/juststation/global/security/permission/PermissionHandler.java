@@ -8,10 +8,15 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * 接口入参检测
@@ -25,6 +30,9 @@ import java.lang.reflect.Method;
 public class PermissionHandler {
 
     private final PermissionDetector permissionDetector;
+
+    @Autowired
+    private ApplicationContext context;
 
     public PermissionHandler(
             @Autowired(required = false) PermissionDetector permissionDetector) {

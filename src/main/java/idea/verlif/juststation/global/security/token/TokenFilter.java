@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.security.token;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.util.ServletUtils;
 import org.apache.commons.lang3.StringUtils;

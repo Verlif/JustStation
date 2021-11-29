@@ -2,10 +2,10 @@ package idea.verlif.juststation.core.test.biz;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import idea.verlif.juststation.core.base.biz.BaseBizAto;
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
-import idea.verlif.juststation.core.base.result.ext.FailResult;
-import idea.verlif.juststation.core.base.result.ext.OkResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.ext.FailResult;
+import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.core.test.domain.req.UpdatePassword;
 import idea.verlif.juststation.core.test.mapper.UserMapper;

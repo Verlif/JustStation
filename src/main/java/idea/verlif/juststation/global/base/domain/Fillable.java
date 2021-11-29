@@ -1,4 +1,4 @@
-package idea.verlif.juststation.core.base.domain;
+package idea.verlif.juststation.global.base.domain;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

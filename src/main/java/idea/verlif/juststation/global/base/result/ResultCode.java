@@ -1,4 +1,4 @@
-package idea.verlif.juststation.core.base.result;
+package idea.verlif.juststation.global.base.result;
 
 import idea.verlif.juststation.global.util.MessagesUtils;
 

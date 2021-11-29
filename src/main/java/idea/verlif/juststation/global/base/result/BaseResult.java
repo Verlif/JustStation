@@ -1,4 +1,4 @@
-package idea.verlif.juststation.core.base.result;
+package idea.verlif.juststation.global.base.result;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

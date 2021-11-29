@@ -84,8 +84,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 登录与注册接口开放
                 .antMatchers("/login", "/register").anonymous()
-                // 文件访问系统开放（仅限测试）
-                .antMatchers("/file/**").permitAll()
+                // 开放接口
+                .antMatchers("/public/**").permitAll()
+                // 默认文件访问开放
                 .antMatchers("/webjars/**").anonymous()
                 // Swagger文档开放
                 .antMatchers("/swagger-ui/**", "/**/api-docs", "/swagger-resources/**").anonymous()
@@ -101,14 +102,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/*.html",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                );
+        web.ignoring().antMatchers(HttpMethod.GET,
+                "/**/*.html", "/**/*.js", "/**/*.css");
     }
 
     /**

@@ -1,18 +1,16 @@
 package idea.verlif.juststation.global.security.login.impl;
 
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
-import idea.verlif.juststation.core.base.result.ext.OkResult;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.security.login.LoginHandler;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.TokenService;
-import idea.verlif.juststation.global.util.PrintUtils;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -36,7 +34,6 @@ public class LoginHandlerAto implements LoginHandler {
 
     @Override
     public BaseResult<?> loginWithExist(Set<String> tokens) {
-        PrintUtils.println(Arrays.toString(tokens.toArray()));
         // 删除之前同标志的登录
         for (String token : tokens) {
             tokenService.logout(token);

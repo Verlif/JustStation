@@ -1,4 +1,4 @@
-package idea.verlif.juststation.core.base.domain;
+package idea.verlif.juststation.global.base.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

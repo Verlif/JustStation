@@ -2,10 +2,10 @@ package idea.verlif.juststation.core.base.biz;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.core.base.domain.Pageable;
-import idea.verlif.juststation.core.base.result.BaseResult;
-import idea.verlif.juststation.core.base.result.ResultCode;
-import idea.verlif.juststation.core.base.result.ext.OkResult;
+import idea.verlif.juststation.global.base.domain.Pageable;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.juststation.global.base.result.ext.OkResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
