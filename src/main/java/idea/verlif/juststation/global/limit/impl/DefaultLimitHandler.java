@@ -10,7 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认访问限制。<br/>
- * 默认逻辑为限制每分钟的总访问次数。
+ * 默认逻辑为限制每分钟的总访问次数。<br/>
+ * 默认使用内存作为缓存。
  *
  * @author Verlif
  * @version 1.0/

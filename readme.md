@@ -4,6 +4,8 @@
 
 [Github主页](https://github.com/Verlif/JustStation) | [Github WIKI](https://github.com/Verlif/JustStation/wiki) | [Gitee主页](https://gitee.com/Verlif/JustStation) | [Gitee WIKI](https://gitee.com/Verlif/JustStation/wikis/Home)
 
+WIKI上有比较详细的功能实现说明。
+
 ----
 
 ## 说明
@@ -18,7 +20,9 @@
 * 非侵入式开发，项目提供了注解与接口进行功能拓展，大部分场景不需要修改源码。
   实现功能就实现对应接口，并用注解注入即可。
 * 数据库不相关，框架逻辑与数据库结构没有关系，需要登录与权限的功能只需要实现接口逻辑即可。
-* 遵循COC原则（应该吧），所有接口都有内置实现类，不需要特殊处理的话，可以不去重写。
+* 遵循COC原则（应该吧），所有接口都有内置实现类，不需要特殊处理的话，可以直接使用。
+
+----
 
 ## 功能
 
@@ -29,15 +33,120 @@
   * 基于Spring的AOP方式开发。
   * 写在方法上的注解，支持role和key值判定。
   * 更多判定的话，改`Perm`注解和`PermissionHandler`的方法。
+* 接口限流，允许针对不同接口配置不同的限流方案，内置了一个固定窗口限流器。
+  * 基于Spring的AOP方式开发。
+  * 使用`@Limit`注解即可，限流参数只有Key和限流器，与接口无关。
 * 简单的文件管理，支持自定义文件域。
-  * 就包括了文件的上传、下载和生产预览地址（预览是浏览器支持的）
-  * 文件域由枚举类`FileCart`支持
-* 参数检测，使用`validation`进行参数校验
-* 控制台指令，引入了`SpringShell`来允许在控制台输入自定义指令，执行自定义功能
-* 远程URL指令，通过`RemCommad`来编写自定义的远程指令
-* 通知发送模块，发送短信、邮件等的通知接口
-* 基于方法的日志记录，使用`@LogIt`注解来标记需要记录的方法
-  * 内置的逻辑我随便写的，要改的话实现`LogHandler`就行了
+  * 就包括了文件的上传、下载和生产预览地址（预览是浏览器支持的）。
+  * 文件域由枚举类`FileCart`支持。
+* 参数检测，使用`validation`进行参数校验，使用注解完成入参检测。
+* 控制台指令，引入了`SpringShell`来允许在控制台输入自定义指令，执行自定义功能。
+* 远程URL指令，通过`RemCommad`来编写自定义的远程指令。
+* 通知发送模块，发送短信、邮件等的通知接口。
+* 基于方法的日志记录，使用`@LogIt`注解来标记需要记录的方法。
+  * 内置的逻辑我随便写的，要改的话实现`LogHandler`就行了。
+
+----
+
+## 举例
+
+以实现权限接口为例。
+
+1. 实现`PermissionMapper`，完成权限获取接口。内置的实现类只会返回空列表，也就是没有权限。开发者自己实现的时候，需要加上`@Component`注解将其注入Bean池。
+
+    ```java
+    public interface PermissionMapper {
+
+        /**
+        * 通过用户名标识获取角色组
+        *
+        * @param username 用户名
+        * @return 用户所在的角色组
+        */
+        Set<String> getUserRoleSet(String username);
+
+        /**
+        * 通过用户名标识获取关键词组
+        *
+        * @param username 用户名
+        * @return 用户所在的关键词组
+        */
+        Set<String> getUserKeySet(String username);
+    }
+    ```
+
+2. 实现`PermissionDetector`，完成角色判定。内置了一个实现类，逻辑是从登录用户的缓存中获取权限列表，然后判定。缓存中的权限列表是在登录时获取并加载的，具体细节在内置的`UserDetailsService`实现类中。开发者自己实现的时候，需要加上`@Component`注解将其注入Bean池。
+
+    ```java
+    public class PermissionDetectorImpl implements PermissionDetector {
+
+        public PermissionDetectorImpl() {
+        }
+
+        @Override
+        public boolean hasRole(String role) {
+            LoginUser<?> loginUser = SecurityUtils.getLoginUser();
+            if (loginUser == null) {
+                throw new CustomException(MessagesUtils.message("result.fail.login.not"));
+            }
+            return loginUser.getRoleSet().stream().anyMatch(s -> s.equals(role));
+        }
+
+        @Override
+        public boolean hasKey(String key) {
+            LoginUser<?> loginUser = SecurityUtils.getLoginUser();
+            if (loginUser == null) {
+                throw new CustomException(MessagesUtils.message("result.fail.login.not"));
+            }
+            return loginUser.getKeySet().stream().anyMatch(s -> s.equals(key));
+        }
+
+    }
+    ```
+
+3. 使用`Perm`注解标记接口，用就完事儿了。具体逻辑在`PermissionHandler`中，需要修改的话可以改这里。
+
+    ```java
+        /**
+        * 拥有角色[role]时可访问
+        */
+        @Operation(summary = "拥有角色 - user")
+        @Perm(hasRole = "user")
+        @GetMapping("/hasRole")
+        public BaseResult<Object> hasRole() {
+            return new OkResult<>().msg("拥有角色");
+        }
+
+        /**
+        * 拥有关键词[key]时可访问
+        */
+        @Operation(summary = "拥有关键词 - key")
+        @Perm(hasKey = "key")
+        @GetMapping("/hasKey")
+        public BaseResult<Object> hasKey() {
+            return new OkResult<>().msg("拥有关键词");
+        }
+
+        /**
+        * 未拥有角色[role]时可访问
+        */
+        @Operation(summary = "未拥有角色 - user")
+        @Perm(noRole = "user")
+        @GetMapping("/noRole")
+        public BaseResult<Object> noRole() {
+            return new OkResult<>().msg("未拥有角色");
+        }
+
+        /**
+        * 未拥有关键词[key]时可访问
+        */
+        @Operation(summary = "未拥有关键词 - key")
+        @Perm(noKey = "key")
+        @GetMapping("/noKey")
+        public BaseResult<Object> noKey() {
+            return new OkResult<>().msg("未拥有关键词");
+        }
+    ```
 
 ----
 
