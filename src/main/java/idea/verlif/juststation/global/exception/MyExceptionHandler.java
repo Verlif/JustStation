@@ -3,6 +3,7 @@ package idea.verlif.juststation.global.exception;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
+import idea.verlif.juststation.global.limit.LimitException;
 import idea.verlif.juststation.global.util.MessagesUtils;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.dao.DuplicateKeyException;
@@ -27,14 +28,6 @@ import java.util.List;
  */
 @ControllerAdvice
 public class MyExceptionHandler {
-
-    @ResponseBody
-    @ExceptionHandler(value = Throwable.class)
-    public BaseResult<String> exceptionHandler(Throwable e) {
-        e.printStackTrace();
-        return new FailResult<String>().msg(
-                e.getMessage() == null ? MessagesUtils.message("error.default") : e.getMessage());
-    }
 
     @ResponseBody
     @ExceptionHandler(value = AccessDeniedException.class)
@@ -89,5 +82,19 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = DuplicateKeyException.class)
     public BaseResult<?> duplicateKeyException(DuplicateKeyException e) {
         return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(MessagesUtils.message("error.duplicate_key"));
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = LimitException.class)
+    public BaseResult<?> limitException(LimitException e) {
+        return new BaseResult<>(ResultCode.FAILURE_LIMIT);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = Throwable.class)
+    public BaseResult<String> exceptionHandler(Throwable e) {
+        e.printStackTrace();
+        return new FailResult<String>().msg(
+                e.getMessage() == null ? MessagesUtils.message("error.default") : e.getMessage());
     }
 }
