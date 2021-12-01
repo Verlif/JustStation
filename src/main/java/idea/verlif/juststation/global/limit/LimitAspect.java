@@ -25,14 +25,13 @@ import java.util.Map;
 @Component
 public class LimitAspect {
 
-    private final HashMap<String, LimitHandler> handlerMap;
+    private final HashMap<Class<? extends LimitHandler>, LimitHandler> handlerMap;
 
     public LimitAspect(@Autowired ApplicationContext context) {
         handlerMap = new HashMap<>();
         Map<String, LimitHandler> map = context.getBeansOfType(LimitHandler.class);
         for (LimitHandler handler : map.values()) {
-            String key = handler.getClass().getName();
-            handlerMap.put(key, handler);
+            handlerMap.put(handler.getClass(), handler);
         }
     }
 
@@ -48,13 +47,13 @@ public class LimitAspect {
 
         Limit limit = method.getAnnotation(Limit.class);
         if (limit != null) {
-            String key = limit.type().getName();
+            LimitHandler handler = handlerMap.get(limit.handler());
+            if (handler == null) {
+                return new FailResult<>("No such LimitHandler - " + limit.handler());
+            }
+            String key = limit.key();
             if (key.length() == 0) {
                 key = method.getName();
-            }
-            LimitHandler handler = handlerMap.get(key);
-            if (handler == null) {
-                return new FailResult<>("No such LimitHandler - " + limit.type());
             }
             if (handler.arrived(limit.key())) {
                 return joinPoint.proceed();

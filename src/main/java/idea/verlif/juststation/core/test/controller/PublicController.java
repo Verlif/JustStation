@@ -1,5 +1,6 @@
 package idea.verlif.juststation.core.test.controller;
 
+import idea.verlif.juststation.core.test.handler.TestLogHandler;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.limit.Limit;
@@ -19,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/public")
 public class PublicController {
 
-    @LogIt(message = "test")
-    @Limit(key = "test1", type = DefaultLimitHandler.class)
+    @LogIt(message = "test", handler = TestLogHandler.class)
+    @Limit(key = "test1", handler = DefaultLimitHandler.class)
     @GetMapping("/test1")
     public BaseResult<String> test1() {
         return new OkResult<>();
     }
 
     @LogIt(message = "test2")
-    @Limit(key = "test2", type = RandomLimitHandler.class)
+    @Limit(key = "test2", handler = RandomLimitHandler.class)
     @GetMapping("/test2")
     public BaseResult<String> test2() {
         return new OkResult<>(test());

@@ -7,9 +7,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Verlif
@@ -20,13 +23,13 @@ import java.lang.reflect.Method;
 @Component
 public class LogAspect {
 
-    public LogHandler logHandler;
+    public final Map<Class<? extends LogHandler>, LogHandler> handlerMap;
 
-    public LogAspect(@Autowired(required = false) LogHandler logHandler) {
-        if (logHandler == null) {
-            this.logHandler = new LogHandlerAto();
-        } else {
-            this.logHandler = logHandler;
+    public LogAspect(@Autowired ApplicationContext context) {
+        handlerMap = new HashMap<>();
+        Map<String, LogHandler> map = context.getBeansOfType(LogHandler.class);
+        for (LogHandler handler : map.values()) {
+            handlerMap.put(handler.getClass(), handler);
         }
     }
 
@@ -41,12 +44,18 @@ public class LogAspect {
         Method currentMethod = target.getClass().getMethod(signature.getName(), signature.getParameterTypes());
 
         LogIt logIt = currentMethod.getAnnotation(LogIt.class);
-        logHandler.onLog(currentMethod, logIt);
-        Object o = joinPoint.proceed();
-        logHandler.onReturn(currentMethod, logIt, o);
-        return o;
+        LogHandler handler = handlerMap.get(logIt.handler());
+        if (handler != null) {
+            handler.onLog(currentMethod, logIt);
+            Object o = joinPoint.proceed();
+            handler.onReturn(currentMethod, logIt, o);
+            return o;
+        } else {
+            return joinPoint.proceed();
+        }
     }
 
+    @Component
     public static final class LogHandlerAto implements LogHandler {
 
         @Override

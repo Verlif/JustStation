@@ -31,4 +31,9 @@ public @interface LogIt {
      */
     LogLevel level() default LogLevel.INFO;
 
+    /**
+     * 日志处理类
+     */
+    Class<? extends LogHandler> handler() default LogAspect.LogHandlerAto.class;
+
 }

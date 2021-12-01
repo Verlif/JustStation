@@ -23,5 +23,5 @@ public @interface Limit {
     /**
      * 限制处理类
      */
-    Class<? extends LimitHandler> type();
+    Class<? extends LimitHandler> handler();
 }
