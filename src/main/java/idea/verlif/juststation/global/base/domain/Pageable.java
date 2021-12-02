@@ -3,7 +3,6 @@ package idea.verlif.juststation.global.base.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -133,15 +132,8 @@ public abstract class Pageable<T> {
         }
     }
 
-    /**
-     * 获取分页对象
-     */
-    public IPage<T> buildIPage() {
-        return buildPage();
-    }
-
     public Page<T> buildPage() {
-        if (pageNum > 0) {
+        if (pageSize > 0) {
             return new Page<>(pageNum, pageSize);
         } else {
             return new Page<>(pageNum, -1);

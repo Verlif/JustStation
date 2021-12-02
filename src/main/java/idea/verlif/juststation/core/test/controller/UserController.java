@@ -1,9 +1,9 @@
 package idea.verlif.juststation.core.test.controller;
 
-import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.core.test.domain.req.UpdatePassword;
+import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.security.permission.Perm;
 import idea.verlif.juststation.global.validation.Insert;
 import idea.verlif.juststation.global.validation.Update;
@@ -42,28 +42,28 @@ public class UserController {
         return userBiz.register(user);
     }
 
-    @Perm(hasRole = "user")
+    @Perm(hasKey = "user")
     @Operation(summary = "获取个人信息")
     @GetMapping("/self")
     public BaseResult<?> selfInfo() {
         return userBiz.getSelfInfo();
     }
 
-    @Perm(hasRole = "user")
+    @Perm(hasKey = "user")
     @Operation(summary = "获取用户信息")
     @GetMapping("/info")
     public BaseResult<User> getUserInfo(@RequestParam(required = false) String username) {
         return userBiz.getInfoByName(username);
     }
 
-    @Perm(hasRole = "user")
+    @Perm(hasKey = "user")
     @Operation(summary = "修改个人信息")
     @PutMapping
     public BaseResult<?> update(@RequestBody @Validated(Update.class) User user) {
         return userBiz.update(user);
     }
 
-    @Perm(hasRole = "user")
+    @Perm(hasKey = "user")
     @Operation(summary = "修改个人密码")
     @PutMapping("/password")
     public BaseResult<?> updatePassword(@RequestBody UpdatePassword up) {

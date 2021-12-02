@@ -12,11 +12,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Describe: Servlet 工具类
  */
 public class ServletUtils {
+
+    private static final Pattern AGENT_INFO = Pattern.compile("(\\([^(]*\\))");
 
     /**
      * Describe: 获取 HttpServletRequest 对象
@@ -171,43 +175,32 @@ public class ServletUtils {
     }
 
     /**
-     * Describe: Request 浏览器类型
-     * Param: name
-     * Return string
+     * 获取浏览器信息
+     *
+     * @return 浏览器名及版本；可能为null
      */
     public static String getBrowser() {
         String userAgent = getAgent();
-        if (userAgent.contains("Firefox")) {
-            return "火狐浏览器";
-        } else if (userAgent.contains("Chrome")) {
-            return "谷歌浏览器";
-        } else if (userAgent.contains("Trident")) {
-            return "IE 浏览器";
-        } else {
-            return "你用啥浏览器";
+        String[] split = userAgent.split("\\(.*\\)");
+        if (split.length > 1) {
+            return split[split.length - 1].trim();
         }
+        return null;
     }
 
     /**
-     * Describe: Request 访问来源 ( 客户端类型 )
-     * Param: name
-     * Return string
+     * 获取访问来源系统信息
+     *
+     * @return 操作系统及版本；可能为null
      */
     public static String getSystem() {
         String userAgent = getAgent();
-        if (getAgent().toLowerCase().contains("windows")) {
-            return "Windows";
-        } else if (userAgent.toLowerCase().contains("mac")) {
-            return "Mac";
-        } else if (userAgent.toLowerCase().contains("x11")) {
-            return "Unix";
-        } else if (userAgent.toLowerCase().contains("android")) {
-            return "Android";
-        } else if (userAgent.toLowerCase().contains("iphone")) {
-            return "IPhone";
-        } else {
-            return "UnKnown, More-Info: " + userAgent;
+        Matcher m = AGENT_INFO.matcher(userAgent);
+        if (m.find() && m.groupCount() > 0) {
+            String system = m.group(1);
+            return system.substring(1, system.length() - 1);
         }
+        return null;
     }
 
     /**

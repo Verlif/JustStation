@@ -16,13 +16,21 @@ public enum FileCart {
      */
     TEST("test/");
 
+    private static final String SPLIT = "/";
+
     /**
-     * 文件夹名（请注意格式，例如“test/”或“test/awsl/”，以下格式不允许：“/test/”、“test”）
+     * 文件夹名
      */
     private final String Area;
 
     FileCart(String type) {
-        this.Area = type;
+        StringBuilder sb = new StringBuilder();
+        for (String s : type.split(SPLIT)) {
+            if (s.length() > 0) {
+                sb.append(s).append(SPLIT);
+            }
+        }
+        this.Area = sb.toString();
     }
 
     public String getArea() {

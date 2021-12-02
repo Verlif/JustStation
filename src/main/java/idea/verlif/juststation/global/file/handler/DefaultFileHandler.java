@@ -165,6 +165,7 @@ public class DefaultFileHandler implements FileHandler {
                 while ((length = fis.read(b)) > 0) {
                     os.write(b, 0, length);
                 }
+                os.flush();
                 return new OkResult<>();
             } catch (IOException e) {
                 e.printStackTrace();
