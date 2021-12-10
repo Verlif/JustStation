@@ -37,7 +37,12 @@ public abstract class BaseBiz<T, M extends BaseMapper<T>> {
      */
     public abstract T selectOne(Serializable id);
 
-    public BaseResult<?> getList(Pageable<T> query) {
+    public BaseResult<IPage<T>> getPage(Pageable<T> query) {
+        if (query == null) {
+            query = new Pageable<T>() {
+            };
+            query.setPageSize(-1);
+        }
         IPage<T> page = selectPage(query);
         return new OkResult<>(page);
     }

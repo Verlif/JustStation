@@ -36,7 +36,7 @@ public class AdminController {
     @Perm(hasRole = "admin")
     @Operation(summary = "获取用户列表")
     public BaseResult<?> listAllUser(UserQuery query) {
-        return userBiz.getList(query);
+        return userBiz.getPage(query);
     }
 
     @GetMapping("/user/online")

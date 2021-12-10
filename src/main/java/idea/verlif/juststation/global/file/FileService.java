@@ -3,7 +3,8 @@ package idea.verlif.juststation.global.file;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.file.handler.*;
-import idea.verlif.juststation.global.file.parser.FileParser;
+import idea.verlif.juststation.global.file.parser.FileParser4List;
+import idea.verlif.juststation.global.file.parser.FileParser4Single;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,10 +29,12 @@ public class FileService {
     /**
      * 文件解析表
      */
-    private static final HashMap<FileType, FileParser> PARSER_HASH_MAP;
+    private static final HashMap<FileType, FileParser4List> LIST_PARSER_HASH_MAP;
+    private static final HashMap<FileType, FileParser4Single> SINGLE_PARSER_HASH_MAP;
 
     static {
-        PARSER_HASH_MAP = new HashMap<>();
+        LIST_PARSER_HASH_MAP = new HashMap<>();
+        SINGLE_PARSER_HASH_MAP = new HashMap<>();
     }
 
     public FileService(
@@ -78,8 +81,8 @@ public class FileService {
      * @param type   文件标志
      * @param parser 文件解析器
      */
-    public static <T extends FileParser> void register(FileType type, T parser) {
-        PARSER_HASH_MAP.put(type, parser);
+    public static <T extends FileParser4List> void register(FileType type, T parser) {
+        LIST_PARSER_HASH_MAP.put(type, parser);
     }
 
     /**
@@ -88,7 +91,27 @@ public class FileService {
      * @param type 文件标志
      * @return 文件解析器
      */
-    public FileParser getParser(FileType type) {
-        return PARSER_HASH_MAP.get(type);
+    public FileParser4List getListParser(FileType type) {
+        return LIST_PARSER_HASH_MAP.get(type);
+    }
+
+    /**
+     * 注册文件解析器
+     *
+     * @param type   文件标志
+     * @param parser 文件解析器
+     */
+    public static <T extends FileParser4Single> void register(FileType type, T parser) {
+        SINGLE_PARSER_HASH_MAP.put(type, parser);
+    }
+
+    /**
+     * 获取文件解析器
+     *
+     * @param type 文件标志
+     * @return 文件解析器
+     */
+    public FileParser4Single getSingleParser(FileType type) {
+        return SINGLE_PARSER_HASH_MAP.get(type);
     }
 }

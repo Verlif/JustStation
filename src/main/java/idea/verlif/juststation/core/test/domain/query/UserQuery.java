@@ -1,8 +1,8 @@
 package idea.verlif.juststation.core.test.domain.query;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import idea.verlif.juststation.global.base.domain.Pageable;
 import idea.verlif.juststation.core.test.domain.User;
+import idea.verlif.juststation.global.base.domain.Pageable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

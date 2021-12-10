@@ -7,6 +7,7 @@ import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.file.FilePathConfig;
 import idea.verlif.juststation.global.util.PageUtils;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -154,6 +155,8 @@ public class DefaultFileHandler implements FileHandler {
      */
     @Override
     public BaseResult<?> downloadFile(HttpServletResponse response, FileCart fileCart, String type, String fileName) {
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("content-disposition", "attachment; fileName=" + fileName);
         File file = new File(getLocalFile(fileCart, type), fileName);
         if (file.exists()) {
             try (
@@ -168,7 +171,7 @@ public class DefaultFileHandler implements FileHandler {
                 os.flush();
                 return new OkResult<>();
             } catch (IOException e) {
-                e.printStackTrace();
+                PrintUtils.print(e);
                 return new BaseResult<>(ResultCode.FAILURE_FILE_DOWNLOAD);
             }
         } else {
