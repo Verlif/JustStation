@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/11/9 9:11
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/public")
 @Api(tags = "登录与登出")
 public class LoginController {
 
@@ -34,7 +34,7 @@ public class LoginController {
      */
     @LogIt(type = LogType.LOGIN, message = "有人登录啦啦啦")
     @Operation(summary = "登录")
-    @PostMapping
+    @PostMapping("/login")
     public BaseResult<?> login(@RequestBody LoginInfo loginInfo) {
         return loginService.login(loginInfo);
     }

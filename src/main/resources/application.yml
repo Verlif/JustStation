@@ -4,14 +4,19 @@ spring:
   application:
     name: Station
   messages:
+    # 国际化文件存放地址
     basename: i18n/messages
     encoding: utf-8
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+  shell:
+    interactive:
+      # Spring Shell 是否启用
+      enabled: false
 
-###############################---mybatis---#########################
+######################### mybatis #########################
 mybatis-plus:
   mapper-locations: classpath*:mappers/**/*.xml
   configuration:

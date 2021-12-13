@@ -114,7 +114,7 @@ public class LoginService {
                 loginUser.setTag(loginInfo.getTag() == null ? LoginTag.LOCAL.getTag() : loginInfo.getTag().getTag());
                 // 重复登录检测
                 OnlineUserQuery query = new OnlineUserQuery();
-                query.setUserKey(loginUser.getUsername());
+                query.setUsername(loginUser.getUsername());
                 query.setLoginTag(LoginTag.getTag(loginUser.getTag()));
                 Set<String> tokens = tokenService.getLoginKeyList(query);
                 if (tokens != null && tokens.size() > 0) {

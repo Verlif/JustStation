@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.security.login.domain;
 
 import idea.verlif.juststation.global.base.domain.Fillable;
+import idea.verlif.juststation.global.sensible.Sensitive;
 import idea.verlif.juststation.global.validation.Insert;
 import idea.verlif.juststation.global.validation.Update;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,10 +28,9 @@ public class BaseUser implements Serializable, Fillable {
     protected String username;
 
     /**
-     * 用户密码 <br/>
-     * 这里使用了AutoFill注解，避免在传输时将密码传至客户端
+     * 用户密码
      */
-    @AutoFill(value = "", mode = FillMode.ALWAYS)
+    @Sensitive(strategy = Sensitive.Strategy.ALWAYS_NULL)
     @Schema(name = "用户密码")
     @Null(groups = Update.class)
     @Pattern(regexp = "[a-zA-Z0-9,.!@#]{8,24}", groups = Insert.class)

@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 public class OnlineUserQuery extends Pageable<BaseUser> {
 
     @Schema(name = "用户唯一键值")
-    private String userKey;
+    private String username;
 
     @Schema(name = "登录标志")
     private LoginTag loginTag;

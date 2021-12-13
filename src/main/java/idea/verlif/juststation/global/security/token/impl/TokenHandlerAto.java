@@ -65,7 +65,7 @@ public class TokenHandlerAto implements TokenHandler {
             return 0;
         }
         OnlineUserQuery query = new OnlineUserQuery();
-        query.setUserKey(user.getUsername());
+        query.setUsername(user.getUsername());
         Set<String> tokenSet = getLoginKeyList(query);
         int count = 0;
         for (String token : tokenSet) {
@@ -110,10 +110,10 @@ public class TokenHandlerAto implements TokenHandler {
     @Override
     public <T extends OnlineUserQuery> Set<String> getLoginKeyList(T query) {
         StringBuilder sb = new StringBuilder();
-        if (query.getUserKey() == null) {
+        if (query.getUsername() == null) {
             sb.append("*:");
         } else {
-            sb.append(query.getUserKey()).append(":");
+            sb.append(query.getUsername()).append(":");
         }
         if (query.getLoginTag() == null) {
             sb.append("*:");

@@ -51,11 +51,13 @@ public class LimitAspect {
             if (handler == null) {
                 return new FailResult<>("No such LimitHandler - " + limit.handler());
             }
+            // 生成限流Key
             String key = limit.key();
             if (key.length() == 0) {
+                // 未指定Key则取方法名
                 key = method.getName();
             }
-            if (handler.arrived(limit.key())) {
+            if (handler.arrived(key)) {
                 return joinPoint.proceed();
             } else {
                 return new BaseResult<>(ResultCode.FAILURE_LIMIT);

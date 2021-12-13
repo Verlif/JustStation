@@ -110,15 +110,6 @@ public abstract class Pageable<T> {
         return wrapper;
     }
 
-    /**
-     * 返回模糊查询对应的列名
-     *
-     * @return 模糊查询对应的表中列名
-     */
-    protected String nameColumn() {
-        return null;
-    }
-
     @Schema(hidden = true)
     public Integer getPageHead() {
         return (pageNum - 1) * pageSize;

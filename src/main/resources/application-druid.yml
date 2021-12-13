@@ -3,8 +3,8 @@ spring:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
     dynamic:
+      # 连接池的配置信息
       druid:
-        # 连接池的配置信息
         # 初始化大小，最小，最大
         initial-size: 10
         min-idle: 10
@@ -15,6 +15,7 @@ spring:
         timeBetweenEvictionRunsMillis: 30000
         # 配置一个连接在池中最小生存的时间，单位是毫秒
         minEvictableIdleTimeMillis: 300000
+      # 数据库连接信息
       datasource:
         master:
           url: jdbc:mysql://127.0.0.1:3307/just_station?useSSL=false&useUnicode=true&serverTimezone=Hongkong&characterEncoding=utf8&allowPublicKeyRetrieval=true
