@@ -45,6 +45,7 @@ public interface CacheHandler {
      * 删除单个对象
      *
      * @param key 缓存Key值
+     * @return 是否删除成功
      */
     boolean deleteCacheObject(final String key);
 

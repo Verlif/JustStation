@@ -32,7 +32,7 @@ public @interface Sensitive {
     enum Strategy {
 
         /**
-         * 总是填充null
+         * 总是null
          */
         ALWAYS_NULL,
 
