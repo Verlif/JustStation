@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import java.io.IOException;
 
 /**
+ * 序列化脱敏处理器
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/12/13 14:54
