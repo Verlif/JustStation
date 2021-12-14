@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.exception;
+package idea.verlif.juststation.global.security.exception;
 
 /**
  * @author Verlif

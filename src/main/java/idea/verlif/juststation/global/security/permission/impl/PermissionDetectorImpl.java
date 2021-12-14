@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.permission.impl;
 
-import idea.verlif.juststation.global.exception.CustomException;
+import idea.verlif.juststation.global.security.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.permission.PermissionDetector;
 import idea.verlif.juststation.global.util.MessagesUtils;

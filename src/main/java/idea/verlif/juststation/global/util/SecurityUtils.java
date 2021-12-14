@@ -1,9 +1,8 @@
 package idea.verlif.juststation.global.util;
 
-import idea.verlif.juststation.global.exception.CustomException;
+import idea.verlif.juststation.global.security.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
-import idea.verlif.juststation.global.security.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +21,6 @@ public class SecurityUtils {
     private static PasswordEncoder encoder;
 
     public SecurityUtils(
-            @Autowired TokenService tokenService,
             @Autowired(required = false) PasswordEncoder passwordEncoder) {
         if (passwordEncoder == null) {
             encoder = new BCryptPasswordEncoder();

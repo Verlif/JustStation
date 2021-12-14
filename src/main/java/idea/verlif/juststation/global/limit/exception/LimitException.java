@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.limit;
+package idea.verlif.juststation.global.limit.exception;
 
 /**
  * 访问限制错误
