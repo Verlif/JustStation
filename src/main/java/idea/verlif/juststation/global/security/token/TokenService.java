@@ -1,13 +1,12 @@
 package idea.verlif.juststation.global.security.token;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
-import idea.verlif.juststation.global.cache.redis.RedisCache;
+import idea.verlif.juststation.global.cache.mem.MemCache;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.impl.TokenHandlerAto;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
@@ -29,11 +28,10 @@ public class TokenService {
     public TokenService(
             @Autowired TokenConfig tokenConfig,
             @Autowired(required = false) CacheHandler cacheHandler,
-            @Autowired(required = false) TokenHandler tokenHandler,
-            @Autowired RedisTemplate<?, ?> redisTemplate) {
+            @Autowired(required = false) TokenHandler tokenHandler) {
         this.tokenConfig = tokenConfig;
         if (cacheHandler == null) {
-            cacheHandler = new RedisCache(redisTemplate);
+            cacheHandler = new MemCache();
         }
         if (tokenHandler == null) {
             this.tokenHandler = new TokenHandlerAto(tokenConfig, cacheHandler);

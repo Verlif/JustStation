@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.query.UserQuery;
+import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
@@ -32,6 +33,7 @@ public class AdminController {
     @Autowired
     private LoginService loginService;
 
+    @LogIt(message = "获取用户列表")
     @GetMapping("/user/list")
     @Perm(hasRole = "admin")
     @Operation(summary = "获取用户列表")

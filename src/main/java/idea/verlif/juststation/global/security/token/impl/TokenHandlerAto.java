@@ -46,7 +46,7 @@ public class TokenHandlerAto implements TokenHandler {
     public boolean logout(String token) {
         if (StringUtils.isNotEmpty(token)) {
             String userKey = getTokenKey(token.replace(tokenConfig.getDomain(), ""));
-            return cacheHandler.deleteCacheByMatch(userKey) > 0;
+            return cacheHandler.removeByMatch(userKey) > 0;
         } else {
             return false;
         }
@@ -55,7 +55,7 @@ public class TokenHandlerAto implements TokenHandler {
     @Override
     public <T extends LoginUser<? extends BaseUser>> boolean logout(T loginUser) {
         String key = getTokenKey(loginUser.getToken());
-        return cacheHandler.deleteCacheObject(key);
+        return cacheHandler.remove(key);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TokenHandlerAto implements TokenHandler {
         Set<String> tokenSet = getLoginKeyList(query);
         int count = 0;
         for (String token : tokenSet) {
-            if (cacheHandler.deleteCacheObject(token)) {
+            if (cacheHandler.remove(token)) {
                 count++;
             }
         }
@@ -81,16 +81,16 @@ public class TokenHandlerAto implements TokenHandler {
         Claims claims = parseToken(token);
         // 解析对应的权限以及用户信息
         String userKey = (String) claims.get(TokenConfig.TOKEN_NAME);
-        return cacheHandler.getCacheObject(getTokenKey(userKey));
+        return cacheHandler.get(getTokenKey(userKey));
     }
 
     @Override
     public <T extends LoginUser<? extends BaseUser>> void refreshUser(T loginUser) {
         String key = getTokenKey(loginUser.getToken());
         if (loginUser.isRemember()) {
-            cacheHandler.setCacheObject(key, loginUser, tokenConfig.getRemember(), TimeUnit.MILLISECONDS);
+            cacheHandler.put(key, loginUser, tokenConfig.getRemember(), TimeUnit.MILLISECONDS);
         } else {
-            cacheHandler.setCacheObject(key, loginUser, tokenConfig.getExpireTime(), TimeUnit.MILLISECONDS);
+            cacheHandler.put(key, loginUser, tokenConfig.getExpireTime(), TimeUnit.MILLISECONDS);
         }
     }
 
@@ -99,7 +99,7 @@ public class TokenHandlerAto implements TokenHandler {
         Set<String> set = getLoginKeyList(query);
         List<LoginUser<? extends BaseUser>> list = new ArrayList<>();
         for (String s : set) {
-            LoginUser<? extends BaseUser> loginUser = cacheHandler.getCacheObject(s);
+            LoginUser<? extends BaseUser> loginUser = cacheHandler.get(s);
             if (loginUser != null) {
                 list.add(loginUser);
             }

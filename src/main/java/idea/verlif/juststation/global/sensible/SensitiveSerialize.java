@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import idea.verlif.juststation.global.util.PrintUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * 序列化脱敏处理器
@@ -28,18 +30,14 @@ public class SensitiveSerialize extends JsonSerializer<Object> implements Contex
     }
 
     @Override
-    public void serialize(Object s, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        if (sensitive == null) {
-            jsonGenerator.writeObject(s);
-        } else {
-            switch (sensitive.strategy()) {
-                case ALWAYS_VALUE:
-                    jsonGenerator.writeObject(sensitive.value());
-                    break;
-                case ALWAYS_NULL:
-                default:
-                    jsonGenerator.writeNull();
-            }
+    public void serialize(Object s, JsonGenerator generator, SerializerProvider provider) throws IOException {
+        switch (sensitive.strategy()) {
+            case ALWAYS_VALUE:
+                generator.writeObject(sensitive.value());
+                break;
+            case ALWAYS_NULL:
+            default:
+                generator.writeNull();
         }
     }
 
@@ -49,7 +47,15 @@ public class SensitiveSerialize extends JsonSerializer<Object> implements Contex
         if (sensitive != null) {
             return new SensitiveSerialize(sensitive);
         } else {
-            return this;
+            return new DefaultSerialize();
+        }
+    }
+
+    private static class DefaultSerialize extends JsonSerializer<Object> {
+
+        @Override
+        public void serialize(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+            jsonGenerator.writeObject(o);
         }
     }
 }

@@ -1,6 +1,7 @@
 spring:
   profiles:
-    active: druid, token, redis, file, server, email, command
+    # 生效的配置
+    active: druid, token, file, server, email, command
   application:
     name: Station
   messages:

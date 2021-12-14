@@ -1,6 +1,5 @@
 package idea.verlif.juststation.global.cache;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +20,7 @@ public interface CacheHandler {
      * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
-    <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit);
+    <T> void put(final String key, final T value, final long timeout, final TimeUnit timeUnit);
 
     /**
      * 设置有效时间
@@ -39,7 +38,7 @@ public interface CacheHandler {
      * @param key 缓存键值
      * @return 缓存键值对应的数据
      */
-    <T> T getCacheObject(final String key);
+    <T> T get(final String key);
 
     /**
      * 删除单个对象
@@ -47,7 +46,7 @@ public interface CacheHandler {
      * @param key 缓存Key值
      * @return 是否删除成功
      */
-    boolean deleteCacheObject(final String key);
+    boolean remove(final String key);
 
     /**
      * 删除匹配的Key值，行为由用户自定义
@@ -55,7 +54,7 @@ public interface CacheHandler {
      * @param match 匹配词
      * @return 删除的数量
      */
-    int deleteCacheByMatch(final String match);
+    int removeByMatch(final String match);
 
     /**
      * 获取匹配的所有Key值
@@ -65,11 +64,4 @@ public interface CacheHandler {
      */
     Set<String> findKeyByMatch(final String match);
 
-    /**
-     * 获得匹配的对象集合
-     *
-     * @param key 缓存的键值
-     * @return 缓存键值对应的数据集合
-     */
-    <T> List<T> getCacheList(final String key);
 }

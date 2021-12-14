@@ -62,6 +62,10 @@ public class PrintUtils {
         handler.printException(e);
     }
 
+    public static void print(Object o) {
+        handler.println(o);
+    }
+
     /**
      * 打点标记
      */

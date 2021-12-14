@@ -52,7 +52,7 @@ public class RedisCache implements CacheHandler {
      * @param timeUnit 时间颗粒度
      */
     @Override
-    public <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit) {
+    public <T> void put(final String key, final T value, final long timeout, final TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
     }
 
@@ -88,7 +88,7 @@ public class RedisCache implements CacheHandler {
      * @return 缓存键值对应的数据
      */
     @Override
-    public <T> T getCacheObject(final String key) {
+    public <T> T get(final String key) {
         ValueOperations<String, T> operation = redisTemplate.opsForValue();
         return operation.get(key);
     }
@@ -99,13 +99,13 @@ public class RedisCache implements CacheHandler {
      * @param key 缓存Key值
      */
     @Override
-    public boolean deleteCacheObject(final String key) {
+    public boolean remove(final String key) {
         Boolean b = redisTemplate.delete(key);
         return b == null || b;
     }
 
     @Override
-    public int deleteCacheByMatch(String match) {
+    public int removeByMatch(String match) {
         Set<String> keys = redisTemplate.keys(match);
         if (!CollectionUtils.isEmpty(keys)) {
             redisTemplate.delete(keys);
@@ -149,7 +149,6 @@ public class RedisCache implements CacheHandler {
      * @param key 缓存的键值
      * @return 缓存键值对应的数据
      */
-    @Override
     public <T> List<T> getCacheList(final String key) {
         return redisTemplate.opsForList().range(key, 0, -1);
     }

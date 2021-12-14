@@ -39,6 +39,11 @@ public @interface Sensitive {
         /**
          * 总是填充
          */
-        ALWAYS_VALUE
+        ALWAYS_VALUE,
+
+        /**
+         * 不添加属性（暂未生效，请勿使用）
+         */
+        DISAPPEAR
     }
 }
