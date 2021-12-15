@@ -114,10 +114,10 @@ public class ExcelHelper implements FileParser4List {
             if (fieldNameMap.size() > 0) {
                 // 遍历行
                 for (int rIndex = firstRowIndex; rIndex <= lastRowIndex; rIndex++) {
-                    T t = cl.newInstance();
                     // 获取当前行信息
                     Row row = sheet.getRow(rIndex);
                     if (row != null) {
+                        T t = cl.newInstance();
                         // 获取第一格与最后一个编号
                         int firstCellIndex = row.getFirstCellNum();
                         int lastCellIndex = row.getLastCellNum();
@@ -143,8 +143,8 @@ public class ExcelHelper implements FileParser4List {
                                 }
                             }
                         }
+                        list.add(t);
                     }
-                    list.add(t);
                 }
             }
         }
@@ -160,7 +160,8 @@ public class ExcelHelper implements FileParser4List {
      */
     private Map<? extends Integer, ? extends String> buildFieldMap(Row row, Class<?> cl) {
         Iterator<Cell> titleIt = row.cellIterator();
-        HashMap<Integer, String> fieldNameMap = new HashMap<>();
+        HashMap<Integer, String> fieldIndexMap = new HashMap<>();
+        HashMap<String, Field> fieldNameMap = new HashMap<>();
         // 获取类中所有属性
         List<Field> fields = new ArrayList<>();
         Class<?> anoCl = cl;
@@ -168,6 +169,10 @@ public class ExcelHelper implements FileParser4List {
             Collections.addAll(fields, anoCl.getDeclaredFields());
             anoCl = anoCl.getSuperclass();
         } while (anoCl != null);
+        for (Field field : fields) {
+            field.setAccessible(true);
+            fieldNameMap.put(field.getName(), field);
+        }
         boolean get;
         while (titleIt.hasNext()) {
             get = false;
@@ -175,26 +180,21 @@ public class ExcelHelper implements FileParser4List {
             if (cell != null) {
                 for (Field field : fields) {
                     Column column = field.getAnnotation(Column.class);
-                    field.setAccessible(true);
                     if (column != null && cell.toString().equals(column.value())) {
-                        fieldNameMap.put(cell.getColumnIndex(), field.getName());
+                        fieldIndexMap.put(cell.getColumnIndex(), field.getName());
                         get = true;
                         break;
                     }
                 }
                 if (!get) {
-                    try {
-                        Field field = cl.getDeclaredField(cell.toString());
-                        field.setAccessible(true);
-                        if (field.getName().equals(cell.toString())) {
-                            fieldNameMap.put(cell.getColumnIndex(), field.getName());
-                        }
-                    } catch (NoSuchFieldException ignored) {
+                    Field field = fieldNameMap.get(cell.toString());
+                    if (field != null) {
+                        fieldIndexMap.put(cell.getColumnIndex(), field.getName());
                     }
                 }
             }
         }
-        return fieldNameMap;
+        return fieldIndexMap;
     }
 
     /**

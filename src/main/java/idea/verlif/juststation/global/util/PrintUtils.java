@@ -58,12 +58,12 @@ public class PrintUtils {
      *
      * @param e 错误对象
      */
-    public static void print(Exception e) {
-        handler.printException(e);
+    public static void print(Throwable e) {
+        handler.printThrowable(e);
     }
 
-    public static void print(Object o) {
-        handler.println(o);
+    public static void print(CharSequence c) {
+        handler.println(c);
     }
 
     /**
@@ -102,7 +102,7 @@ public class PrintUtils {
          *
          * @param e 错误对象
          */
-        void printException(Exception e);
+        void printThrowable(Throwable e);
     }
 
     /**
@@ -136,7 +136,7 @@ public class PrintUtils {
         }
 
         @Override
-        public void printException(Exception e) {
+        public void printThrowable(Throwable e) {
             e.printStackTrace();
         }
 
