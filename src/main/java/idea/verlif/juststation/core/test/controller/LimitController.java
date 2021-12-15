@@ -7,18 +7,22 @@ import idea.verlif.juststation.global.limit.Limit;
 import idea.verlif.juststation.global.limit.impl.DefaultLimitHandler;
 import idea.verlif.juststation.global.limit.impl.RandomLimitHandler;
 import idea.verlif.juststation.global.log.LogIt;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 访问限制测试
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/11/29 11:30
  */
 @RestController
 @RequestMapping("/public")
-public class PublicController {
+@Api(tags = "访问限制测试")
+public class LimitController {
 
     @LogIt(message = "test", handler = TestLogHandler.class)
     @Limit(key = "test1", handler = DefaultLimitHandler.class)

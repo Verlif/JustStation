@@ -51,7 +51,7 @@ public class LimitAspect {
             if (handler == null) {
                 return new FailResult<>("No such LimitHandler - " + limit.handler());
             }
-            // 生成限流Key
+            // 生成限定Key
             String key = limit.key();
             if (key.length() == 0) {
                 // 未指定Key则取方法名

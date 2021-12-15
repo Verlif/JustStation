@@ -56,6 +56,8 @@ public class EmailCommand extends RemCommand {
 }
 ```
 
+上面的邮件指令是结合了SpringShell的，目前还没有做两者的自动转换处理。
+
 ------
 URL指令可以通过help来获取指令信息
 
@@ -89,6 +91,6 @@ URL指令可以通过help来获取指令信息
 
 ------
 
-## RemCammandController
+## RemCommandController
 
-`RemCammandController`只是一个测试类，用于调用URL指令。对于测试类中的指令接口，可以通过以下格式执行指令`/command/email?params=target@qq.com,这里是标题,这里是内容`。
+`RemCommandController`只是一个测试类，用于调用URL指令。对于测试类中的指令接口，可以通过以下格式执行指令`/command/email?params=target@qq.com,这里是标题,这里是内容`。
