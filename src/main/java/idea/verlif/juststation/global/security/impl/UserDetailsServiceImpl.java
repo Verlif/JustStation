@@ -38,12 +38,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             this.permissionMapper = new PermissionMapper() {
                 @Override
                 public Set<String> getUserRoleSet(String username) {
-                    return Collections.EMPTY_SET;
+                    return Collections.emptySet();
                 }
 
                 @Override
                 public Set<String> getUserKeySet(String username) {
-                    return Collections.EMPTY_SET;
+                    return Collections.emptySet();
                 }
             };
         } else {

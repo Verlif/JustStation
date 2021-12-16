@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.util;
 
 import idea.verlif.juststation.global.security.exception.CustomException;
+import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -8,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 /**
  * 安全服务工具类
@@ -18,6 +21,17 @@ import org.springframework.stereotype.Component;
 public class SecurityUtils {
 
     private static PasswordEncoder encoder;
+
+    /**
+     * 构建访客身份
+     */
+    private static final LoginUser VISITOR = visitor();
+
+    /**
+     * 是否开启访客模式。<br/>
+     * 开启访客模式后，没有用户登录时，会自动启用访客身份作为识别对象。
+     */
+    private static final boolean OPEN_VISITOR = true;
 
     public SecurityUtils(
             @Autowired(required = false) PasswordEncoder passwordEncoder) {
@@ -46,7 +60,7 @@ public class SecurityUtils {
         try {
             Authentication authentication = getAuthentication();
             if (authentication == null) {
-                return null;
+                return OPEN_VISITOR ? VISITOR : null;
             }
             return (LoginUser) authentication.getPrincipal();
         } catch (Exception e) {
@@ -85,5 +99,20 @@ public class SecurityUtils {
 
     public static PasswordEncoder getEncoder() {
         return encoder;
+    }
+
+    /**
+     * 构建访客身份
+     *
+     * @return 访客对象
+     */
+    private static LoginUser visitor() {
+        LoginUser user = new LoginUser();
+        BaseUser baseUser = new BaseUser();
+        baseUser.setUsername("visitor");
+        user.setUser(baseUser);
+        user.setKeySet(Collections.emptySet());
+        user.setRoleSet(Collections.emptySet());
+        return user;
     }
 }
