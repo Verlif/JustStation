@@ -82,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 登录与注册接口开放
-                .antMatchers("/login", "/register").anonymous()
+                .antMatchers("/login", "/**/register").anonymous()
                 // 开放接口
                 .antMatchers("/public/**").permitAll()
                 // 默认文件访问开放

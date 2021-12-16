@@ -5,13 +5,17 @@ import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.file.handler.*;
 import idea.verlif.juststation.global.file.parser.FileParser4List;
 import idea.verlif.juststation.global.file.parser.FileParser4Single;
+import idea.verlif.juststation.global.file.parser.Parser4List;
+import idea.verlif.juststation.global.file.parser.Parser4Single;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Verlif
@@ -38,12 +42,32 @@ public class FileService {
     }
 
     public FileService(
+            @Autowired ApplicationContext appContext,
             @Autowired(required = false) FileHandler fileHandler,
             @Autowired FilePathConfig config) {
         if (fileHandler == null) {
             this.fileHandler = new DefaultFileHandler(config);
         } else {
             this.fileHandler = fileHandler;
+        }
+
+        Map<String, FileParser4List> listMap = appContext.getBeansOfType(FileParser4List.class);
+        for (FileParser4List value : listMap.values()) {
+            Parser4List list = value.getClass().getAnnotation(Parser4List.class);
+            if (list != null) {
+                for (FileType fileType : list.fileType()) {
+                    LIST_PARSER_HASH_MAP.put(fileType, value);
+                }
+            }
+        }
+        Map<String, FileParser4Single> singleMap = appContext.getBeansOfType(FileParser4Single.class);
+        for (FileParser4Single value : singleMap.values()) {
+            Parser4Single list = value.getClass().getAnnotation(Parser4Single.class);
+            if (list != null) {
+                for (FileType fileType : list.fileType()) {
+                    SINGLE_PARSER_HASH_MAP.put(fileType, value);
+                }
+            }
         }
     }
 
@@ -76,16 +100,6 @@ public class FileService {
     }
 
     /**
-     * 注册文件解析器
-     *
-     * @param type   文件标志
-     * @param parser 文件解析器
-     */
-    public static <T extends FileParser4List> void register(FileType type, T parser) {
-        LIST_PARSER_HASH_MAP.put(type, parser);
-    }
-
-    /**
      * 获取文件解析器
      *
      * @param type 文件标志
@@ -93,16 +107,6 @@ public class FileService {
      */
     public FileParser4List getListParser(FileType type) {
         return LIST_PARSER_HASH_MAP.get(type);
-    }
-
-    /**
-     * 注册文件解析器
-     *
-     * @param type   文件标志
-     * @param parser 文件解析器
-     */
-    public static <T extends FileParser4Single> void register(FileType type, T parser) {
-        SINGLE_PARSER_HASH_MAP.put(type, parser);
     }
 
     /**

@@ -34,7 +34,7 @@ public class SecurityUtils {
     public static String getUsername() {
         try {
             return getLoginUser().getUser().getUsername();
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }
     }

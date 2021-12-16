@@ -241,7 +241,11 @@ public class DefaultFileHandler implements FileHandler {
         }
         // 创建备份文件夹
         File backup = getBackFile(dirFile);
-        backup.mkdirs();
+        if (!backup.exists()) {
+            if (!backup.mkdirs()) {
+                return false;
+            }
+        }
         // 备份文件夹存在则开始备份
         if (backup.exists()) {
             // 获取目标文件夹下的所有文件

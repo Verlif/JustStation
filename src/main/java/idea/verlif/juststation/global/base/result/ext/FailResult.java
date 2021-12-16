@@ -20,4 +20,8 @@ public class FailResult<T> extends BaseResult<T> {
         this();
         this.msg = msg;
     }
+
+    public FailResult(ResultCode code) {
+        super(code);
+    }
 }

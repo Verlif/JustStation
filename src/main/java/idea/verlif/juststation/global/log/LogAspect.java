@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * @author Verlif
@@ -51,6 +52,7 @@ public class LogAspect {
             handler.onReturn(currentMethod, logIt, o);
             return o;
         } else {
+            PrintUtils.print(Level.WARNING, currentMethod.getName() + " has not be logged - " + logIt.handler().getSimpleName());
             return joinPoint.proceed();
         }
     }

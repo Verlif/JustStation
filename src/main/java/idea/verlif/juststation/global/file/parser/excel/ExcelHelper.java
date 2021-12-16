@@ -1,12 +1,11 @@
 package idea.verlif.juststation.global.file.parser.excel;
 
-import idea.verlif.juststation.global.file.FileService;
 import idea.verlif.juststation.global.file.FileType;
 import idea.verlif.juststation.global.file.parser.FileParser4List;
+import idea.verlif.juststation.global.file.parser.Parser4List;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -16,11 +15,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
+ * Excel简易处理器 <br/>
+ * 能从一般表格（特指一个sheet表示一类数据）中获取列表数据，或将列表数据导出至表格文件。 <br/>
+ * <p>
+ * 表格数据映射对象可以使用{@linkplain SheetObject}注解进行配置，不添加则进行默认配置。<br/>
+ * 表格中的列名映射属性值可以使用{@linkplain Column}注解进行配置，不添加则进行默认配置。<br/>
+ * <p>
+ * 可以自定义{@linkplain CellHandler}
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/7/16 10:16
  */
-@Component
+@Parser4List(fileType = FileType.EXCEL)
 public class ExcelHelper implements FileParser4List {
 
     /**
@@ -41,7 +48,6 @@ public class ExcelHelper implements FileParser4List {
         } else {
             this.cellHandler = cellHandler;
         }
-        FileService.register(FileType.EXCEL, this);
     }
 
     public void setIgnoreExistFile(boolean ignoreExistFile) {
