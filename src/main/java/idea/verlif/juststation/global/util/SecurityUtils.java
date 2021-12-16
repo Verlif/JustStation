@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.util;
 
 import idea.verlif.juststation.global.security.exception.CustomException;
-import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -43,14 +42,14 @@ public class SecurityUtils {
     /**
      * 获取用户
      **/
-    public static LoginUser<? extends BaseUser> getLoginUser() {
+    public static LoginUser getLoginUser() {
         try {
             Authentication authentication = getAuthentication();
             if (authentication == null) {
                 return null;
             }
-            return (LoginUser<? extends BaseUser>) authentication.getPrincipal();
-        } catch (NullPointerException e) {
+            return (LoginUser) authentication.getPrincipal();
+        } catch (Exception e) {
             PrintUtils.print(e);
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }

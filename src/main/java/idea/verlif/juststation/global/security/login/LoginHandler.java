@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.security.login;
 
 import idea.verlif.juststation.global.base.result.BaseResult;
-import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import lombok.Data;
@@ -39,7 +38,7 @@ public interface LoginHandler {
      *
      * @param t 用户登录信息
      */
-    <T extends LoginUser<? extends BaseUser>> void loginAfterAuth(T t);
+    <T extends LoginUser> void loginAfterAuth(T t);
 
     /**
      * 退出当前用户登录

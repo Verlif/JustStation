@@ -18,10 +18,9 @@ public interface TokenHandler {
      * 登录用户记录
      *
      * @param loginUser 登录用户
-     * @param <T>       登录用户泛型，需要LogInfo或其子类
      * @return Token
      */
-    <T extends LoginUser<? extends BaseUser>> String loginUser(T loginUser);
+    String loginUser(LoginUser loginUser);
 
     /**
      * 退出登录
@@ -35,10 +34,9 @@ public interface TokenHandler {
      * 退出登录
      *
      * @param loginUser 需要退出登录的登录用户信息
-     * @param <T>       登录用户泛型，需要LoginUser或其子类
      * @return 是否退出成功
      */
-    <T extends LoginUser<? extends BaseUser>> boolean logout(T loginUser);
+    boolean logout(LoginUser loginUser);
 
     /**
      * 登出所有设备
@@ -53,15 +51,14 @@ public interface TokenHandler {
      * @param token 用户Token
      * @return 登录用户信息
      */
-    <T extends LoginUser<? extends BaseUser>> T getUserByToken(String token);
+    LoginUser getUserByToken(String token);
 
     /**
      * 刷新用户信息
      *
      * @param loginUser 登录用户信息
-     * @param <T>       登录用户泛型，需要LoginUser或其子类
      */
-    <T extends LoginUser<? extends BaseUser>> void refreshUser(T loginUser);
+    void refreshUser(LoginUser loginUser);
 
     /**
      * 获取所有在线用户
@@ -69,7 +66,7 @@ public interface TokenHandler {
      * @param query 在线用户查询条件
      * @return 在线用户列表
      */
-    <T extends OnlineUserQuery> List<LoginUser<? extends BaseUser>> getOnlineUser(T query);
+    List<LoginUser> getOnlineUser(OnlineUserQuery query);
 
     /**
      * 获取所有在线用户Token
@@ -77,7 +74,7 @@ public interface TokenHandler {
      * @param query 在线用户查询条件
      * @return 在线用户Token列表
      */
-    <T extends OnlineUserQuery> Set<String> getLoginKeyList(T query);
+    Set<String> getLoginKeyList(OnlineUserQuery query);
 
     /**
      * 从令牌中获取数据声明

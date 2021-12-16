@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @date 2021/11/10 11:27
  */
 @Component
-public class BaseUserCollectorImpl<T> implements BaseUserCollector<T> {
+public class BaseUserCollectorImpl<T> implements BaseUserCollector {
 
     @Autowired
     private UserMapper userMapper;

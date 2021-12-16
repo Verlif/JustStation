@@ -1,7 +1,11 @@
 package idea.verlif.juststation.global.security.permission;
 
+import idea.verlif.juststation.global.security.exception.CustomException;
+import idea.verlif.juststation.global.security.login.domain.BaseUser;
+import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.permission.impl.PermissionDetectorImpl;
 import idea.verlif.juststation.global.util.MessagesUtils;
+import idea.verlif.juststation.global.util.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -55,23 +59,27 @@ public class PermissionHandler {
 
         Perm perm = currentMethod.getAnnotation(Perm.class);
         if (perm != null) {
+            LoginUser user = SecurityUtils.getLoginUser();
+            if (user == null) {
+                throw new CustomException(MessagesUtils.message("result.fail.login.not"));
+            }
             if (perm.hasKey().length() > 0) {
-                if (!permissionDetector.hasKey(perm.hasKey())) {
+                if (!permissionDetector.hasKey(user, perm.hasKey())) {
                     noPermission();
                 }
             }
             if (perm.hasRole().length() > 0) {
-                if (!permissionDetector.hasRole(perm.hasRole())) {
+                if (!permissionDetector.hasRole(user, perm.hasRole())) {
                     noPermission();
                 }
             }
             if (perm.noRole().length() > 0) {
-                if (!permissionDetector.noRole(perm.noRole())) {
+                if (!permissionDetector.noRole(user, perm.noRole())) {
                     noPermission();
                 }
             }
             if (perm.noKey().length() > 0) {
-                if (!permissionDetector.noKey(perm.noKey())) {
+                if (!permissionDetector.noKey(user, perm.noKey())) {
                     noPermission();
                 }
             }

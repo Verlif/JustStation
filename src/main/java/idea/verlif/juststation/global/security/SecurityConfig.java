@@ -18,7 +18,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.filter.CorsFilter;
 
 /**
@@ -96,8 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions().disable()
                 .and()
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsFilter, TokenFilter.class)
-                .addFilterBefore(corsFilter, LogoutFilter.class);
+                .addFilterBefore(corsFilter, TokenFilter.class);
     }
 
     @Override

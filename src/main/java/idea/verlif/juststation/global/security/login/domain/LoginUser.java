@@ -15,7 +15,7 @@ import java.util.Set;
  * @author Verlif
  */
 @Data
-public class LoginUser<T extends BaseUser> implements UserDetails {
+public class LoginUser implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
     /**
      * 用户信息
      */
-    private T user;
+    private BaseUser user;
 
     /**
      * 用户拥有的关键词组
@@ -69,7 +69,7 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
     public LoginUser() {
     }
 
-    public LoginUser(T user) {
+    public LoginUser(BaseUser user) {
         this.user = user;
     }
 
@@ -80,7 +80,7 @@ public class LoginUser<T extends BaseUser> implements UserDetails {
      * @param roleSet 角色组
      * @return 当前的登录对象
      */
-    public LoginUser<T> withPermission(Set<String> keySet, Set<String> roleSet) {
+    public LoginUser withPermission(Set<String> keySet, Set<String> roleSet) {
         this.keySet = keySet;
         this.roleSet = roleSet;
         return this;

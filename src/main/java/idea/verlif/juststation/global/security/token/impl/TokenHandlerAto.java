@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.security.token.impl;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
-import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.OnlineUserQuery;
 import idea.verlif.juststation.global.security.token.TokenConfig;
@@ -31,7 +30,7 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public <T extends LoginUser<? extends BaseUser>> String loginUser(T loginUser) {
+    public String loginUser(LoginUser loginUser) {
         // 生成登录随机Code
         loginUser.setCode(UUID.randomUUID().toString());
         // 刷新用户信息
@@ -53,14 +52,14 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public <T extends LoginUser<? extends BaseUser>> boolean logout(T loginUser) {
+    public boolean logout(LoginUser loginUser) {
         String key = getTokenKey(loginUser.getToken());
         return cacheHandler.remove(key);
     }
 
     @Override
     public int logoutAll() {
-        LoginUser<?> user = SecurityUtils.getLoginUser();
+        LoginUser user = SecurityUtils.getLoginUser();
         if (user == null) {
             return 0;
         }
@@ -77,7 +76,7 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public <T extends LoginUser<? extends BaseUser>> T getUserByToken(String token) {
+    public LoginUser getUserByToken(String token) {
         Claims claims = parseToken(token);
         // 解析对应的权限以及用户信息
         String userKey = (String) claims.get(TokenConfig.TOKEN_NAME);
@@ -85,7 +84,7 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public <T extends LoginUser<? extends BaseUser>> void refreshUser(T loginUser) {
+    public void refreshUser(LoginUser loginUser) {
         String key = getTokenKey(loginUser.getToken());
         if (loginUser.isRemember()) {
             cacheHandler.put(key, loginUser, tokenConfig.getRemember(), TimeUnit.MILLISECONDS);
@@ -95,11 +94,11 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public <T extends OnlineUserQuery> List<LoginUser<? extends BaseUser>> getOnlineUser(T query) {
+    public List<LoginUser> getOnlineUser(OnlineUserQuery query) {
         Set<String> set = getLoginKeyList(query);
-        List<LoginUser<? extends BaseUser>> list = new ArrayList<>();
+        List<LoginUser> list = new ArrayList<>();
         for (String s : set) {
-            LoginUser<? extends BaseUser> loginUser = cacheHandler.get(s);
+            LoginUser loginUser = cacheHandler.get(s);
             if (loginUser != null) {
                 list.add(loginUser);
             }
@@ -108,7 +107,7 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public <T extends OnlineUserQuery> Set<String> getLoginKeyList(T query) {
+    public Set<String> getLoginKeyList(OnlineUserQuery query) {
         StringBuilder sb = new StringBuilder();
         if (query.getUsername() == null) {
             sb.append("*:");

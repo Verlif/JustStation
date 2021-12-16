@@ -9,7 +9,7 @@ import idea.verlif.juststation.global.security.login.domain.BaseUser;
  * @version 1.0
  * @date 2021/11/9 12:26
  */
-public interface BaseUserCollector<T> {
+public interface BaseUserCollector {
 
     /**
      * 获取基础用户信息

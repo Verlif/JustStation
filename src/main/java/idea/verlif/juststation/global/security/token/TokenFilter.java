@@ -46,7 +46,7 @@ public class TokenFilter extends OncePerRequestFilter {
             ServletUtils.sendResult(response, new BaseResult<>(ResultCode.FAILURE_TOKEN));
             return;
         }
-        LoginUser<?> loginUser = tokenService.getUserByToken(token);
+        LoginUser loginUser = tokenService.getUserByToken(token);
         //刷新token过期时间
         if (loginUser != null) {
             // 填充本次的登录用户信息

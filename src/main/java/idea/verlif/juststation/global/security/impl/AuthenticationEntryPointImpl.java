@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.security.login;
+package idea.verlif.juststation.global.security.impl;
 
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
@@ -24,7 +24,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
         // 验证用户是否登录，这里采用判定token的方式
-        LoginUser<?> loginUser = SecurityUtils.getLoginUser();
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         if (loginUser == null) {
             ServletUtils.sendResult(response, new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN));
         } else {

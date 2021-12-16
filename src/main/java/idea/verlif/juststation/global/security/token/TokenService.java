@@ -2,7 +2,6 @@ package idea.verlif.juststation.global.security.token;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
 import idea.verlif.juststation.global.cache.mem.MemCache;
-import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.impl.TokenHandlerAto;
 import io.jsonwebtoken.Claims;
@@ -40,7 +39,7 @@ public class TokenService {
         }
     }
 
-    public <T extends LoginUser<? extends BaseUser>> String loginUser(T loginUser) {
+    public String loginUser(LoginUser loginUser) {
         return tokenHandler.loginUser(loginUser);
     }
 
@@ -48,7 +47,7 @@ public class TokenService {
         return tokenHandler.logout(token);
     }
 
-    public <T extends LoginUser<? extends BaseUser>> boolean logout(T loginUser) {
+    public boolean logout(LoginUser loginUser) {
         return tokenHandler.logout(loginUser);
     }
 
@@ -56,15 +55,15 @@ public class TokenService {
         return tokenHandler.logoutAll();
     }
 
-    public <T extends LoginUser<? extends BaseUser>> T getUserByToken(String token) {
+    public LoginUser getUserByToken(String token) {
         return tokenHandler.getUserByToken(token);
     }
 
-    public <T extends LoginUser<? extends BaseUser>> void refreshUser(T loginUser) {
+    public void refreshUser(LoginUser loginUser) {
         tokenHandler.refreshUser(loginUser);
     }
 
-    public <T extends OnlineUserQuery> List<LoginUser<? extends BaseUser>> getOnlineUser(T query) {
+    public List<LoginUser> getOnlineUser(OnlineUserQuery query) {
         return tokenHandler.getOnlineUser(query);
     }
 

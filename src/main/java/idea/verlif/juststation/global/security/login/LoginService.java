@@ -5,7 +5,6 @@ import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
@@ -93,8 +92,8 @@ public class LoginService {
      * @param query 查询条件
      * @return 在线用户信息
      */
-    public BaseResult<IPage<LoginUser<? extends BaseUser>>> getOnlineUser(OnlineUserQuery query) {
-        List<LoginUser<? extends BaseUser>> set = tokenService.getOnlineUser(query);
+    public BaseResult<IPage<LoginUser>> getOnlineUser(OnlineUserQuery query) {
+        List<LoginUser> set = tokenService.getOnlineUser(query);
         return new OkResult<>(PageUtils.page(set, query));
     }
 
@@ -107,7 +106,7 @@ public class LoginService {
                 // 该方法会去调用UserDetailsService#loadUserByUsername(String)方法，请在该方法中实现用户登录验证
                 authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
-                LoginUser<? extends BaseUser> loginUser = (LoginUser<?>) authentication.getPrincipal();
+                LoginUser loginUser = (LoginUser) authentication.getPrincipal();
                 loginUser.setLoginTime(new Date());
                 loginUser.setRemember(loginInfo.isRememberMe());
                 // 设定用户登录标志

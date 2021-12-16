@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -20,14 +19,14 @@ import java.util.Set;
  * @author Verlif
  */
 @Service
-public class UserDetailsServiceImpl<T> implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final BaseUserCollector<T> userMapper;
+    private final BaseUserCollector userMapper;
 
     private final PermissionMapper permissionMapper;
 
     public UserDetailsServiceImpl(
-            @Autowired(required = false) BaseUserCollector<T> userMapper,
+            @Autowired(required = false) BaseUserCollector userMapper,
             @Autowired(required = false) PermissionMapper permissionMapper) {
         if (userMapper == null) {
             this.userMapper = username -> null;
@@ -68,7 +67,7 @@ public class UserDetailsServiceImpl<T> implements UserDetailsService {
      * @return 登录用户信息
      */
     private UserDetails createLoginUser(BaseUser user) {
-        return new LoginUser<>(user).withPermission(
+        return new LoginUser(user).withPermission(
                 permissionMapper.getUserKeySet(user.getUsername()),
                 permissionMapper.getUserRoleSet(user.getUsername()));
     }

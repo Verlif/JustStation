@@ -1,9 +1,9 @@
 package idea.verlif.juststation.core.test.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.core.test.biz.UserBiz;
 import idea.verlif.juststation.core.test.domain.query.UserQuery;
+import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
@@ -44,7 +44,7 @@ public class AdminController {
     @GetMapping("/user/online")
     @Perm(hasRole = "admin")
     @Operation(summary = "获取所有在线用户列表")
-    public BaseResult<IPage<LoginUser<? extends BaseUser>>> listOnlineUser(OnlineUserQuery query) {
+    public BaseResult<IPage<LoginUser>> listOnlineUser(OnlineUserQuery query) {
         return loginService.getOnlineUser(query);
     }
 

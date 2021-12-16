@@ -1,10 +1,7 @@
 package idea.verlif.juststation.global.security.permission.impl;
 
-import idea.verlif.juststation.global.security.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.permission.PermissionDetector;
-import idea.verlif.juststation.global.util.MessagesUtils;
-import idea.verlif.juststation.global.util.SecurityUtils;
 
 /**
  * @author Verlif
@@ -17,21 +14,13 @@ public class PermissionDetectorImpl implements PermissionDetector {
     }
 
     @Override
-    public boolean hasRole(String role) {
-        LoginUser<?> loginUser = SecurityUtils.getLoginUser();
-        if (loginUser == null) {
-            throw new CustomException(MessagesUtils.message("result.fail.login.not"));
-        }
-        return loginUser.getRoleSet().stream().anyMatch(s -> s.equals(role));
+    public boolean hasRole(LoginUser user, String role) {
+        return user.getRoleSet().stream().anyMatch(s -> s.equals(role));
     }
 
     @Override
-    public boolean hasKey(String key) {
-        LoginUser<?> loginUser = SecurityUtils.getLoginUser();
-        if (loginUser == null) {
-            throw new CustomException(MessagesUtils.message("result.fail.login.not"));
-        }
-        return loginUser.getKeySet().stream().anyMatch(s -> s.equals(key));
+    public boolean hasKey(LoginUser user, String key) {
+        return user.getKeySet().stream().anyMatch(s -> s.equals(key));
     }
 
 }
