@@ -35,7 +35,7 @@ public class SecurityUtils {
     public static String getUsername() {
         try {
             return getLoginUser().getUser().getUsername();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }
     }
@@ -50,7 +50,7 @@ public class SecurityUtils {
                 return null;
             }
             return (LoginUser<? extends BaseUser>) authentication.getPrincipal();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             PrintUtils.print(e);
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }

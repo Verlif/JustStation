@@ -20,11 +20,6 @@ import java.util.*;
 @Rci(key = {"help", "h"}, description = "帮助")
 public class HelpCommand extends RemCommand {
 
-    /**
-     * 排版间距
-     */
-    private static final int LEFT = 30;
-
     @Autowired
     private ApplicationContext applicationContext;
 

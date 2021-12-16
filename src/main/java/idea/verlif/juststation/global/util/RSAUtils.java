@@ -14,8 +14,6 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Verlif
@@ -23,8 +21,6 @@ import java.util.logging.Logger;
  * @date 2021/11/12 15:21
  */
 public class RSAUtils {
-
-    private static final Logger LOGGER = Logger.getLogger(RSAUtils.class.getSimpleName());
 
     /**
      * 加密算法 - RSA
@@ -67,7 +63,7 @@ public class RSAUtils {
         try {
             keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.log(Level.SEVERE, "无法生成密钥工具，没有找到对应的算法 - " + KEY_ALGORITHM);
+            PrintUtils.print(e);
         }
     }
 
