@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2021/7/13 14:57
  */
 @Configuration
-@ConfigurationProperties(prefix = "email")
+@ConfigurationProperties(prefix = "station.email")
 public class EmailConfig {
 
     /**

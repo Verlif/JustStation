@@ -55,8 +55,8 @@ public class LoginService {
      *
      * @return 登出结果
      */
-    public BaseResult<?> logoutAll() {
-        int count = tokenService.logoutAll();
+    public BaseResult<?> logoutAll(String username) {
+        int count = tokenService.logoutAll(username);
         if (count > 0) {
             return new OkResult<>().msg(count);
         } else {
@@ -78,12 +78,12 @@ public class LoginService {
     /**
      * 强退登录用户
      *
-     * @param userName 用户名
+     * @param username 用户名
      * @param tag      登录标识
      * @return 强退结果
      */
-    public BaseResult<?> logoutUser(String userName, LoginTag tag) {
-        return logoutUser(LoginUser.getToken(userName, tag == null ? "*" : tag.getTag(), "*"));
+    public BaseResult<?> logoutUser(String username, LoginTag tag) {
+        return logoutUser(LoginUser.getToken(username, tag == null ? "*" : tag.getTag(), "*"));
     }
 
     /**

@@ -81,7 +81,7 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
             BaseResult<?> result = update(user);
             // 密码修改成功后，强制退出当前用户所有登录
             if (result.equals(ResultCode.SUCCESS)) {
-                loginService.logoutAll();
+                loginService.logoutAll(user.getUsername());
             }
             return result;
         }

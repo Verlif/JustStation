@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "管理员接口")
 @RestController
 @RequestMapping("/admin")
+@Perm(hasRole = "admin")
 public class AdminController {
 
     @Autowired
@@ -35,21 +36,18 @@ public class AdminController {
 
     @LogIt(message = "获取用户列表")
     @GetMapping("/user/list")
-    @Perm(hasRole = "admin")
     @Operation(summary = "获取用户列表")
     public BaseResult<?> listAllUser(UserQuery query) {
         return userBiz.getPage(query);
     }
 
     @GetMapping("/user/online")
-    @Perm(hasRole = "admin")
     @Operation(summary = "获取所有在线用户列表")
     public BaseResult<IPage<LoginUser>> listOnlineUser(OnlineUserQuery query) {
         return loginService.getOnlineUser(query);
     }
 
     @PostMapping("/logout")
-    @Perm(hasRole = "admin")
     @Operation(summary = "强退在线用户")
     public BaseResult<?> logoutUser(
             @RequestParam @Parameter(description = "用户名", required = true) String username,

@@ -1,6 +1,5 @@
 package idea.verlif.juststation.global.security.token;
 
-import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;
 
@@ -41,9 +40,10 @@ public interface TokenHandler {
     /**
      * 登出所有设备
      *
+     * @param username 用户名
      * @return 登出的数量
      */
-    int logoutAll();
+    int logoutAll(String username);
 
     /**
      * 通过Token获取登录用户信息

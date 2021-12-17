@@ -58,13 +58,9 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public int logoutAll() {
-        LoginUser user = SecurityUtils.getLoginUser();
-        if (user == null) {
-            return 0;
-        }
+    public int logoutAll(String username) {
         OnlineUserQuery query = new OnlineUserQuery();
-        query.setUsername(user.getUsername());
+        query.setUsername(username);
         Set<String> tokenSet = getLoginKeyList(query);
         int count = 0;
         for (String token : tokenSet) {

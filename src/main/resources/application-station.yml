@@ -1,0 +1,38 @@
+station:
+  # Token配置
+  token:
+    # 请求header中的Token属性名
+    header: Authorization
+    # TokenKey命名头
+    domain: 'station:token:'
+    # Token密钥
+    secret: abcdefghijklmnopqrstuvwxyz
+    # Token有效期（单位：分钟）
+    expireTime: 60
+    # 记住登录有效时间（单位：小时）
+    remember: 168
+  # 文件配置
+  file:
+    path:
+      # 文件系统根路径
+      main: E:/test/
+  #Email配置
+  email:
+    # 是否开启debug模式
+    debug: true
+    # 邮件服务器主机地址
+    host:
+    # 邮件服务器端口
+    port:
+    # 邮件服务器协议
+    protocol:
+    # 发件邮箱地址
+    email:
+    # 发件邮箱授权密码
+    password:
+  # URL远程指令配置
+  command:
+    # 远程指令允许名单，当存在值时会使屏蔽名单无效化
+    allowed:
+    # 远程指令屏蔽名单
+    blocked:

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "file.path")
+@ConfigurationProperties(prefix = "station.file.path")
 public class FilePathConfig {
 
     public static final String TAG = "/file/";

@@ -5,6 +5,7 @@ import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.log.LogType;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
+import idea.verlif.juststation.global.security.permission.Perm;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class LoginController {
      */
     @Operation(summary = "登出")
     @PostMapping("/logout")
+    @Perm(hasRole = "user")
     public BaseResult<?> logout() {
         return loginService.logout();
     }

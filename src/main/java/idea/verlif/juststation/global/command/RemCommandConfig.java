@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "command")
+@ConfigurationProperties(prefix = "station.command")
 public class RemCommandConfig {
 
     /**

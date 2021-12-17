@@ -4,6 +4,7 @@ import idea.verlif.juststation.global.cache.CacheHandler;
 import idea.verlif.juststation.global.cache.mem.MemCache;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.security.token.impl.TokenHandlerAto;
+import idea.verlif.juststation.global.util.SecurityUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,8 +52,8 @@ public class TokenService {
         return tokenHandler.logout(loginUser);
     }
 
-    public int logoutAll() {
-        return tokenHandler.logoutAll();
+    public int logoutAll(String username) {
+        return tokenHandler.logoutAll(username);
     }
 
     public LoginUser getUserByToken(String token) {
