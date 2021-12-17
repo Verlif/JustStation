@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author ruoyi
  **/
+@Component
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedisCache implements CacheHandler {
 

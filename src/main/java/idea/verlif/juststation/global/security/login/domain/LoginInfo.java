@@ -1,16 +1,19 @@
 package idea.verlif.juststation.global.security.login.domain;
 
+import idea.verlif.juststation.global.base.domain.WithKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author Verlif
  * @version 1.0
  * @date 2021/11/12 9:34
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(name = "用户登录信息", description = "用于登录的用户名及密码")
-public class LoginInfo {
+public class LoginInfo extends WithKey {
 
     @Schema(name = "用户登录名", required = true)
     private String username;

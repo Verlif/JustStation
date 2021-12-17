@@ -2,7 +2,6 @@ package idea.verlif.juststation.global.security.permission;
 
 import idea.verlif.juststation.global.security.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
-import idea.verlif.juststation.global.security.permission.impl.PermissionDetectorImpl;
 import idea.verlif.juststation.global.util.MessagesUtils;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -28,18 +27,13 @@ import java.lang.reflect.Method;
 @Component
 public class PermissionHandler {
 
-    private final PermissionDetector permissionDetector;
+    @Autowired
+    private PermissionDetector permissionDetector;
 
     @Autowired
     private ApplicationContext context;
 
-    public PermissionHandler(
-            @Autowired(required = false) PermissionDetector permissionDetector) {
-        if (permissionDetector == null) {
-            this.permissionDetector = new PermissionDetectorImpl();
-        } else {
-            this.permissionDetector = permissionDetector;
-        }
+    public PermissionHandler() {
     }
 
     @Around("@annotation(idea.verlif.juststation.global.security.permission.Perm) || @within(idea.verlif.juststation.global.security.permission.Perm)")

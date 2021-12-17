@@ -1,10 +1,6 @@
 package idea.verlif.juststation.global.security.token;
 
-import idea.verlif.juststation.global.cache.CacheHandler;
-import idea.verlif.juststation.global.cache.mem.MemCache;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
-import idea.verlif.juststation.global.security.token.impl.TokenHandlerAto;
-import idea.verlif.juststation.global.util.SecurityUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,22 +18,13 @@ import java.util.Set;
 @Component
 public class TokenService {
 
-    private final TokenConfig tokenConfig;
-    private final TokenHandler tokenHandler;
+    @Autowired
+    private TokenConfig tokenConfig;
 
-    public TokenService(
-            @Autowired TokenConfig tokenConfig,
-            @Autowired(required = false) CacheHandler cacheHandler,
-            @Autowired(required = false) TokenHandler tokenHandler) {
-        this.tokenConfig = tokenConfig;
-        if (cacheHandler == null) {
-            cacheHandler = new MemCache();
-        }
-        if (tokenHandler == null) {
-            this.tokenHandler = new TokenHandlerAto(tokenConfig, cacheHandler);
-        } else {
-            this.tokenHandler = tokenHandler;
-        }
+    @Autowired
+    private TokenHandler tokenHandler;
+
+    public TokenService() {
     }
 
     public String loginUser(LoginUser loginUser) {

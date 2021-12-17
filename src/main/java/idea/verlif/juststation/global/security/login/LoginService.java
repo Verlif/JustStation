@@ -5,10 +5,11 @@ import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
+import idea.verlif.juststation.global.rsa.RsaServer;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
-import idea.verlif.juststation.global.security.login.impl.LoginHandlerAto;
+import idea.verlif.juststation.global.security.permission.PermissionMapper;
 import idea.verlif.juststation.global.security.token.OnlineUserQuery;
 import idea.verlif.juststation.global.security.token.TokenService;
 import idea.verlif.juststation.global.util.PageUtils;
@@ -32,22 +33,22 @@ import java.util.Set;
 @Service
 public class LoginService {
 
-    private final LoginHandler loginHandler;
+    @Autowired
+    private LoginHandler loginHandler;
 
-    private final TokenService tokenService;
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    @Autowired
+    private RsaServer rsaServer;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public LoginService(
-            @Autowired TokenService tokenService,
-            @Autowired(required = false) LoginHandler loginHandler) {
-        this.tokenService = tokenService;
-        if (loginHandler == null) {
-            this.loginHandler = new LoginHandlerAto(tokenService);
-        } else {
-            this.loginHandler = loginHandler;
-        }
+    public LoginService() {
     }
 
     /**
@@ -100,6 +101,8 @@ public class LoginService {
     public <T extends LoginInfo> BaseResult<?> login(T loginInfo) {
         LoginHandler.LoginResult result = loginHandler.onLogin(loginInfo);
         if (result.allow) {
+            // 解密用户密码
+            loginInfo.setPassword(rsaServer.decryptByPrivateKey(loginInfo.getKeyId(), loginInfo.getPassword()));
             // 用户验证
             Authentication authentication;
             try {
@@ -107,6 +110,9 @@ public class LoginService {
                 authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
                 LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+                loginUser.withPermission(
+                        permissionMapper.getUserKeySet(loginUser.getUsername()),
+                        permissionMapper.getUserRoleSet(loginUser.getUsername()));
                 loginUser.setLoginTime(new Date());
                 loginUser.setRemember(loginInfo.isRememberMe());
                 // 设定用户登录标志

@@ -10,9 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Set;
-
 /**
  * 用户验证处理
  *
@@ -21,34 +18,10 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final BaseUserCollector userMapper;
+    @Autowired
+    private BaseUserCollector userMapper;
 
-    private final PermissionMapper permissionMapper;
-
-    public UserDetailsServiceImpl(
-            @Autowired(required = false) BaseUserCollector userMapper,
-            @Autowired(required = false) PermissionMapper permissionMapper) {
-        if (userMapper == null) {
-            this.userMapper = username -> null;
-        } else {
-            this.userMapper = userMapper;
-        }
-
-        if (permissionMapper == null) {
-            this.permissionMapper = new PermissionMapper() {
-                @Override
-                public Set<String> getUserRoleSet(String username) {
-                    return Collections.emptySet();
-                }
-
-                @Override
-                public Set<String> getUserKeySet(String username) {
-                    return Collections.emptySet();
-                }
-            };
-        } else {
-            this.permissionMapper = permissionMapper;
-        }
+    public UserDetailsServiceImpl() {
     }
 
     @Override
@@ -67,8 +40,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @return 登录用户信息
      */
     private UserDetails createLoginUser(BaseUser user) {
-        return new LoginUser(user).withPermission(
-                permissionMapper.getUserKeySet(user.getUsername()),
-                permissionMapper.getUserRoleSet(user.getUsername()));
+        return new LoginUser(user);
     }
 }

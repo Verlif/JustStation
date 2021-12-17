@@ -4,9 +4,9 @@ import idea.verlif.juststation.global.security.exception.CustomException;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import java.util.Collections;
  *
  * @author Verlif
  */
-@Component("SecurityUtils")
+@Component
 public class SecurityUtils {
 
     private static PasswordEncoder encoder;
@@ -33,13 +33,8 @@ public class SecurityUtils {
      */
     private static final boolean OPEN_VISITOR = true;
 
-    public SecurityUtils(
-            @Autowired(required = false) PasswordEncoder passwordEncoder) {
-        if (passwordEncoder == null) {
-            encoder = new BCryptPasswordEncoder();
-        } else {
-            encoder = passwordEncoder;
-        }
+    public SecurityUtils(@Autowired ApplicationContext context) {
+        encoder = context.getBean(PasswordEncoder.class);
     }
 
     /**
@@ -95,10 +90,6 @@ public class SecurityUtils {
      */
     public static boolean matchesPassword(String rawPassword, String encodedPassword) {
         return encoder.matches(rawPassword, encodedPassword);
-    }
-
-    public static PasswordEncoder getEncoder() {
-        return encoder;
     }
 
     /**

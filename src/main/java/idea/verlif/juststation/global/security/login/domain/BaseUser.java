@@ -1,13 +1,13 @@
 package idea.verlif.juststation.global.security.login.domain;
 
 import idea.verlif.juststation.global.base.domain.Fillable;
+import idea.verlif.juststation.global.base.domain.WithKey;
 import idea.verlif.juststation.global.sensible.Sensitive;
 import idea.verlif.juststation.global.validation.Insert;
 import idea.verlif.juststation.global.validation.Update;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2021/11/9 11:52
  */
-public class BaseUser implements Serializable, Fillable {
+public class BaseUser extends WithKey implements Serializable, Fillable {
 
     /**
      * 用户登录名
@@ -33,7 +33,6 @@ public class BaseUser implements Serializable, Fillable {
     @Sensitive(strategy = Sensitive.Strategy.ALWAYS_NULL)
     @Schema(name = "用户密码")
     @Null(groups = Update.class)
-    @Pattern(regexp = "[a-zA-Z0-9,.!@#]{8,24}", groups = Insert.class)
     protected String password;
 
     public String getUsername() {

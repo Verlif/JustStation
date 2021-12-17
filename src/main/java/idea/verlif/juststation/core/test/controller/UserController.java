@@ -5,7 +5,6 @@ import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.core.test.domain.req.UpdatePassword;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.security.permission.Perm;
-import idea.verlif.juststation.global.validation.Insert;
 import idea.verlif.juststation.global.validation.Update;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,22 +24,6 @@ public class UserController {
 
     @Autowired
     private UserBiz userBiz;
-
-    /**
-     * 注册新用户 <br/>
-     * 这里使用Check注解来标记方法和参数 <br/>
-     * Check标记方法表示需要检测的接口，标记参数表示需要检测的对象（该对象需要实现Checkable接口）
-     *
-     * @param user 用户信息
-     * @return 注册结果
-     */
-    @Operation(summary = "注册")
-    @PostMapping("/register")
-    public BaseResult<?> register(
-            @RequestBody @Validated(Insert.class) User user
-    ) {
-        return userBiz.register(user);
-    }
 
     @Perm(hasKey = "user")
     @Operation(summary = "获取个人信息")

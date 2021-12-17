@@ -20,7 +20,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2021/11/12 15:21
  */
-public class RSAUtils {
+public class RsaUtils {
 
     /**
      * 加密算法 - RSA
@@ -232,27 +232,31 @@ public class RSAUtils {
     /**
      * 公钥加密
      */
-    public static String encryptedByPublicKey(String data, String publicKey) {
-        try {
-            data = Base64.encodeBase64String(encryptByPublicKey(data.getBytes(), publicKey));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
+    public static String encryptByPublicKey(String data, String publicKey) throws Exception {
+        return Base64.encodeBase64String(encryptByPublicKey(data.getBytes(), publicKey));
+    }
+
+    /**
+     * 私钥加密
+     */
+    public static String encryptByPrivateKey(String data, String privateKey) throws Exception {
+        return Base64.encodeBase64String(encryptByPrivateKey(data.getBytes(), privateKey));
     }
 
     /**
      * 私钥解密
      */
-    public static String decryptByPrivateKey(String data, String privateKey) {
-        String temp = "";
-        try {
-            byte[] rs = Base64.decodeBase64(data);
-            temp = new String(RSAUtils.decryptByPrivateKey(rs, privateKey), StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return temp;
+    public static String decryptByPrivateKey(String data, String privateKey) throws Exception {
+        byte[] rs = Base64.decodeBase64(data);
+        return new String(RsaUtils.decryptByPrivateKey(rs, privateKey), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 公钥解密
+     */
+    public static String decryptByPublicKey(String data, String publicKey) throws Exception {
+        byte[] rs = Base64.decodeBase64(data);
+        return new String(RsaUtils.decryptByPublicKey(rs, publicKey), StandardCharsets.UTF_8);
     }
 
     /**

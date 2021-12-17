@@ -1,8 +1,5 @@
 package idea.verlif.juststation.global.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,22 +11,15 @@ import java.util.logging.Logger;
  * @version 1.0
  * @date 2021/11/16 9:09
  */
-@Component
 public class PrintUtils {
 
     /**
      * 打印基础类
      */
-    private static PrintInfoHandler handler;
+    private static final PrintInfoHandler HANDLER;
 
     static {
-        handler = new ConsolePrintHandler();
-    }
-
-    public PrintUtils(@Autowired(required = false) PrintInfoHandler printInfoHandler) {
-        if (printInfoHandler != null) {
-            handler = printInfoHandler;
-        }
+        HANDLER = new ConsolePrintHandler();
     }
 
     /**
@@ -39,7 +29,7 @@ public class PrintUtils {
      * @see PrintInfoHandler#println(Object)
      */
     public static void println(Object msg) {
-        handler.println(msg);
+        HANDLER.println(msg);
     }
 
     /**
@@ -50,7 +40,7 @@ public class PrintUtils {
      * @see PrintInfoHandler#printLog(Level, String)
      */
     public static void print(Level level, String msg) {
-        handler.printLog(level, msg);
+        HANDLER.printLog(level, msg);
     }
 
     /**
@@ -59,18 +49,18 @@ public class PrintUtils {
      * @param e 错误对象
      */
     public static void print(Throwable e) {
-        handler.printThrowable(e);
+        HANDLER.printThrowable(e);
     }
 
     public static void print(CharSequence c) {
-        handler.println(c);
+        HANDLER.println(c);
     }
 
     /**
      * 打点标记
      */
     public static void pin() {
-        handler.printLog(Level.INFO, " > PIN < ");
+        HANDLER.printLog(Level.INFO, " > PIN < ");
     }
 
     /**

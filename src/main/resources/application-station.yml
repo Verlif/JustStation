@@ -5,7 +5,7 @@ station:
     header: Authorization
     # TokenKey命名头
     domain: 'station:token:'
-    # Token密钥
+    # Token密钥，请手动修改
     secret: abcdefghijklmnopqrstuvwxyz
     # Token有效期（单位：分钟）
     expireTime: 60
@@ -14,8 +14,12 @@ station:
   # 文件配置
   file:
     path:
-      # 文件系统根路径
+      # 文件系统根路径，推荐相对路径
       main: E:/test/
+  # RSA配置
+  rsa:
+    # 密钥对有效时长（单位：分钟）
+    expire: 10
   #Email配置
   email:
     # 是否开启debug模式

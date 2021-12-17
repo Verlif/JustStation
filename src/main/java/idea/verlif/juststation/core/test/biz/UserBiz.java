@@ -9,6 +9,7 @@ import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.core.test.domain.req.UpdatePassword;
 import idea.verlif.juststation.core.test.mapper.UserMapper;
+import idea.verlif.juststation.global.rsa.RsaServer;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private RsaServer rsaServer;
 
     /**
      * 获取个人信息
@@ -73,10 +77,14 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
      * @return 修改结果
      */
     public BaseResult<?> updatePassword(UpdatePassword up) {
+        // 旧密码解密
+        up.setOld(rsaServer.decryptByPrivateKey(up.getKeyId(), up.getOld()));
         User user = baseMapper.selectByNameAndPwd(SecurityUtils.getUsername(), up.getOld());
         if (user == null) {
             return new FailResult<>("原密码错误");
         } else {
+            // 新密码解密
+            up.setNow(rsaServer.decryptByPrivateKey(up.getKeyId(), up.getNow()));
             user.setPassword(up.getNow());
             BaseResult<?> result = update(user);
             // 密码修改成功后，强制退出当前用户所有登录
@@ -94,8 +102,11 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
      * @return 注册结果
      */
     public BaseResult<?> register(User user) {
-        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        // 用户密码解密
+        user.setPassword(rsaServer.decryptByPrivateKey(user.getKeyId(), user.getPassword()));
         try {
+            // 密码进行重编码，如果密码解密步骤出错，则会抛出IllegalArgumentException异常
+            user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
             if (baseMapper.insert(user) > 0) {
                 return new OkResult<>(user).msg("注册成功");
             } else {
@@ -103,6 +114,8 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
             }
         } catch (DuplicateKeyException ignored) {
             return new FailResult<>("已存在用户名 - " + user.getUsername());
+        } catch (IllegalArgumentException ignored) {
+            return new FailResult<>("密钥过期");
         }
     }
 }

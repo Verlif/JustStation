@@ -2,7 +2,10 @@ package idea.verlif.juststation.global.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
-import idea.verlif.juststation.global.file.handler.*;
+import idea.verlif.juststation.global.file.handler.FileCart;
+import idea.verlif.juststation.global.file.handler.FileHandler;
+import idea.verlif.juststation.global.file.handler.FileInfo;
+import idea.verlif.juststation.global.file.handler.FileQuery;
 import idea.verlif.juststation.global.file.parser.FileParser4List;
 import idea.verlif.juststation.global.file.parser.FileParser4Single;
 import idea.verlif.juststation.global.file.parser.Parser4List;
@@ -28,7 +31,8 @@ public class FileService {
     /**
      * 文件管理器
      */
-    private final FileHandler fileHandler;
+    @Autowired
+    private FileHandler fileHandler;
 
     /**
      * 文件解析表
@@ -41,16 +45,7 @@ public class FileService {
         SINGLE_PARSER_HASH_MAP = new HashMap<>();
     }
 
-    public FileService(
-            @Autowired ApplicationContext appContext,
-            @Autowired(required = false) FileHandler fileHandler,
-            @Autowired FilePathConfig config) {
-        if (fileHandler == null) {
-            this.fileHandler = new DefaultFileHandler(config);
-        } else {
-            this.fileHandler = fileHandler;
-        }
-
+    public FileService(@Autowired ApplicationContext appContext) {
         Map<String, FileParser4List> listMap = appContext.getBeansOfType(FileParser4List.class);
         for (FileParser4List value : listMap.values()) {
             Parser4List list = value.getClass().getAnnotation(Parser4List.class);
