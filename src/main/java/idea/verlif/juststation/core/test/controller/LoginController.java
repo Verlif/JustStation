@@ -38,7 +38,9 @@ public class LoginController {
     private RsaServer rsaServer;
 
     /**
-     * 由于此接口开放，所以请使用Limit注解进行访问限制，避免导致生成的僵尸密钥过多
+     * 由于此接口开放，所以请使用Limit注解进行访问限制，避免导致生成的僵尸密钥过多。<br/>
+     * 请注意测试中的handler包下的NoEncryptServer，并未使用任何加密模式。<br/>
+     * 当注入了NoEncryptServer时，获取的Key中的属性值是null，表示密码明文传输即可。
      *
      * @return 密钥Key
      */
