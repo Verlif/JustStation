@@ -11,11 +11,21 @@ WIKI上有比较详细的功能实现说明。
 ## 说明
 
 1. 这是一个基础框架，所以肯定会有无数个没有考虑到的地方，后面也会不定期更新。
-2. 一些功能的实现或灵感来源于GitHub、CSDN、简书、若依、mayfly、oxygen等，所有其他作者的开源代码在协议允许的情况下，都会根据此项目需要有所更改。
+2. 一些功能的实现或灵感来源于GitHub、CSDN、简书、若依、mayfly、oxygen等，所有引入的其他作者的开源代码在协议允许的情况下，都会根据此项目需要有所更改。
 3. 注意：当前默认的缓存机制是使用的MemCache，没有持续化处理。内置了一个Redis实现的CacheHandler，需要的话
 ，请在RedisCache上添加`@Component`注解以更改。或是使用自己的缓存机制，实现`CacheHandler`接口并标记为Bean。
 4. 我个人是比较喜欢用空间来换时间，所以框架内的大部分实现都是在尽量不生成新对象的前提下，取变量来换取运算时间。
-5. 大部分的功能都可以在`idea.verlif.juststation.core.test`包下找到
+5. 大部分的功能用例都可以在`idea.verlif.juststation.core.test`包下找到
+
+----
+
+## 使用
+
+*本框架采用即开即用方式，所以需要拉取项目代码，在此代码基础上进行开发*
+
+1. 通过test包下`idea.verlif.juststation.core.test`的模拟业务代码进行测试（模拟业务中使用了MySQL数据库，所以需要配置application-druid参数。数据库建表sql在sql包下。）
+2. 框架中没有前端代码，需要浏览器访问本地链接<localhost:8888/index.html>打开swagger文档进行接口测试。
+3. `idea.verlif.juststation.core.test`包仅用于测试与演示，可直接删除。
 
 ----
 

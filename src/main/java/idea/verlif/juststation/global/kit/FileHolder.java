@@ -1,6 +1,8 @@
 package idea.verlif.juststation.global.kit;
 
-import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import idea.verlif.juststation.global.util.PrintUtils;
 import reactor.util.annotation.NonNull;
 
@@ -8,6 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,12 +27,15 @@ public class FileHolder {
 
     private final File file;
 
+    private final ObjectMapper objectMapper;
+
     public FileHolder(File file) {
         this.file = file;
+        objectMapper = new ObjectMapper();
     }
 
     public FileHolder(String path) {
-        this.file = new File(path);
+        this(new File(path));
     }
 
     /**
@@ -64,7 +71,19 @@ public class FileHolder {
      */
     public <T> List<T> getList(Class<T> cl) {
         String c = getString();
-        return JSONArray.parseArray(c, cl);
+        List<T> list = new ArrayList<>();
+        try {
+            JsonNode node = objectMapper.readTree(c);
+            if (node.isArray()) {
+                Iterator<JsonNode> elements = node.elements();
+                while (elements.hasNext()) {
+                    list.add(objectMapper.treeToValue(elements.next(), cl));
+                }
+            }
+        } catch (JsonProcessingException e) {
+            PrintUtils.print(e);
+        }
+        return list;
     }
 
     /**
@@ -76,9 +95,7 @@ public class FileHolder {
      * @return 是否存入成功
      */
     public <T> boolean putList(List<T> list) {
-        JSONArray array = new JSONArray();
-        array.addAll(list);
-        return putString(array.toJSONString());
+        return putString(objectMapper.valueToTree(list).toString());
     }
 
     /**

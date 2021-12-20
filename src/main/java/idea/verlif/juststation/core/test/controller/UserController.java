@@ -5,7 +5,7 @@ import idea.verlif.juststation.core.test.domain.User;
 import idea.verlif.juststation.core.test.domain.req.UpdatePassword;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.security.permission.Perm;
-import idea.verlif.juststation.global.validation.Update;
+import idea.verlif.juststation.global.validation.group.Update;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,8 +3,8 @@ package idea.verlif.juststation.global.security.login.domain;
 import idea.verlif.juststation.global.base.domain.Fillable;
 import idea.verlif.juststation.global.base.domain.WithKey;
 import idea.verlif.juststation.global.sensible.Sensitive;
-import idea.verlif.juststation.global.validation.Insert;
-import idea.verlif.juststation.global.validation.Update;
+import idea.verlif.juststation.global.validation.group.Insert;
+import idea.verlif.juststation.global.validation.group.Update;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.Null;

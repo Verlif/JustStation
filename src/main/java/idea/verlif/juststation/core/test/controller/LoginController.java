@@ -12,7 +12,7 @@ import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.permission.Perm;
 import idea.verlif.juststation.global.util.PrintUtils;
-import idea.verlif.juststation.global.validation.Insert;
+import idea.verlif.juststation.global.validation.group.Insert;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.Data;

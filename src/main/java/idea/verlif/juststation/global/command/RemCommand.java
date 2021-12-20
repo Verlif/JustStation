@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.command;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 public abstract class RemCommand {
 
     private final StringBuilder sb;
-    private JSON data;
+    private JsonNode data;
 
     public RemCommand() {
         sb = new StringBuilder();
@@ -48,7 +48,7 @@ public abstract class RemCommand {
      *
      * @param data JSON格式数据
      */
-    public void outData(JSON data) {
+    public void outData(JsonNode data) {
         this.data = data;
     }
 

@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.command.impl;
 
-import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import idea.verlif.juststation.global.command.Rci;
 import idea.verlif.juststation.global.command.RemCommand;
 import idea.verlif.juststation.global.command.RemCommandManager;
@@ -22,6 +23,9 @@ public class HelpCommand extends RemCommand {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private ObjectMapper mapper;
 
     @Override
     public RemCommandResult.Code run(String[] params) {
@@ -45,7 +49,7 @@ public class HelpCommand extends RemCommand {
         // 对指令Key进行排序
         list.sort(Comparator.comparingInt(o -> hashMap.get(o).charAt(0)));
 
-        JSONArray array = new JSONArray();
+        ArrayNode array = mapper.createArrayNode();
         for (RemCommand command : list) {
             CommandInfo commandInfo = new CommandInfo();
             Rci info = command.getClass().getAnnotation(Rci.class);
@@ -55,7 +59,7 @@ public class HelpCommand extends RemCommand {
             commandInfo.setDesc(info.description());
             // 设定指令参数说明
             commandInfo.setParams(command.params());
-            array.add(commandInfo);
+            array.add(mapper.valueToTree(commandInfo));
         }
         outData(array);
         return RemCommandResult.Code.OK;

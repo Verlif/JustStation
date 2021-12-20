@@ -22,4 +22,22 @@ public class Role {
 
     @Schema(name = "角色名称")
     private String roleName;
+
+    /**
+     * 角色Key
+     */
+    public enum RoleKey {
+        /**
+         * 访客
+         */
+        VISITOR,
+        /**
+         * 注册用户
+         */
+        USER,
+        /**
+         * 管理员
+         */
+        ADMIN
+    }
 }

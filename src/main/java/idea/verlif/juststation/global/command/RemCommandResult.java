@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.command;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.JsonNode;
 import idea.verlif.juststation.global.util.MessagesUtils;
 import lombok.Data;
 
@@ -20,9 +20,9 @@ public class RemCommandResult implements Serializable {
 
     private Code code;
 
-    private JSON data;
+    private JsonNode data;
 
-    public static RemCommandResult build(Code code, CharSequence message, JSON data) {
+    public static RemCommandResult build(Code code, CharSequence message, JsonNode data) {
         RemCommandResult result = new RemCommandResult();
         result.setCode(code);
         result.setMessage(message);
@@ -41,7 +41,7 @@ public class RemCommandResult implements Serializable {
         return build(code, code.desc);
     }
 
-    public RemCommandResult data(JSON data) {
+    public RemCommandResult data(JsonNode data) {
         this.data = data;
         return this;
     }

@@ -1,7 +1,9 @@
 package idea.verlif.juststation.global.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,6 +23,8 @@ import java.util.regex.Pattern;
 public class ServletUtils {
 
     private static final Pattern AGENT_INFO = Pattern.compile("(\\([^(]*\\))");
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
      * Describe: 获取 HttpServletRequest 对象
@@ -71,20 +75,20 @@ public class ServletUtils {
      * Param: paramName
      * Return: String
      */
-    public static JSONObject getBodyParameters() {
+    public static JsonNode getBodyParameters() {
         try {
             HttpServletRequest request = getRequest();
             if (request == null) {
-                return new JSONObject();
+                return new ObjectNode(new JsonNodeFactory(true));
             } else {
                 InputStreamReader reader = new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8);
                 char[] buff = new char[1024];
-                int length = 0;
+                int length;
                 String body = null;
                 while ((length = reader.read(buff)) != -1) {
                     body = new String(buff, 0, length);
                 }
-                return JSON.parseObject(body);
+                return MAPPER.readTree(body);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,7 +117,7 @@ public class ServletUtils {
      * Return null
      */
     public static void writeJson(Object data) throws IOException {
-        write(JSON.toJSONString(data));
+        write(MAPPER.valueToTree(data).toString());
     }
 
     /**
@@ -227,6 +231,6 @@ public class ServletUtils {
      * @param result   结果对象
      */
     public static void sendResult(HttpServletResponse response, BaseResult<?> result) {
-        renderString(response, JSON.toJSONString(result));
+        renderString(response, MAPPER.valueToTree(result).toString());
     }
 }
