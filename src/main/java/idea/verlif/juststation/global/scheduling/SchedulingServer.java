@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
-import org.springframework.scheduling.config.*;
+import org.springframework.scheduling.config.CronTask;
+import org.springframework.scheduling.config.FixedDelayTask;
+import org.springframework.scheduling.config.FixedRateTask;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Component;
 import reactor.util.annotation.NonNull;
 
@@ -26,7 +29,6 @@ public class SchedulingServer implements SchedulingConfigurer {
     private final List<CronTask> cronTasks;
     private final List<FixedDelayTask> delayTasks;
     private final List<FixedRateTask> rateTasks;
-    private final List<TriggerTask> triggerTasks;
 
     public SchedulingServer(
             @Autowired ApplicationContext context,
@@ -34,7 +36,6 @@ public class SchedulingServer implements SchedulingConfigurer {
         cronTasks = new ArrayList<>();
         delayTasks = new ArrayList<>();
         rateTasks = new ArrayList<>();
-        triggerTasks = new ArrayList<>();
 
         Map<String, Runnable> map = context.getBeansOfType(Runnable.class);
         for (Runnable runnable : map.values()) {

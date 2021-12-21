@@ -20,10 +20,12 @@ WIKI上有比较详细的功能实现说明。
 
 | | 说明 |
 | ---- | ---- |
-| Mapper | 对数据的CURD |
-| Server | 对某个功能或是模块的调用对象 |
+| Mapper | 对数据的CURD实现类 |
+| Server | 对某个功能或是模块的调用实例 |
 | Manager | 对某个功能或是模块的对象或是数据的管理，一般不提供调用服务 |
 | Handler | 实现某功能的处理接口 |
+| Config | 功能或模块的配置参数 |
+| Exception | 异常对象 |
 
 ----
 
@@ -38,6 +40,7 @@ WIKI上有比较详细的功能实现说明。
 | 文件管理 | `FileParser4List` | 列表数据文件解析器，需配合`@Parser4List`注解 | 内置了Excel文件解析 | 无限 |
 | 文件管理 | `FileParser4Single` | 单体数据文件解析器，需配合`@Parser4Single`注解 | 无 | 无限 |
 | 访问限制 | `LimitHandler` | 接口限制器，设定接口拦截策略 | 随机访问、固定窗口访问限制 | 无限 |
+| 定时任务 | `@Shechdule*` | 定时任务注解，需要实现`Runnable`接口 | 固定窗口访问限制在使用 | 无限 |
 | 接口日志 | `LogHandler` | 接口访问前与执行后两个端口 | 控制台输出 | 无限 |
 | 通知服务 | `NoticeHandler` | 通知发送处理器，需配合`@NoticeComponent`注解 | 邮件通知（需添加邮箱配置） | 无限 |
 | RSA密钥管理 | `RsaServer` | RSA服务，包括了密钥生成、加密解密等 | 一次性解密（每次解密都会销毁密钥Key） | 1 |

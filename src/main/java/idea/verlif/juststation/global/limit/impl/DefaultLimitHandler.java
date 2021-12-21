@@ -1,8 +1,7 @@
 package idea.verlif.juststation.global.limit.impl;
 
 import idea.verlif.juststation.global.limit.LimitHandler;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import idea.verlif.juststation.global.scheduling.ScheduledFixedDelay;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -18,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2021/11/30 9:20
  */
 @Component
-@EnableScheduling
-public class DefaultLimitHandler implements LimitHandler {
+@ScheduledFixedDelay(interval = 60000)
+public class DefaultLimitHandler implements LimitHandler, Runnable {
 
     /**
      * 单位时间内的可访问次数
@@ -51,8 +50,8 @@ public class DefaultLimitHandler implements LimitHandler {
         countMap.put(key, getCount(key) - 1);
     }
 
-    @Scheduled(cron = "0 0/1 * * * ?")
-    private synchronized void reset() {
+    @Override
+    public void run() {
         countMap.replaceAll((k, v) -> COUNT_PER);
     }
 }
