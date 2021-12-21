@@ -34,9 +34,25 @@ station:
     email:
     # 发件邮箱授权密码
     password:
+  # 线程配置
+  thread:
+    # 核心线程数
+    coreSize: 4
+    # 最大线程数
+    maxSize: 20
+    # 线程存活时间（单位：秒）
+    alive: 60000
+    # 允许线程超时
+    allowTimeout: true
+  # 定时任务配置
+  schedule:
+    # 允许的定时任务列表。格式为yml的列表格式
+    allowed:
+    # 屏蔽的定时任务列表
+    blocked:
   # URL远程指令配置
   command:
-    # 远程指令允许名单，当存在值时会使屏蔽名单无效化
+    # 远程指令允许名单，当存在值时会使屏蔽名单无效化。格式为yml的列表格式
     allowed:
-    # 远程指令屏蔽名单
+    # 远程指令屏蔽名单。格式为yml的列表格式
     blocked:

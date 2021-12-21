@@ -10,6 +10,7 @@ import idea.verlif.juststation.global.file.parser.FileParser4List;
 import idea.verlif.juststation.global.file.parser.FileParser4Single;
 import idea.verlif.juststation.global.file.parser.Parser4List;
 import idea.verlif.juststation.global.file.parser.Parser4Single;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * @author Verlif
@@ -53,6 +55,8 @@ public class FileService {
                 for (FileType fileType : list.fileType()) {
                     LIST_PARSER_HASH_MAP.put(fileType, value);
                 }
+            } else {
+                PrintUtils.print(Level.WARNING, value.getClass().getSimpleName() + " doesn't has @Parser4List");
             }
         }
         Map<String, FileParser4Single> singleMap = appContext.getBeansOfType(FileParser4Single.class);
@@ -62,6 +66,8 @@ public class FileService {
                 for (FileType fileType : list.fileType()) {
                     SINGLE_PARSER_HASH_MAP.put(fileType, value);
                 }
+            } else {
+                PrintUtils.print(Level.WARNING, value.getClass().getSimpleName() + " doesn't has @Parser4Single");
             }
         }
     }

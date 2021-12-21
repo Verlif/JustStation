@@ -52,6 +52,8 @@ public class NoticeService {
             for (NoticeTag tag : component.tags()) {
                 HANDLER_HASH_MAP.put(tag, noticeHandler);
             }
+        } else {
+            PrintUtils.print(Level.WARNING, noticeHandler.getClass().getSimpleName() + " doesn't has @NoticeComponent");
         }
     }
 

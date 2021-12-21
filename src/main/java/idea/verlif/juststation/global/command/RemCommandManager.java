@@ -175,6 +175,7 @@ public class RemCommandManager {
         // 获取注释标记
         Rci rci = command.getClass().getAnnotation(Rci.class);
         if (rci == null) {
+            PrintUtils.print(Level.INFO, command.getClass().getSimpleName() + " doesn't has @Rci");
             String key = command.getClass().getSimpleName();
             if (MODE_BLOCK && !blockKey.contains(key) || !MODE_BLOCK && allowedKey.contains(key)) {
                 addCommandKey(key, command);

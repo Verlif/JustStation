@@ -2,9 +2,10 @@ package idea.verlif.juststation.global.cache.mem;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
 
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -19,12 +20,12 @@ import java.util.regex.Pattern;
  */
 public class MemCache implements CacheHandler {
 
-    private final HashMap<String, Object> map;
-    private final HashMap<String, Long> deadMap;
+    private final Map<String, Object> map;
+    private final Map<String, Long> deadMap;
 
     public MemCache() {
-        map = new HashMap<>();
-        deadMap = new HashMap<>();
+        map = new ConcurrentHashMap<>();
+        deadMap = new ConcurrentHashMap<>();
     }
 
     @Override

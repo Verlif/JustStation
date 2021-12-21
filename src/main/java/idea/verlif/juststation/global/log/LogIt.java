@@ -34,6 +34,6 @@ public @interface LogIt {
     /**
      * 日志处理类
      */
-    Class<? extends LogHandler> handler() default LogAspect.LogHandlerAto.class;
+    Class<? extends LogHandler> handler() default LogServer.LogHandlerAto.class;
 
 }

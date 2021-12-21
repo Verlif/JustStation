@@ -22,11 +22,11 @@ import java.util.logging.Level;
  */
 @Aspect
 @Component
-public class LogAspect {
+public class LogServer {
 
     public final Map<Class<? extends LogHandler>, LogHandler> handlerMap;
 
-    public LogAspect(@Autowired ApplicationContext context) {
+    public LogServer(@Autowired ApplicationContext context) {
         handlerMap = new HashMap<>();
         Map<String, LogHandler> map = context.getBeansOfType(LogHandler.class);
         for (LogHandler handler : map.values()) {
