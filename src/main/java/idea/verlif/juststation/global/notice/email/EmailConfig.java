@@ -2,6 +2,7 @@ package idea.verlif.juststation.global.notice.email;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * @author Verlif
@@ -20,27 +21,27 @@ public class EmailConfig {
     /**
      * 邮件服务器主机地址
      */
-    protected String host;
+    protected String host = "";
 
     /**
      * 邮件服务器端口
      */
-    protected String port;
+    protected String port = "";
 
     /**
      * 邮件协议名称
      */
-    protected String protocol;
+    protected String protocol = "";
 
     /**
      * 邮箱服务器邮箱地址
      */
-    protected String email;
+    protected String email = "";
 
     /**
      * 邮箱服务器授权码
      */
-    protected String password;
+    protected String password = "";
 
     public boolean isDebug() {
         return debug;

@@ -2,6 +2,7 @@ package idea.verlif.juststation.global.cache.mem;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
  * @version 1.0
  * @date 2021/12/14 10:56
  */
-public class MemCache implements CacheHandler {
+public class MemCache implements CacheHandler, Serializable {
 
     private final Map<String, Object> map;
     private final Map<String, Long> deadMap;
@@ -31,7 +32,9 @@ public class MemCache implements CacheHandler {
     @Override
     public <T> void put(String key, T value, long timeout, TimeUnit timeUnit) {
         map.put(key, value);
-        deadMap.put(key, System.currentTimeMillis() + timeUnit.toMillis(timeout));
+        if (timeout > 0 && timeUnit != null) {
+            deadMap.put(key, System.currentTimeMillis() + timeUnit.toMillis(timeout));
+        }
     }
 
     @Override
@@ -46,7 +49,7 @@ public class MemCache implements CacheHandler {
     @Override
     public <T> T get(String key) {
         Long t = deadMap.get(key);
-        if (t == null || t < System.currentTimeMillis()) {
+        if (t != null && t < System.currentTimeMillis()) {
             map.remove(key);
             deadMap.remove(key);
             return null;
@@ -82,7 +85,7 @@ public class MemCache implements CacheHandler {
         Pattern pattern = Pattern.compile(match);
         Set<String> s = new HashSet<>();
         for (String key : map.keySet()) {
-            if (pattern.matcher(key).matches()) {
+            if (pattern.matcher(key).matches() && get(key) != null) {
                 s.add(key);
             }
         }
@@ -93,7 +96,7 @@ public class MemCache implements CacheHandler {
      * 用作测试的方法
      */
     public static void main(String[] args) {
-        int max = 50000;
+        int max = 500000;
         String match = "*2*";
         System.out.println("添加开始\t\t\t\t: " + System.currentTimeMillis());
         MemCache cache = new MemCache();

@@ -52,11 +52,12 @@ public class RemCommandManager {
 
     @PostConstruct
     public void init() {
-        // 加载指令
         Map<String, RemCommand> beans = appContext.getBeansOfType(RemCommand.class);
+        // 加载指令
         for (RemCommand command : beans.values()) {
             addCommand(command);
         }
+        PrintUtils.print(Level.INFO, "RemCommand had been loaded " + commandHashMap.values().size());
     }
 
     public void loadCommand(Set<Class<? extends RemCommand>> commandSet) {

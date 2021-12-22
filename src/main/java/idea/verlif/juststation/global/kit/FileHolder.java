@@ -3,13 +3,12 @@ package idea.verlif.juststation.global.kit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import idea.verlif.juststation.global.util.PrintUtils;
 import reactor.util.annotation.NonNull;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +23,8 @@ import java.util.List;
 public class FileHolder {
 
     private static final String SUFFIX_SPLIT = ".";
+    private static final String NAME_CLASS = "cl";
+    private static final String NAME_LIST = "list";
 
     private final File file;
 
@@ -49,6 +50,12 @@ public class FileHolder {
         } else {
             // 判定是文件还是文件夹
             try {
+                File dir = file.getParentFile();
+                if (!dir.exists()) {
+                    if (!dir.mkdirs()) {
+                        return null;
+                    }
+                }
                 if (file.getName().contains(SUFFIX_SPLIT) && file.createNewFile()) {
                     return file;
                 } else if (file.mkdirs()) {
@@ -61,26 +68,34 @@ public class FileHolder {
         return null;
     }
 
+    public File getFile() {
+        return file;
+    }
+
     /**
      * 获取对象列表 <br/>
      * 仅能获取以{@linkplain #putList(List)}方式存入的数据
      *
-     * @param cl  对象类
      * @param <T> 对象泛型
      * @return 对象列表
      */
-    public <T> List<T> getList(Class<T> cl) {
+    public <T> List<T> getList() {
         String c = getString();
         List<T> list = new ArrayList<>();
         try {
             JsonNode node = objectMapper.readTree(c);
-            if (node.isArray()) {
-                Iterator<JsonNode> elements = node.elements();
+            if (node.isValueNode()) {
+                String clName = node.get(NAME_CLASS).toString();
+                if (clName.length() == 0) {
+                    return list;
+                }
+                Class<T> cl = (Class<T>) Class.forName(clName);
+                Iterator<JsonNode> elements = node.get(NAME_LIST).elements();
                 while (elements.hasNext()) {
                     list.add(objectMapper.treeToValue(elements.next(), cl));
                 }
             }
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException | ClassNotFoundException e) {
             PrintUtils.print(e);
         }
         return list;
@@ -88,14 +103,21 @@ public class FileHolder {
 
     /**
      * 存入列表 <br/>
-     * 仅能通过{@linkplain #getList(Class)}方式获取列表
+     * 仅能通过{@linkplain #getList()}方式获取列表
      *
      * @param list 列表数据
      * @param <T>  对象泛型
      * @return 是否存入成功
      */
     public <T> boolean putList(List<T> list) {
-        return putString(objectMapper.valueToTree(list).toString());
+        ObjectNode node = objectMapper.createObjectNode();
+        if (list.size() > 0) {
+            node.put(NAME_CLASS, list.get(0).getClass().getName());
+        } else {
+            node.put(NAME_CLASS, "");
+        }
+        node.putArray(NAME_LIST).addAll(((ArrayNode) objectMapper.valueToTree(list)));
+        return putString(node.toString());
     }
 
     /**
@@ -138,4 +160,36 @@ public class FileHolder {
         return false;
     }
 
+    /**
+     * 将序列化对象存入文件中
+     *
+     * @param serializable 目标对象
+     * @return 是否存储成功
+     */
+    public boolean store(Serializable serializable) {
+        try (FileOutputStream fos = new FileOutputStream(file);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(serializable);
+            return true;
+        } catch (IOException e) {
+            PrintUtils.print(e);
+            return false;
+        }
+    }
+
+    /**
+     * 将序列化对象从文件中恢复
+     *
+     * @param <T> 对象泛型
+     * @return 序列化对象
+     */
+    public <T extends Serializable> T recovery() {
+        try (FileInputStream fis = new FileInputStream(file);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            return (T) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            PrintUtils.print(e);
+            return null;
+        }
+    }
 }

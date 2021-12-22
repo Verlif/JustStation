@@ -60,7 +60,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- 不需要数据库可将以下四个依赖去除 -->
         <!-- MySQL -->
         <dependency>
             <groupId>mysql</groupId>
