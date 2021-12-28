@@ -39,7 +39,7 @@ public class TokenFilter extends OncePerRequestFilter {
         String token = tokenService.getTokenFromRequest(request);
         // 没有token则移交给下一个过滤器
         if (token == null) {
-            doFilter(request, response, chain);
+            chain.doFilter(request, response);
             return;
         }
         //token解析失败

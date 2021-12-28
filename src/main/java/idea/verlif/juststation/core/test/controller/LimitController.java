@@ -1,6 +1,6 @@
 package idea.verlif.juststation.core.test.controller;
 
-import idea.verlif.juststation.core.test.handler.TestLogHandler;
+import idea.verlif.juststation.core.test.handler.TestApiLogHandler;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.limit.Limit;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "访问限制测试")
 public class LimitController {
 
-    @LogIt(message = "test", handler = TestLogHandler.class)
+    @LogIt(message = "test", handler = TestApiLogHandler.class)
     @Limit(key = "test1", handler = DefaultLimitHandler.class)
     @GetMapping("/test1")
     public BaseResult<String> test1() {

@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * @version 1.0
  * @date 2021/11/26 14:28
  */
-public interface LogHandler {
+public interface ApiLogHandler {
 
     /**
      * 日志记录

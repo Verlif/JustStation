@@ -1,6 +1,6 @@
 package idea.verlif.juststation.core.test.handler;
 
-import idea.verlif.juststation.global.log.LogHandler;
+import idea.verlif.juststation.global.log.ApiLogHandler;
 import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  * @date 2021/12/1 10:48
  */
 @Component
-public class TestLogHandler implements LogHandler {
+public class TestApiLogHandler implements ApiLogHandler {
 
     @Override
     public void onLog(Method method, LogIt logIt) {

@@ -22,14 +22,14 @@ import java.util.logging.Level;
  */
 @Aspect
 @Component
-public class LogManager {
+public class ApiLogManager {
 
-    public final Map<Class<? extends LogHandler>, LogHandler> handlerMap;
+    public final Map<Class<? extends ApiLogHandler>, ApiLogHandler> handlerMap;
 
-    public LogManager(@Autowired ApplicationContext context) {
+    public ApiLogManager(@Autowired ApplicationContext context) {
         handlerMap = new HashMap<>();
-        Map<String, LogHandler> map = context.getBeansOfType(LogHandler.class);
-        for (LogHandler handler : map.values()) {
+        Map<String, ApiLogHandler> map = context.getBeansOfType(ApiLogHandler.class);
+        for (ApiLogHandler handler : map.values()) {
             handlerMap.put(handler.getClass(), handler);
         }
     }
@@ -45,7 +45,7 @@ public class LogManager {
         Method currentMethod = target.getClass().getMethod(signature.getName(), signature.getParameterTypes());
 
         LogIt logIt = currentMethod.getAnnotation(LogIt.class);
-        LogHandler handler = handlerMap.get(logIt.handler());
+        ApiLogHandler handler = handlerMap.get(logIt.handler());
         if (handler != null) {
             handler.onLog(currentMethod, logIt);
             Object o = joinPoint.proceed();
@@ -58,7 +58,7 @@ public class LogManager {
     }
 
     @Component
-    public static final class LogHandlerAto implements LogHandler {
+    public static final class ApiLogHandlerAto implements ApiLogHandler {
 
         @Override
         public void onLog(Method method, LogIt logIt) {
