@@ -41,7 +41,7 @@ public class ExceptionService {
      */
     @ResponseBody
     @ExceptionHandler(value = Throwable.class)
-    public <T extends Throwable> BaseResult<?> handler(T e) {
+    public <T extends Throwable> Object handler(T e) {
         Class<?> cl = e.getClass();
         ExceptionHolder<T> holder;
         // 获取可能存在异常的处理类

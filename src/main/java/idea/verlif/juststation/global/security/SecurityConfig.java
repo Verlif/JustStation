@@ -59,19 +59,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private PasswordEncoder encoder;
 
     /**
-     * anyRequest          |   匹配所有请求路径
-     * access              |   SpringEl表达式结果为true时可以访问
-     * anonymous           |   匿名可以访问
-     * denyAll             |   用户不能访问
-     * fullyAuthenticated  |   用户完全认证可以访问（非remember-me下自动登录）
-     * hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访问
-     * hasAnyRole          |   如果有参数，参数表示角色，则其中任何一个角色可以访问
-     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访问
-     * hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问
-     * hasRole             |   如果有参数，参数表示角色，则其角色可以访问
-     * permitAll           |   用户可以任意访问
-     * rememberMe          |   允许通过remember-me登录的用户访问
-     * authenticated       |   用户登录后可访问
+     * anyRequest          |   匹配所有请求路径 <br/>
+     * access              |   SpringEl表达式结果为true时可以访问 <br/>
+     * anonymous           |   匿名可以访问 <br/>
+     * denyAll             |   用户不能访问 <br/>
+     * fullyAuthenticated  |   用户完全认证可以访问（非remember-me下自动登录） <br/>
+     * hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访问 <br/>
+     * hasAnyRole          |   如果有参数，参数表示角色，则其中任何一个角色可以访问 <br/>
+     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访问 <br/>
+     * hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问 <br/>
+     * hasRole             |   如果有参数，参数表示角色，则其角色可以访问 <br/>
+     * permitAll           |   用户可以任意访问 <br/>
+     * rememberMe          |   允许通过remember-me登录的用户访问 <br/>
+     * authenticated       |   用户登录后可访问 <br/>
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -84,25 +84,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
-                // 开放接口
-                .antMatchers("/public/**").permitAll()
-                // 默认文件访问开放
-                .antMatchers("/webjars/**").anonymous()
-                // Swagger文档开放
-                .antMatchers("/swagger-ui/**", "/**/api-docs", "/swagger-resources/**").anonymous()
-                // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated().and()
+                // 开放所有接口
+                .anyRequest().permitAll().and()
                 .headers()
                 .frameOptions().disable()
                 .and()
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(corsFilter, TokenFilter.class);
-    }
-
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(HttpMethod.GET,
-                "/**/*.html", "/**/*.js", "/**/*.css");
     }
 
     /**

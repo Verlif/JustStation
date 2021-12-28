@@ -29,7 +29,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("swagger-ui.html", "doc.html")
                 .addResourceLocations("classpath:/META-INF/resources/", "classpath:/META-INF/resources/webjars/");
         // 静态资源访问重定向
-        registry.addResourceHandler("/static/**")
+        registry.addResourceHandler("/static/**", "/**/*.html")
                 .addResourceLocations("classpath:/static/");
         // web资源访问重定向
         registry.addResourceHandler("/webjars/**")

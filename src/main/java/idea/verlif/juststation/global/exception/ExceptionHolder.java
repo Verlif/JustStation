@@ -1,10 +1,9 @@
 package idea.verlif.juststation.global.exception;
 
-import idea.verlif.juststation.global.base.result.BaseResult;
-
 /**
  * 异常处理类
  *
+ * @param <T> 处理的目标异常类型
  * @author Verlif
  * @version 1.0
  * @date 2021/12/14 15:43
@@ -24,5 +23,5 @@ public interface ExceptionHolder<T extends Throwable> {
      * @param e 异常类
      * @return 前端返回结果
      */
-    BaseResult<?> handler(T e);
+    Object handler(T e);
 }
