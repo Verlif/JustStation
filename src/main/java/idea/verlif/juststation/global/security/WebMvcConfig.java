@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security;
 
-import idea.verlif.juststation.global.file.FilePathConfig;
+import idea.verlif.juststation.global.file.FileConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -14,16 +14,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-    private final FilePathConfig pathConfig;
+    private final FileConfig pathConfig;
 
-    public WebMvcConfig(@Autowired FilePathConfig pathConfig) {
+    public WebMvcConfig(@Autowired FileConfig pathConfig) {
         this.pathConfig = pathConfig;
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 文件访问重定向
-        registry.addResourceHandler(FilePathConfig.TAG + "**")
+        registry.addResourceHandler(FileConfig.TAG + "**")
                 .addResourceLocations("file:" + pathConfig.getMain());
         // swagger文档访问重定向
         registry.addResourceHandler("swagger-ui.html", "doc.html")

@@ -5,7 +5,7 @@ import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.juststation.global.file.FilePathConfig;
+import idea.verlif.juststation.global.file.FileConfig;
 import idea.verlif.juststation.global.util.PageUtils;
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
  */
 public class DefaultFileHandler implements FileHandler {
 
-    private final FilePathConfig pathConfig;
+    private final FileConfig pathConfig;
 
-    public DefaultFileHandler(FilePathConfig config) {
+    public DefaultFileHandler(FileConfig config) {
         this.pathConfig = config;
     }
 
@@ -43,8 +43,8 @@ public class DefaultFileHandler implements FileHandler {
     @Override
     public File getLocalFile(FileCart fileCart, String type) {
         String path = fileCart.getArea();
-        if (!path.endsWith(FilePathConfig.DIR_SPLIT)) {
-            path = path + FilePathConfig.DIR_SPLIT;
+        if (!path.endsWith(FileConfig.DIR_SPLIT)) {
+            path = path + FileConfig.DIR_SPLIT;
         }
         return new File(pathConfig.getMain() + path + (type == null ? "" : type));
     }
@@ -60,10 +60,10 @@ public class DefaultFileHandler implements FileHandler {
     @Override
     public String getAccessiblePath(FileCart fileCart, String type, String fileName) {
         String path = fileCart.getArea();
-        if (!path.endsWith(FilePathConfig.DIR_SPLIT)) {
-            path += FilePathConfig.DIR_SPLIT;
+        if (!path.endsWith(FileConfig.DIR_SPLIT)) {
+            path += FileConfig.DIR_SPLIT;
         }
-        return FilePathConfig.TAG + path + (type == null ? "" : type) + FilePathConfig.DIR_SPLIT + fileName;
+        return FileConfig.TAG + path + (type == null ? "" : type) + FileConfig.DIR_SPLIT + fileName;
     }
 
     /**
