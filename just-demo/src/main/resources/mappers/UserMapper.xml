@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="idea.verlif.justdemo.core.base.mapper.UserMapper">
+    <select id="getUserByName" resultType="idea.verlif.justdemo.core.base.domain.User">
+        SELECT u.* FROM user u
+        WHERE u.username = #{username}
+    </select>
+
+    <select id="selectByNameAndPwd" resultType="idea.verlif.justdemo.core.base.domain.User">
+        SELECT u.* FROM user u
+        WHERE u.username = #{username} AND u.password = #{password}
+    </select>
+</mapper>

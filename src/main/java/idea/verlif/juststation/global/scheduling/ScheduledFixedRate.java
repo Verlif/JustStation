@@ -6,6 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Verlif
@@ -31,4 +32,9 @@ public @interface ScheduledFixedRate {
      * 延迟时间（单位：毫秒）
      */
     long delay() default 0L;
+
+    /**
+     * 时间单位（默认毫秒）
+     */
+    TimeUnit unit() default TimeUnit.MILLISECONDS;
 }

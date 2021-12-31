@@ -5,7 +5,7 @@ import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.juststation.global.rsa.RsaServer;
+import idea.verlif.juststation.global.rsa.RsaService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.login.domain.LoginTag;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
@@ -43,7 +43,7 @@ public class LoginService {
     private PermissionMapper permissionMapper;
 
     @Autowired
-    private RsaServer rsaServer;
+    private RsaService rsaService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -102,7 +102,7 @@ public class LoginService {
         LoginHandler.LoginResult result = loginHandler.onLogin(loginInfo);
         if (result.allow) {
             // 解密用户密码
-            loginInfo.setPassword(rsaServer.decryptByPrivateKey(loginInfo.getKeyId(), loginInfo.getPassword()));
+            loginInfo.setPassword(rsaService.decryptByPrivateKey(loginInfo.getKeyId(), loginInfo.getPassword()));
             // 用户验证
             Authentication authentication;
             try {

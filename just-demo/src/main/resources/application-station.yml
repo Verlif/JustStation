@@ -50,6 +50,8 @@ station:
     allowed:
     # 屏蔽的定时任务列表
     blocked:
+      # 屏蔽这个定时任务
+      - DemoSchedule
   # URL远程指令配置
   command:
     # 远程指令允许名单，当存在值时会使屏蔽名单无效化。格式为yml的列表格式

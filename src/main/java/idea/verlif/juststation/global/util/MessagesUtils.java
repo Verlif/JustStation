@@ -26,6 +26,10 @@ public class MessagesUtils {
     }
 
     public static String message(String code, String... args) {
-        return ms.getMessage(code, args, Locale.getDefault());
+        try {
+            return ms.getMessage(code, args, Locale.getDefault());
+        } catch (Exception ignored) {
+            return code;
+        }
     }
 }

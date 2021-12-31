@@ -7,7 +7,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -37,23 +40,7 @@ public class MemCache implements CacheHandler, Serializable {
             return thread;
         });
         // 开启定时缓存清理
-        service.scheduleWithFixedDelay(() -> {
-            synchronized (map) {
-                int count = 0;
-                long now = System.currentTimeMillis();
-                for (String key : map.keySet()) {
-                    Long t = deadMap.get(key);
-                    if (t != null && t < now) {
-                        count++;
-                        map.remove(key);
-                        deadMap.remove(key);
-                    }
-                }
-                if (count > 0) {
-                    PrintUtils.print(Level.INFO, "memCache recycled " + count);
-                }
-            }
-        }, 1, 1, TimeUnit.HOURS);
+        service.scheduleWithFixedDelay(this::recycle, 1, 1, TimeUnit.HOURS);
     }
 
     @Override
@@ -117,6 +104,25 @@ public class MemCache implements CacheHandler, Serializable {
             }
         }
         return s;
+    }
+
+    /**
+     * 回收失效数据
+     */
+    public void recycle() {
+        int count = 0;
+        long now = System.currentTimeMillis();
+        for (String key : map.keySet()) {
+            Long t = deadMap.get(key);
+            if (t != null && t < now) {
+                count++;
+                map.remove(key);
+                deadMap.remove(key);
+            }
+        }
+        if (count > 0) {
+            PrintUtils.print(Level.INFO, "memCache recycled " + count);
+        }
     }
 
     /**

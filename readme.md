@@ -14,10 +14,7 @@ WIKI上有比较详细的功能实现说明。
 
 *本框架采用即开即用方式，所以需要拉取项目代码，在此代码基础上进行开发*
 
-1. 通过test包`idea.verlif.juststation.core.test`下的模拟业务代码进行测试（模拟业务中使用了MySQL数据库，所以需要配置application-druid参数。数据库建表sql在sql文件夹下。）
-2. 项目缓存默认内存缓存实现，不需要其他环境，可直接启动。
-3. 框架中没有前端代码，需要浏览器访问本地链接<localhost:8888/index.html>打开swagger文档进行接口测试。
-4. `idea.verlif.juststation.core.test`包仅用于测试与演示，可直接删除。
+1. `just-demo`子模块包括了大部分的功能使用演示。
 
 ----
 
@@ -43,8 +40,8 @@ WIKI上有比较详细的功能实现说明。
 * 参数检测，使用`validation`进行参数校验，使用注解完成自动入参检测。
 * 全局异常处理组件化，通过实现`ExceptionHolder`来完成特定异常的处理。
 * 统一定时任务，由`SchedulingServer`接管，组件化实现方式，可以在配置文件中配置允许名单与屏蔽名单。
-* 控制台指令（**默认关闭**），引入了`SpringShell`来允许在控制台输入自定义指令，执行自定义功能。
-* 远程URL指令，通过`RemCommad`来编写自定义的远程指令。
+* ~~控制台指令（**默认关闭**），引入了`SpringShell`来允许在控制台输入自定义指令，执行自定义功能。~~
+* ~~远程URL指令，通过`RemCommad`来编写自定义的远程指令。~~
 * 通知发送模块，发送短信（由于平台太多，所以**未内置**）、邮件等的通知接口。
 
 ----
@@ -58,14 +55,14 @@ WIKI上有比较详细的功能实现说明。
 * 日志记录 - 默认java.util.logging
 * 数据脱敏 - JsonSerializer
 * 参数校验 - spring-validation
-* 控制台指令 - spring-shell
+* ~~控制台指令 - spring-shell~~
 * API文档 - springfox3
 
 ----
 
 ## 开发ING
 
-* *MemCache的持久化实现*
+* ~~*MemCache的持久化实现*~~
 * *脱敏注解的分组实现*
 
 ----

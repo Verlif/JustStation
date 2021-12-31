@@ -24,8 +24,8 @@ public class RsaConfig {
     private Long expire;
 
     @Bean
-    @ConditionalOnMissingBean(RsaServer.class)
-    public RsaServer rsaServer(@Autowired CacheHandler handler) {
-        return new OnceRsaServer(this, handler);
+    @ConditionalOnMissingBean(RsaService.class)
+    public RsaService rsaServer(@Autowired CacheHandler handler) {
+        return new OnceRsaService(this, handler);
     }
 }
