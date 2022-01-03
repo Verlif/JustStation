@@ -11,6 +11,7 @@
     <modules>
         <module>just-demo</module>
         <module>just-test</module>
+        <module>just-instance</module>
     </modules>
 
     <parent>
