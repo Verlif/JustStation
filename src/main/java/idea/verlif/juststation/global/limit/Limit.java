@@ -16,7 +16,7 @@ public @interface Limit {
 
     /**
      * 限制Key，用于区分不同的方法统计。<br/>
-     * 默认为方法名。
+     * 默认为 [类名简称.方法名] 。
      */
     String key() default "";
 

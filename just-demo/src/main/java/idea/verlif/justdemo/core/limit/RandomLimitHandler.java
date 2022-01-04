@@ -1,6 +1,7 @@
 package idea.verlif.justdemo.core.limit;
 
 import idea.verlif.juststation.global.limit.LimitHandler;
+import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,7 @@ public class RandomLimitHandler implements LimitHandler {
 
     @Override
     public boolean arrived(String key) {
+        PrintUtils.println(key + "正在判定...");
         return Math.random() > 0.5;
     }
 }
