@@ -27,7 +27,7 @@ public class LimitController {
      * 固定窗口访问限制
      */
     @LogIt(message = "defaultLimit", handler = DemoApiLogHandler.class)
-    @Limit(key = "defaultLimit", handler = DefaultLimitHandler.class)
+    @Limit(handler = DefaultLimitHandler.class)
     @GetMapping("/defaultLimit")
     public BaseResult<String> test1() {
         return new OkResult<>(test());
@@ -37,7 +37,7 @@ public class LimitController {
      * 随机访问限制
      */
     @LogIt(message = "randomLimit")
-    @Limit(key = "randomLimit", handler = RandomLimitHandler.class)
+    @Limit(handler = RandomLimitHandler.class)
     @GetMapping("/randomLimit")
     public BaseResult<String> test2() {
         return new OkResult<>(test());

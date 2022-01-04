@@ -7,7 +7,6 @@ import java.util.logging.Level;
 
 /**
  * 演示用的定时任务。<br/>
- * 在application-station.yml中已被禁用。
  *
  * @author Verlif
  * @version 1.0
@@ -15,8 +14,15 @@ import java.util.logging.Level;
  */
 @ScheduledFixedRate(interval = 5000)
 public class DemoSchedule implements Runnable {
+
+    private final String name;
+
+    public DemoSchedule(String name) {
+        this.name = name;
+    }
+
     @Override
     public void run() {
-        PrintUtils.print(Level.INFO, "this is DemoSchedule running log - " + System.currentTimeMillis());
+        PrintUtils.print(Level.INFO, "DemoSchedule " + name + " log");
     }
 }

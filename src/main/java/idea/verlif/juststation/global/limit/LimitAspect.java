@@ -55,7 +55,7 @@ public class LimitAspect {
             String key = limit.key();
             if (key.length() == 0) {
                 // 未指定Key则取方法名
-                key = method.getName();
+                key = target.getClass().getSimpleName() + "." + method.getName();
             }
             if (handler.arrived(key)) {
                 return joinPoint.proceed();

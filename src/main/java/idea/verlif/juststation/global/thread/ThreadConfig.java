@@ -1,11 +1,11 @@
 package idea.verlif.juststation.global.thread;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import reactor.util.annotation.NonNull;
 
 import java.util.concurrent.*;
@@ -42,20 +42,22 @@ public class ThreadConfig {
 
     @Bean
     @ConditionalOnMissingBean(ThreadPoolExecutor.class)
-    public ThreadPoolExecutor threadPoolExecutor(
-            @Autowired ThreadFactory factory) {
+    public ThreadPoolExecutor threadPoolExecutor() {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 coreSize, maxSize,
                 alive, TimeUnit.SECONDS,
-                blockingQueue(), factory);
+                blockingQueue(), new DefaultThreadFactory());
         executor.allowCoreThreadTimeOut(allowTimeout);
         return executor;
     }
 
     @Bean
-    @ConditionalOnMissingBean(ThreadFactory.class)
-    public ThreadFactory threadFactory() {
-        return new DefaultThreadFactory();
+    @ConditionalOnMissingBean(ThreadPoolTaskScheduler.class)
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setThreadFactory(new DefaultThreadFactory());
+        scheduler.setPoolSize(maxSize);
+        return scheduler;
     }
 
     public BlockingQueue<Runnable> blockingQueue() {
