@@ -2,19 +2,16 @@ package idea.verlif.juststation.global.scheduling;
 
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.SchedulingConfigurer;
-import org.springframework.scheduling.config.CronTask;
-import org.springframework.scheduling.config.FixedDelayTask;
-import org.springframework.scheduling.config.FixedRateTask;
-import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
-import reactor.util.annotation.NonNull;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
 
 /**
@@ -23,75 +20,144 @@ import java.util.logging.Level;
  * @date 2021/12/21 11:46
  */
 @Component
-@EnableScheduling
-public class SchedulingService implements SchedulingConfigurer {
+public class SchedulingService implements ApplicationRunner {
 
-    private final Map<String, CronTask> cronTasks;
-    private final Map<String, FixedDelayTask> delayTasks;
-    private final Map<String, FixedRateTask> rateTasks;
+    private final ConcurrentHashMap<String, Runnable> taskMap;
+    private final ConcurrentHashMap<String, ScheduledFuture<?>> futureMap;
+    /**
+     * 是否在添加时直接执行定时任务
+     */
+    private boolean ready;
 
-    public SchedulingService(
-            @Autowired ApplicationContext context,
-            @Autowired ScheduleConfig config) {
-        cronTasks = new ConcurrentHashMap<>();
-        delayTasks = new ConcurrentHashMap<>();
-        rateTasks = new ConcurrentHashMap<>();
+    @Autowired
+    private ThreadPoolTaskScheduler schedule;
+
+    @Autowired
+    private ScheduleConfig config;
+
+    public SchedulingService(@Autowired ApplicationContext context) {
+        taskMap = new ConcurrentHashMap<>();
+        futureMap = new ConcurrentHashMap<>();
+        ready = false;
 
         Map<String, Runnable> map = context.getBeansOfType(Runnable.class);
         for (Runnable runnable : map.values()) {
-            Class<?> cl = runnable.getClass();
-            ScheduledCron cron = cl.getAnnotation(ScheduledCron.class);
-            if (cron != null) {
-                String name = cron.value().length() == 0 ? cl.getSimpleName() : cron.value();
-                if (config.isAllowed(name)) {
-                    cronTasks.put(name, new CronTask(runnable, cron.cron()));
-                }
-            }
-            ScheduledFixedDelay delay = cl.getAnnotation(ScheduledFixedDelay.class);
-            if (delay != null) {
-                String name = delay.value().length() == 0 ? cl.getSimpleName() : delay.value();
-                if (config.isAllowed(name)) {
-                    delayTasks.put(name, new FixedDelayTask(
-                            runnable,
-                            delay.unit().toMillis(delay.interval()),
-                            delay.unit().toMillis(delay.delay())));
-                }
-            }
-            ScheduledFixedRate rate = cl.getAnnotation(ScheduledFixedRate.class);
-            if (rate != null) {
-                String name = rate.value().length() == 0 ? cl.getSimpleName() : rate.value();
-                if (config.isAllowed(name)) {
-                    rateTasks.put(name, new FixedRateTask(
-                            runnable,
-                            rate.unit().toMillis(rate.interval()),
-                            rate.unit().toMillis(rate.delay())));
-                }
-            }
+            insert(runnable);
         }
     }
 
     @Override
-    public void configureTasks(@NonNull ScheduledTaskRegistrar taskRegistrar) {
-        for (CronTask cronTask : cronTasks.values()) {
-            taskRegistrar.addCronTask(cronTask);
-        }
-        if (cronTasks.size() > 0) {
-            PrintUtils.print(Level.INFO, "cronTask loaded : " + cronTasks.size() + " - " + Arrays.toString(cronTasks.keySet().toArray()));
-        }
+    public void run(ApplicationArguments args) throws Exception {
+        synchronized (taskMap) {
+            for (Runnable runnable : taskMap.values()) {
+                schedule(null, runnable);
+            }
+            taskMap.clear();
 
-        for (FixedDelayTask delayTask : delayTasks.values()) {
-            taskRegistrar.addFixedDelayTask(delayTask);
-        }
-        if (delayTasks.size() > 0) {
-            PrintUtils.print(Level.INFO, "delayTasks loaded : " + delayTasks.size() + " - " + Arrays.toString(delayTasks.keySet().toArray()));
-        }
-
-        for (FixedRateTask rateTask : rateTasks.values()) {
-            taskRegistrar.addFixedRateTask(rateTask);
-        }
-        if (rateTasks.size() > 0) {
-            PrintUtils.print(Level.INFO, "rateTasks loaded : " + rateTasks.size() + " - " + Arrays.toString(rateTasks.keySet().toArray()));
+            StringBuilder sb = new StringBuilder();
+            Enumeration<String> enumeration = futureMap.keys();
+            while (enumeration.hasMoreElements()) {
+                sb.append(enumeration.nextElement()).append(", ");
+            }
+            PrintUtils.print(Level.INFO, "already loaded tasks with " + futureMap.size() + " - " + sb.substring(0, sb.length() - 2));
+            ready = true;
         }
     }
 
+    public synchronized void insert(String name, Runnable runnable) {
+        synchronized (taskMap) {
+            if (ready) {
+                schedule(name, runnable);
+            } else {
+                taskMap.put(name, runnable);
+            }
+        }
+    }
+
+    /**
+     * 添加定时任务
+     *
+     * @param runnable 任务对象
+     */
+    public synchronized void insert(Runnable runnable) {
+        synchronized (taskMap) {
+            if (ready) {
+                schedule(null, runnable);
+            } else {
+                taskMap.put(runnable.getClass().getSimpleName(), runnable);
+            }
+        }
+    }
+
+    /**
+     * 取消定时任务
+     *
+     * @param name 任务名称
+     * @return 是否取消成功
+     */
+    public synchronized boolean cancel(String name) {
+        ScheduledFuture<?> future = futureMap.get(name);
+        if (future == null) {
+            return false;
+        }
+        return future.cancel(true);
+    }
+
+    /**
+     * 添加定时任务
+     *
+     * @param defaultName 任务名称；null则使用注解提供的名称规则
+     * @param runnable 任务对象
+     */
+    private void schedule(String defaultName, Runnable runnable) {
+        Class<?> cl = runnable.getClass();
+        boolean loaded = false;
+        ScheduledCron cron = cl.getAnnotation(ScheduledCron.class);
+        if (cron != null) {
+            String name = defaultName != null ? defaultName : cron.value().length() == 0 ? cl.getSimpleName() : cron.value();
+            if (futureMap.containsKey(name)) {
+                PrintUtils.print(Level.WARNING, "already exist task " + name + "!!!");
+                return;
+            }
+            if (config.isAllowed(name)) {
+                ScheduledFuture<?> future = schedule.schedule(runnable, new CronTrigger(cron.cron()));
+                if (future != null) {
+                    futureMap.put(name, future);
+                    loaded = true;
+                } else {
+                    PrintUtils.print(Level.WARNING, "can not insert this task: " + name);
+                }
+            }
+        }
+        ScheduledFixedDelay delay = cl.getAnnotation(ScheduledFixedDelay.class);
+        if (delay != null) {
+            String name = defaultName != null ? defaultName : delay.value().length() == 0 ? cl.getSimpleName() : delay.value();
+            if (futureMap.containsKey(name)) {
+                PrintUtils.print(Level.WARNING, "already exist task " + name + "!!!");
+                return;
+            }
+            if (config.isAllowed(name)) {
+                ScheduledFuture<?> future = schedule.scheduleWithFixedDelay(runnable, new Date(System.currentTimeMillis() + delay.unit().toMillis(delay.delay())), delay.unit().toMillis(delay.interval()));
+                futureMap.put(name, future);
+                loaded = true;
+            }
+        }
+        ScheduledFixedRate rate = cl.getAnnotation(ScheduledFixedRate.class);
+        if (rate != null) {
+            String name = defaultName != null ? defaultName : rate.value().length() == 0 ? cl.getSimpleName() : rate.value();
+            if (futureMap.containsKey(name)) {
+                PrintUtils.print(Level.WARNING, "already exist task " + name + "!!!");
+                return;
+            }
+            if (config.isAllowed(name)) {
+                ScheduledFuture<?> future = schedule.scheduleAtFixedRate(runnable, new Date(System.currentTimeMillis() + rate.unit().toMillis(rate.delay())), rate.unit().toMillis(rate.interval()));
+                futureMap.put(name, future);
+                loaded = true;
+            }
+        }
+
+        if (!loaded) {
+            PrintUtils.print(Level.WARNING, "runnable" + cl.getName() + " can not been loaded!");
+        }
+    }
 }

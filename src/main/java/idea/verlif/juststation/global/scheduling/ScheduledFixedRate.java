@@ -1,7 +1,5 @@
 package idea.verlif.juststation.global.scheduling;
 
-import org.springframework.stereotype.Component;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,7 +13,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Component
 public @interface ScheduledFixedRate {
 
     /**

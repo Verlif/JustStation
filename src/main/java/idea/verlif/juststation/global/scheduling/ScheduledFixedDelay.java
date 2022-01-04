@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Component
 public @interface ScheduledFixedDelay {
 
     /**
