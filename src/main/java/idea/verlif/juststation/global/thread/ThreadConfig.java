@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.thread;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +40,6 @@ public class ThreadConfig {
     private boolean allowTimeout = true;
 
     @Bean
-    @ConditionalOnMissingBean(ThreadPoolExecutor.class)
     public ThreadPoolExecutor threadPoolExecutor() {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 coreSize, maxSize,
@@ -52,7 +50,6 @@ public class ThreadConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(ThreadPoolTaskScheduler.class)
     public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setThreadFactory(new DefaultThreadFactory());

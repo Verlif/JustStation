@@ -1,6 +1,7 @@
 package idea.verlif.justdemo.core.schedule;
 
-import idea.verlif.juststation.global.scheduling.ScheduledFixedRate;
+import idea.verlif.juststation.global.task.TaskTip;
+import idea.verlif.juststation.global.task.TaskType;
 import idea.verlif.juststation.global.util.PrintUtils;
 
 import java.util.logging.Level;
@@ -12,7 +13,7 @@ import java.util.logging.Level;
  * @version 1.0
  * @date 2021/12/31 15:04
  */
-@ScheduledFixedRate(interval = 5000)
+@TaskTip(type = TaskType.REPEAT_RATE, interval = 5000)
 public class DemoSchedule implements Runnable {
 
     private final String name;

@@ -1,8 +1,13 @@
 package idea.verlif.justtest.controller;
 
-import org.springframework.stereotype.Controller;
+import idea.verlif.juststation.global.task.TaskService;
+import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.justtest.component.TaskTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.logging.Level;
 
 /**
  * @author Verlif
@@ -12,8 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    @Autowired
+    private TaskService taskService;
+
     @RequestMapping("/")
     public String index() {
+        taskService.delay(new TaskTest(), 2000);
+        PrintUtils.print(Level.INFO, "Hello World!!!");
         return "Hello World!!!";
     }
 }

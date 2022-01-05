@@ -42,7 +42,7 @@ WIKI上有比较详细的功能实现说明。
 * 基于接口的日志记录，使用`@LogIt`注解来标记需要记录的方法。
 * 参数检测，使用`validation`进行参数校验，使用注解完成自动入参检测。
 * 全局异常处理组件化，通过实现`ExceptionHolder`来完成特定异常的处理。
-* 统一定时任务，由`SchedulingServer`接管，组件化实现方式，可以在配置文件中配置允许名单与屏蔽名单。
+* 统一定时任务，由`TaskServer`接管，组件化实现方式，可以在配置文件中配置允许名单与屏蔽名单。
 * ~~控制台指令（**默认关闭**），引入了`SpringShell`来允许在控制台输入自定义指令，执行自定义功能。~~
 * 远程URL指令，通过`RemCommad`来编写自定义的远程指令。
 * 通知发送模块，发送短信（由于平台太多，所以**未内置**）、邮件等的通知接口。
@@ -56,6 +56,7 @@ WIKI上有比较详细的功能实现说明。
 * 安全相关 - spring-security、RSA加密
 * 缓存实现 - 内存非持久化缓存、Redis
 * 日志记录 - 默认java.util.logging
+* 定时任务 - ThreadPoolTaskScheduler
 * 数据脱敏 - JsonSerializer
 * 参数校验 - spring-validation
 * ~~控制台指令 - spring-shell~~

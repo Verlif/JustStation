@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.cache;
 
 import idea.verlif.juststation.global.cache.mem.MemCache;
-import idea.verlif.juststation.global.scheduling.SchedulingService;
+import idea.verlif.juststation.global.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ public class CacheConfig {
 
     @Bean
     @ConditionalOnMissingBean(CacheHandler.class)
-    public CacheHandler cacheHandler(@Autowired SchedulingService schedulingService) {
-        return new MemCache(schedulingService);
+    public CacheHandler cacheHandler(@Autowired TaskService taskService) {
+        return new MemCache(taskService);
     }
 }

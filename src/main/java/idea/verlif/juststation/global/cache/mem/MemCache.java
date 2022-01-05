@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.cache.mem;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
-import idea.verlif.juststation.global.scheduling.SchedulingService;
+import idea.verlif.juststation.global.task.TaskService;
 import idea.verlif.juststation.global.util.PrintUtils;
 
 import java.io.Serializable;
@@ -27,12 +27,12 @@ public class MemCache implements CacheHandler, Serializable {
     private final Map<String, Object> map;
     private final Map<String, Long> deadMap;
 
-    public MemCache(SchedulingService schedulingService) {
+    public MemCache(TaskService taskService) {
         map = new ConcurrentHashMap<>();
         deadMap = new ConcurrentHashMap<>();
 
         // 设定任务执行器
-        schedulingService.insert(new MemCacheClearer(this));
+        taskService.insert(new MemCacheClearer(this));
     }
 
     @Override

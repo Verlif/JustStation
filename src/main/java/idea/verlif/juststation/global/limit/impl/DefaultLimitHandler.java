@@ -1,7 +1,8 @@
 package idea.verlif.juststation.global.limit.impl;
 
 import idea.verlif.juststation.global.limit.LimitHandler;
-import idea.verlif.juststation.global.scheduling.ScheduledFixedDelay;
+import idea.verlif.juststation.global.task.TaskTip;
+import idea.verlif.juststation.global.task.TaskType;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2021/11/30 9:20
  */
 @Component
-@ScheduledFixedDelay(interval = 60000)
+@TaskTip(type = TaskType.REPEAT_DELAY, interval = 60000)
 public class DefaultLimitHandler implements LimitHandler, Runnable {
 
     /**

@@ -45,7 +45,7 @@ station:
     # 允许线程超时
     allowTimeout: true
   # 定时任务配置
-  schedule:
+  task:
     # 允许的定时任务列表。格式为yml的列表格式
     allowed:
     # 屏蔽的定时任务列表

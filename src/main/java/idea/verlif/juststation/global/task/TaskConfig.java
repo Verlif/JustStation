@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.scheduling;
+package idea.verlif.juststation.global.task;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,8 +14,8 @@ import java.util.List;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "station.schedule")
-public class ScheduleConfig {
+@ConfigurationProperties(prefix = "station.task")
+public class TaskConfig {
 
     /**
      * 允许的定时任务列表。存在值时，屏蔽列表无效。

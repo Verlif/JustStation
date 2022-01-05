@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.cache.mem;
 
-import idea.verlif.juststation.global.scheduling.ScheduledFixedDelay;
+import idea.verlif.juststation.global.task.TaskTip;
+import idea.verlif.juststation.global.task.TaskType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
 import java.util.concurrent.TimeUnit;
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2021/12/31 15:28
  */
 @ConditionalOnBean(MemCache.class)
-@ScheduledFixedDelay(delay = 5, interval = 3, unit = TimeUnit.SECONDS)
+@TaskTip(type = TaskType.REPEAT_DELAY, delay = 5, interval = 3, unit = TimeUnit.SECONDS)
 public class MemCacheClearer implements Runnable {
 
     private final MemCache memCache;
