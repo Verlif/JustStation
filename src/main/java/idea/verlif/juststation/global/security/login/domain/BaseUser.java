@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.security.login.domain;
 
 import idea.verlif.juststation.global.base.domain.Fillable;
-import idea.verlif.juststation.global.base.domain.WithKey;
 import idea.verlif.juststation.global.sensible.Sensitive;
 import idea.verlif.juststation.global.validation.group.Insert;
 import idea.verlif.juststation.global.validation.group.Update;
@@ -18,7 +17,7 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2021/11/9 11:52
  */
-public class BaseUser extends WithKey implements Serializable, Fillable {
+public class BaseUser implements Serializable, Fillable {
 
     /**
      * 用户登录名

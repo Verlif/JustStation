@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.validation.EnumValid;
 import idea.verlif.juststation.global.validation.group.All;
@@ -38,11 +39,17 @@ public class User extends BaseUser {
     @Size(min = 1, max = 24)
     private String nickname;
 
+    @Schema(name = "用户角色")
     @EnumValid(allowed = {"admin"}, nullable = false,
             groups = All.class,
             message = "不允许的角色")
     @TableField(exist = false)
     private Role.RoleKey roleKey;
+
+    @JsonIgnore
+    @NotBlank
+    @TableField(exist = false)
+    private String keyId;
 
     public void setRoleKey(String roleKey) {
         this.roleKey = Role.RoleKey.valueOf(roleKey);

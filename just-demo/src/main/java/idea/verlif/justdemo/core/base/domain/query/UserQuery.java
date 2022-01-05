@@ -1,8 +1,8 @@
 package idea.verlif.justdemo.core.base.domain.query;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import idea.verlif.justdemo.core.base.PageWithMP;
 import idea.verlif.justdemo.core.base.domain.User;
-import idea.verlif.juststation.global.base.domain.Pageable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(name = "用户查询条件")
-public class UserQuery extends Pageable<User> {
+public class UserQuery extends PageWithMP<User> {
 
     @Schema(name = "用户昵称筛选")
     private String nickname;

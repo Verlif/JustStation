@@ -57,6 +57,7 @@ public class LogConfig {
             Logger logger = loggerMap.get(cl);
             if (logger == null) {
                 logger = Logger.getLogger(cl);
+                logger.setLevel(Level.CONFIG);
                 loggerMap.put(cl, logger);
             }
             return logger;

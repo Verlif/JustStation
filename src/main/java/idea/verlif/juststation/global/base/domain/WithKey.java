@@ -1,6 +1,5 @@
 package idea.verlif.juststation.global.base.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import idea.verlif.juststation.global.rsa.RsaKey;
 
@@ -17,7 +16,6 @@ public class WithKey {
 
     @JsonIgnore
     @NotBlank
-    @TableField(exist = false)
     private String keyId;
 
     public String getKeyId() {

@@ -18,12 +18,12 @@ public class TaskTest implements Runnable {
 
     @Override
     public void run() {
-        PrintUtils.print(Level.INFO, "任务开始");
+        PrintUtils.print(Level.CONFIG, "任务开始");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        PrintUtils.print(Level.INFO, "任务结束");
+        PrintUtils.print(Level.CONFIG, "任务结束");
     }
 }

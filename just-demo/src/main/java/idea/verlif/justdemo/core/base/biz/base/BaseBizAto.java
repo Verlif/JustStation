@@ -1,8 +1,8 @@
-package idea.verlif.juststation.core;
+package idea.verlif.justdemo.core.base.biz.base;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.global.base.domain.Pageable;
+import idea.verlif.justdemo.core.base.PageWithMP;
 
 import java.io.Serializable;
 
@@ -34,7 +34,7 @@ public class BaseBizAto<T, M extends BaseMapper<T>> extends BaseBiz<T, M> {
      * @return 分页数据
      */
     @Override
-    public IPage<T> selectPage(Pageable<T> query) {
+    public IPage<T> selectPage(PageWithMP<T> query) {
         return baseMapper.selectPage(query.buildPage(), query.buildQueryWrapper());
     }
 

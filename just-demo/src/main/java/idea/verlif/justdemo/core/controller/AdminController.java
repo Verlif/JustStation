@@ -1,8 +1,8 @@
 package idea.verlif.justdemo.core.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import idea.verlif.justdemo.core.base.biz.UserBiz;
 import idea.verlif.justdemo.core.base.domain.query.UserQuery;
+import idea.verlif.juststation.global.base.domain.SimPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.security.login.LoginService;
@@ -42,7 +42,7 @@ public class AdminController {
 
     @GetMapping("/user/online")
     @Operation(summary = "获取所有在线用户列表")
-    public BaseResult<IPage<LoginUser>> listOnlineUser(OnlineUserQuery query) {
+    public BaseResult<SimPage<LoginUser>> listOnlineUser(OnlineUserQuery query) {
         return loginService.getOnlineUser(query);
     }
 

@@ -11,7 +11,6 @@ import idea.verlif.juststation.global.rsa.RsaService;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.permission.Perm;
-import idea.verlif.juststation.global.util.PrintUtils;
 import idea.verlif.juststation.global.validation.group.Insert;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -127,7 +126,6 @@ public class LoginController {
     @PostMapping("/register/sim")
     public BaseResult<?> simulatingRegister(@RequestBody @Validated UserWithKey user) {
         user.setPassword(rsaService.encryptByPublicKey(user.getKey().getPublicKey(), user.getPassword()));
-        PrintUtils.print(user.getPassword());
         return userBiz.register(user);
     }
 
@@ -157,7 +155,7 @@ public class LoginController {
 
         public void setKey(RsaKey key) {
             this.key = key;
-            withKey(key);
+            setKeyId(key.getId());
         }
     }
 }

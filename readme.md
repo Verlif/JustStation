@@ -52,22 +52,22 @@ WIKI上有比较详细的功能实现说明。
 ## 技术选型
 
 * 核心框架 - spring boot
-* 持久层 - mybatis plus、druid
+* ~~*持久层 - mybatis plus、druid*~~（主项目已移除）
 * 安全相关 - spring-security、RSA加密
 * 缓存实现 - 内存非持久化缓存、Redis
 * 日志记录 - 默认java.util.logging
 * 定时任务 - ThreadPoolTaskScheduler
-* 数据脱敏 - JsonSerializer
+* 数据脱敏 - Jackson
 * 参数校验 - spring-validation
-* ~~控制台指令 - spring-shell~~
+* ~~控制台指令 - spring-shell~~（主项目已移除）
 * API文档 - springfox3
 
 ----
 
 ## 开发ING
 
-* ~~*MemCache的持久化实现（取消）*~~
-* *脱敏注解的分组实现*
+* ~~*MemCache的持久化实现*~~（取消）
+* ~~*脱敏注解的分组实现*~~（取消）
 
 ----
 

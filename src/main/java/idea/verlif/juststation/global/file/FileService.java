@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.file;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import idea.verlif.juststation.global.base.domain.SimPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.file.handler.FileCart;
 import idea.verlif.juststation.global.file.handler.FileHandler;
@@ -80,7 +80,7 @@ public class FileService {
         return fileHandler.getAccessiblePath(fileCart, type, fileName);
     }
 
-    public BaseResult<IPage<FileInfo>> getFileList(FileCart fileCart, String type, FileQuery query) {
+    public BaseResult<SimPage<FileInfo>> getFileList(FileCart fileCart, String type, FileQuery query) {
         return fileHandler.getFileList(fileCart, type, query);
     }
 

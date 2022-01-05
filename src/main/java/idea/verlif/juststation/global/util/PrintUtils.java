@@ -60,7 +60,7 @@ public class PrintUtils {
      * 打点标记
      */
     public static void pin() {
-        HANDLER.printLog(Level.INFO, " > PIN < ");
+        HANDLER.printLog(Level.CONFIG, " > PIN < ");
     }
 
     /**
@@ -134,6 +134,7 @@ public class PrintUtils {
             Logger logger = loggerHashMap.get(loggerName);
             if (logger == null) {
                 logger = Logger.getLogger(loggerName);
+                logger.setLevel(Level.CONFIG);
                 loggerHashMap.put(loggerName, logger);
             }
             return logger;

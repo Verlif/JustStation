@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.security.login;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import idea.verlif.juststation.global.base.domain.SimPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
@@ -93,7 +93,7 @@ public class LoginService {
      * @param query 查询条件
      * @return 在线用户信息
      */
-    public BaseResult<IPage<LoginUser>> getOnlineUser(OnlineUserQuery query) {
+    public BaseResult<SimPage<LoginUser>> getOnlineUser(OnlineUserQuery query) {
         List<LoginUser> set = tokenService.getOnlineUser(query);
         return new OkResult<>(PageUtils.page(set, query));
     }

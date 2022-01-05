@@ -1,8 +1,7 @@
 package idea.verlif.juststation.global.util;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import idea.verlif.juststation.global.base.domain.Pageable;
+import idea.verlif.juststation.global.base.domain.SimPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,8 @@ public class PageUtils {
      * @param <T>   分页对象
      * @return 分页结果
      */
-    public static <T> IPage<T> page(List<T> list, Pageable<?> query) {
-        IPage<T> page = new Page<>();
+    public static <T> SimPage<T> page(List<T> list, Pageable<?> query) {
+        SimPage<T> page = new SimPage<>();
         page.setTotal(list.size());
         page.setSize(query.getPageSize());
         page.setPages(page.getTotal() / page.getSize());

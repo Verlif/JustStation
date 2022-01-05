@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.file.handler;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import idea.verlif.juststation.global.base.domain.SimPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +43,7 @@ public interface FileHandler {
      * @param type     文件自目录；可为空
      * @return 文件列表信息
      */
-    BaseResult<IPage<FileInfo>> getFileList(FileCart fileCart, String type, FileQuery query);
+    BaseResult<SimPage<FileInfo>> getFileList(FileCart fileCart, String type, FileQuery query);
 
     /**
      * 上传文件

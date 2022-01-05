@@ -1,8 +1,8 @@
-package idea.verlif.juststation.core;
+package idea.verlif.justdemo.core.base.biz.base;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.juststation.global.base.domain.Pageable;
+import idea.verlif.justdemo.core.base.PageWithMP;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
@@ -37,9 +37,9 @@ public abstract class BaseBiz<T, M extends BaseMapper<T>> {
      */
     public abstract T selectOne(Serializable id);
 
-    public BaseResult<IPage<T>> getPage(Pageable<T> query) {
+    public BaseResult<IPage<T>> getPage(PageWithMP<T> query) {
         if (query == null) {
-            query = new Pageable<T>() {
+            query = new PageWithMP<T>() {
             };
             query.setPageSize(-1);
         }
@@ -53,7 +53,7 @@ public abstract class BaseBiz<T, M extends BaseMapper<T>> {
      * @param query 查询条件
      * @return 分页数据
      */
-    public abstract IPage<T> selectPage(Pageable<T> query);
+    public abstract IPage<T> selectPage(PageWithMP<T> query);
 
     public BaseResult<T> insert(T t) {
         if (insertOne(t)) {

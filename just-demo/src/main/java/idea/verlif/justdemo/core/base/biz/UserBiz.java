@@ -1,7 +1,7 @@
 package idea.verlif.justdemo.core.base.biz;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import idea.verlif.juststation.core.BaseBizAto;
+import idea.verlif.justdemo.core.base.biz.base.BaseBizAto;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;

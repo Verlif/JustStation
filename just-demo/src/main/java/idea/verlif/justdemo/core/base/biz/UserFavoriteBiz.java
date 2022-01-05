@@ -1,6 +1,6 @@
 package idea.verlif.justdemo.core.base.biz;
 
-import idea.verlif.juststation.core.BaseBizAto;
+import idea.verlif.justdemo.core.base.biz.base.BaseBizAto;
 import idea.verlif.justdemo.core.base.domain.UserFavorite;
 import idea.verlif.justdemo.core.base.mapper.UserFavoriteMapper;
 import org.springframework.stereotype.Service;
