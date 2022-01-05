@@ -13,7 +13,7 @@ import java.util.logging.Level;
  * @date 2022/1/5 10:53
  */
 @Component
-@TaskTip(type = TaskType.DELAY, delay = 2000)
+@TaskTip(value = "test", type = TaskType.DELAY, delay = 2000)
 public class TaskTest implements Runnable {
 
     @Override

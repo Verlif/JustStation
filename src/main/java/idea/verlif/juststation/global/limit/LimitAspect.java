@@ -37,13 +37,9 @@ public class LimitAspect {
 
     @Around("@annotation(idea.verlif.juststation.global.limit.Limit)")
     public Object onLimit(ProceedingJoinPoint joinPoint) throws Throwable {
-        Signature sig = joinPoint.getSignature();
-        if (!(sig instanceof MethodSignature)) {
-            throw new IllegalArgumentException("only method can use it!");
-        }
-        MethodSignature signature = (MethodSignature) sig;
-        Object target = joinPoint.getTarget();
-        Method method = target.getClass().getMethod(signature.getName(), signature.getParameterTypes());
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
 
         Limit limit = method.getAnnotation(Limit.class);
         if (limit != null) {
@@ -55,7 +51,7 @@ public class LimitAspect {
             String key = limit.key();
             if (key.length() == 0) {
                 // 未指定Key则取方法名
-                key = target.getClass().getSimpleName() + "." + method.getName();
+                key = method.getName();
             }
             if (handler.arrived(key)) {
                 return joinPoint.proceed();
