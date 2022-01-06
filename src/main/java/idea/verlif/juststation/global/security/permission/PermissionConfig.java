@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
+ * 权限配置
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/12/17 16:10

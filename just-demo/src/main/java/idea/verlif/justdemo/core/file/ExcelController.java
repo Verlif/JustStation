@@ -60,7 +60,7 @@ public class ExcelController {
             return baseResult;
         } catch (Exception e) {
             e.printStackTrace();
-            return new FailResult<>();
+            return FailResult.empty();
         }
     }
 

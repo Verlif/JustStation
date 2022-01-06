@@ -10,6 +10,8 @@ import reactor.util.annotation.NonNull;
 import java.util.concurrent.*;
 
 /**
+ * 多线程配置，不影响Spring的线程策略。
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/12/21 11:12

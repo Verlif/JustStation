@@ -27,6 +27,8 @@ import java.io.IOException;
 @Component
 public class TokenFilter extends OncePerRequestFilter {
 
+    private static final WebAuthenticationDetailsSource DETAILS_SOURCE = new WebAuthenticationDetailsSource();
+
     @Autowired
     private TokenService tokenService;
 
@@ -53,7 +55,7 @@ public class TokenFilter extends OncePerRequestFilter {
             // 填充本次的登录用户信息
             tokenService.refreshUser(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            authenticationToken.setDetails(DETAILS_SOURCE.buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         chain.doFilter(request, response);

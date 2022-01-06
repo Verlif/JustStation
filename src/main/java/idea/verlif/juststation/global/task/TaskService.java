@@ -18,6 +18,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /**
+ * 任务服务。<br/>
+ * 任务服务会在启动时加载，在启动结束后开始执行。
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/12/21 11:46
@@ -44,7 +47,8 @@ public class TaskService implements ApplicationRunner {
     public TaskService(
             @Autowired ApplicationContext context,
             @Autowired ThreadPoolTaskScheduler schedule,
-            @Autowired TaskConfig taskConfig) {
+            @Autowired TaskConfig taskConfig
+    ) {
         this.schedule = schedule;
         this.config = taskConfig;
 
@@ -76,6 +80,22 @@ public class TaskService implements ApplicationRunner {
         }
     }
 
+    /**
+     * 获取任务调度器
+     *
+     * @return 服务内部的调度器
+     */
+    public ThreadPoolTaskScheduler getSchedule() {
+        return schedule;
+    }
+
+    /**
+     * 添加定时任务 <br/>
+     * 添加的任务需要带有{@link TaskTip}注解
+     *
+     * @param name     任务名称
+     * @param runnable 任务对象
+     */
     public synchronized void insert(String name, Runnable runnable) {
         synchronized (taskMap) {
             if (ready) {

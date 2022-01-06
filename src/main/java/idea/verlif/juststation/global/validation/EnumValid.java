@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Locale;
 
 /**
+ * 枚举类限制检测
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/12/20 10:30
@@ -32,7 +34,7 @@ public @interface EnumValid {
     String[] blocked() default {};
 
     /**
-     * 是否允许空值
+     * 是否允许空值。（默认 - true）
      */
     boolean nullable() default true;
 

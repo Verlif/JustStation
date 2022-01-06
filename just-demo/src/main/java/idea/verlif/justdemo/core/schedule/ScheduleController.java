@@ -36,9 +36,9 @@ public class ScheduleController {
     @Operation(summary = "取消定时任务")
     public BaseResult<?> cancel(String name) {
         if (taskService.cancel(name)) {
-            return new OkResult<>();
+            return OkResult.empty();
         } else {
-            return new FailResult<>();
+            return FailResult.empty();
         }
     }
 }

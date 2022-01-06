@@ -35,7 +35,7 @@ public class LoginHandlerAto implements LoginHandler {
         for (String token : tokens) {
             tokenService.logout(token);
         }
-        return new OkResult<>();
+        return OkResult.empty();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LoginHandlerAto implements LoginHandler {
         LoginUser user = SecurityUtils.getLoginUser();
         if (user != null) {
             tokenService.logout(user.getToken());
-            return new OkResult<>();
+            return OkResult.empty();
         } else {
             return new BaseResult<>(ResultCode.FAILURE_NOT_LOGIN);
         }

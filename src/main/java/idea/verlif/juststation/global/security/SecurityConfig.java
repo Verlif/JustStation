@@ -55,24 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CorsFilter corsFilter;
 
+    /**
+     * 密码重编码
+     */
     @Autowired
     private PasswordEncoder encoder;
 
-    /**
-     * anyRequest          |   匹配所有请求路径 <br/>
-     * access              |   SpringEl表达式结果为true时可以访问 <br/>
-     * anonymous           |   匿名可以访问 <br/>
-     * denyAll             |   用户不能访问 <br/>
-     * fullyAuthenticated  |   用户完全认证可以访问（非remember-me下自动登录） <br/>
-     * hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访问 <br/>
-     * hasAnyRole          |   如果有参数，参数表示角色，则其中任何一个角色可以访问 <br/>
-     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访问 <br/>
-     * hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问 <br/>
-     * hasRole             |   如果有参数，参数表示角色，则其角色可以访问 <br/>
-     * permitAll           |   用户可以任意访问 <br/>
-     * rememberMe          |   允许通过remember-me登录的用户访问 <br/>
-     * authenticated       |   用户登录后可访问 <br/>
-     */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

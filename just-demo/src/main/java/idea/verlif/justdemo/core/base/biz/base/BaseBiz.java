@@ -57,7 +57,7 @@ public abstract class BaseBiz<T, M extends BaseMapper<T>> {
 
     public BaseResult<T> insert(T t) {
         if (insertOne(t)) {
-            return new OkResult<>();
+            return OkResult.empty();
         } else {
             return new BaseResult<>(ResultCode.FAILURE_INSERT);
         }
@@ -73,7 +73,7 @@ public abstract class BaseBiz<T, M extends BaseMapper<T>> {
 
     public BaseResult<T> update(T t) {
         if (updateOne(t)) {
-            return new OkResult<>();
+            return OkResult.empty();
         } else {
             return new BaseResult<>(ResultCode.FAILURE_UPDATE);
         }
@@ -89,7 +89,7 @@ public abstract class BaseBiz<T, M extends BaseMapper<T>> {
 
     public BaseResult<T> delete(Serializable id) {
         if (deleteOne(id)) {
-            return new OkResult<>();
+            return OkResult.empty();
         } else {
             return new BaseResult<>(ResultCode.FAILURE_DELETE);
         }

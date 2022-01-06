@@ -137,7 +137,7 @@ public class DefaultFileHandler implements FileHandler {
                 File dir = new File(dirFile, name);
                 file.transferTo(dir);
             }
-            return new OkResult<>();
+            return OkResult.empty();
         } catch (IOException e) {
             e.printStackTrace();
             return new BaseResult<>(ResultCode.FAILURE_FILE_UPLOAD);
@@ -169,7 +169,7 @@ public class DefaultFileHandler implements FileHandler {
                     os.write(b, 0, length);
                 }
                 os.flush();
-                return new OkResult<>();
+                return OkResult.empty();
             } catch (IOException e) {
                 PrintUtils.print(e);
                 return new BaseResult<>(ResultCode.FAILURE_FILE_DOWNLOAD);
@@ -192,9 +192,9 @@ public class DefaultFileHandler implements FileHandler {
         File file = new File(getLocalFile(fileCart, type), fileName);
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
-                return new OkResult<>();
+                return OkResult.empty();
             } else {
-                return new FailResult<>();
+                return FailResult.empty();
             }
         } else {
             return new BaseResult<>(ResultCode.FAILURE_FILE_MISSING).withParam(fileName);

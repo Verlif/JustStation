@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.security;
+package idea.verlif.juststation.global.web;
 
 import idea.verlif.juststation.global.file.FileConfig;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 任务配置
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/12/21 14:38

@@ -61,7 +61,7 @@ public class LoginService {
         if (count > 0) {
             return new OkResult<>().msg(count);
         } else {
-            return new FailResult<>();
+            return FailResult.empty();
         }
     }
 
@@ -73,7 +73,7 @@ public class LoginService {
      */
     public BaseResult<?> logoutUser(String userToken) {
         tokenService.logout(userToken);
-        return new OkResult<>();
+        return OkResult.empty();
     }
 
     /**

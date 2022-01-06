@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * Token配置
+ *
  * @author Verlif
  * @version 1.0
  * @date 2021/11/9 12:58
