@@ -90,7 +90,8 @@ public class MemCache implements CacheHandler, Serializable {
         match = match.replaceAll("\\*", ".*");
         Pattern pattern = Pattern.compile(match);
         Set<String> s = new HashSet<>();
-        for (String key : map.keySet()) {
+        Set<String> keySet = new HashSet<>(map.keySet());
+        for (String key : keySet) {
             if (pattern.matcher(key).matches() && get(key) != null) {
                 s.add(key);
             }
@@ -104,7 +105,8 @@ public class MemCache implements CacheHandler, Serializable {
     public void recycle() {
         int count = 0;
         long now = System.currentTimeMillis();
-        for (String key : map.keySet()) {
+        Set<String> keySet = new HashSet<>(map.keySet());
+        for (String key : keySet) {
             Long t = deadMap.get(key);
             if (t != null && t < now) {
                 count++;
