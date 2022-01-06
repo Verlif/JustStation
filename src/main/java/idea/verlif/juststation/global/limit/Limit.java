@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @version 1.0
  * @date 2021/11/30 8:56
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Limit {
 

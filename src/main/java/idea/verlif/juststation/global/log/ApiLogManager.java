@@ -34,25 +34,24 @@ public class ApiLogManager {
         }
     }
 
-    @Around("@annotation(idea.verlif.juststation.global.log.LogIt)")
+    @Around("@within(idea.verlif.juststation.global.log.LogIt)")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         Signature sig = joinPoint.getSignature();
-        if (!(sig instanceof MethodSignature)) {
-            throw new IllegalArgumentException("only method can use it!");
-        }
-        MethodSignature signature = (MethodSignature) sig;
-        Object target = joinPoint.getTarget();
-        Method currentMethod = target.getClass().getMethod(signature.getName(), signature.getParameterTypes());
+        Method method = ((MethodSignature) sig).getMethod();
 
-        LogIt logIt = currentMethod.getAnnotation(LogIt.class);
+        // 检测方法上的注解
+        LogIt logIt = method.getAnnotation(LogIt.class);
+        if (logIt == null) {
+            logIt = method.getDeclaringClass().getAnnotation(LogIt.class);
+        }
         ApiLogHandler handler = handlerMap.get(logIt.handler());
         if (handler != null) {
-            handler.onLog(currentMethod, logIt);
+            handler.onLog(method, logIt);
             Object o = joinPoint.proceed();
-            handler.onReturn(currentMethod, logIt, o);
+            handler.onReturn(method, logIt, o);
             return o;
         } else {
-            PrintUtils.print(Level.WARNING, currentMethod.getName() + " has not be logged - " + logIt.handler().getSimpleName());
+            PrintUtils.print(Level.WARNING, method.getName() + " has not be logged - " + logIt.handler().getSimpleName());
             return joinPoint.proceed();
         }
     }

@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * @version 1.0
  * @date 2021/11/26 14:20
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LogIt {
 

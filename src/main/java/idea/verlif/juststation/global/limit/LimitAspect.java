@@ -35,30 +35,29 @@ public class LimitAspect {
         }
     }
 
-    @Around("@annotation(idea.verlif.juststation.global.limit.Limit)")
+    @Around("@within(idea.verlif.juststation.global.limit.Limit)")
     public Object onLimit(ProceedingJoinPoint joinPoint) throws Throwable {
-        Signature signature = joinPoint.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
+        Signature sig = joinPoint.getSignature();
+        Method method = ((MethodSignature) sig).getMethod();
 
         Limit limit = method.getAnnotation(Limit.class);
-        if (limit != null) {
-            LimitHandler handler = handlerMap.get(limit.handler());
-            if (handler == null) {
-                return new FailResult<>("No such LimitHandler - " + limit.handler());
-            }
-            // 生成限定Key
-            String key = limit.key();
-            if (key.length() == 0) {
-                // 未指定Key则取方法名
-                key = method.getName();
-            }
-            if (handler.arrived(key)) {
-                return joinPoint.proceed();
-            } else {
-                return new BaseResult<>(ResultCode.FAILURE_LIMIT);
-            }
+        if (limit == null) {
+            limit = method.getDeclaringClass().getAnnotation(Limit.class);
         }
-        return joinPoint.proceed();
+        LimitHandler handler = handlerMap.get(limit.handler());
+        if (handler == null) {
+            return new FailResult<>("No such LimitHandler - " + limit.handler());
+        }
+        // 生成限定Key
+        String key = limit.key();
+        if (key.length() == 0) {
+            // 未指定Key则取方法名
+            key = method.getName();
+        }
+        if (handler.arrived(key)) {
+            return joinPoint.proceed();
+        } else {
+            return new BaseResult<>(ResultCode.FAILURE_LIMIT);
+        }
     }
 }

@@ -36,23 +36,18 @@ public class PermissionHandler {
     public PermissionHandler() {
     }
 
-    @Around("@annotation(idea.verlif.juststation.global.security.permission.Perm) || @within(idea.verlif.juststation.global.security.permission.Perm)")
+    @Around("@within(idea.verlif.juststation.global.security.permission.Perm)")
     public Object dsPointCut(ProceedingJoinPoint joinPoint) throws Throwable {
         Signature sig = joinPoint.getSignature();
-        if (!(sig instanceof MethodSignature)) {
-            throw new IllegalArgumentException("only method can use it!");
-        }
-        MethodSignature signature = (MethodSignature) sig;
-        Object target = joinPoint.getTarget();
-        Method currentMethod = target.getClass().getMethod(signature.getName(), signature.getParameterTypes());
+        Method method = ((MethodSignature) sig).getMethod();
 
         // 检测方法上的权限标记
-        Perm perm = currentMethod.getAnnotation(Perm.class);
+        Perm perm = method.getAnnotation(Perm.class);
         if (perm != null) {
             validatePerm(perm);
         }
         // 检测类上的权限标记
-        perm = currentMethod.getDeclaringClass().getAnnotation(Perm.class);
+        perm = method.getDeclaringClass().getAnnotation(Perm.class);
         if (perm != null) {
             validatePerm(perm);
         }
