@@ -1,16 +1,12 @@
 package idea.verlif.juststation.global.util;
 
 import idea.verlif.juststation.global.security.exception.CustomException;
-import idea.verlif.juststation.global.security.login.domain.BaseUser;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
 
 /**
  * 安全服务工具类
@@ -20,21 +16,9 @@ import java.util.Collections;
 @Component
 public class SecurityUtils {
 
-    private static PasswordEncoder encoder;
+    private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
-    /**
-     * 构建访客身份
-     */
-    private static final LoginUser VISITOR = visitor();
-
-    /**
-     * 是否开启访客模式。<br/>
-     * 开启访客模式后，没有用户登录时，会自动启用访客身份作为识别对象。
-     */
-    private static final boolean OPEN_VISITOR = true;
-
-    public SecurityUtils(@Autowired ApplicationContext context) {
-        encoder = context.getBean(PasswordEncoder.class);
+    public SecurityUtils() {
     }
 
     /**
@@ -42,7 +26,7 @@ public class SecurityUtils {
      **/
     public static String getUsername() {
         try {
-            return getLoginUser().getUser().getUsername();
+            return getLoginUser().getUsername();
         } catch (Exception e) {
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }
@@ -51,15 +35,14 @@ public class SecurityUtils {
     /**
      * 获取用户
      **/
-    public static LoginUser getLoginUser() {
+    public static <T extends LoginUser> T getLoginUser() {
         try {
             Authentication authentication = getAuthentication();
             if (authentication == null) {
-                return OPEN_VISITOR ? VISITOR : null;
+                return null;
             }
-            return (LoginUser) authentication.getPrincipal();
+            return (T) authentication.getPrincipal();
         } catch (Exception e) {
-            PrintUtils.print(e);
             throw new CustomException(MessagesUtils.message("error.no_user"));
         }
     }
@@ -78,7 +61,7 @@ public class SecurityUtils {
      * @return 加密字符串
      */
     public static String encryptPassword(String password) {
-        return encoder.encode(password);
+        return ENCODER.encode(password);
     }
 
     /**
@@ -89,21 +72,7 @@ public class SecurityUtils {
      * @return 结果
      */
     public static boolean matchesPassword(String rawPassword, String encodedPassword) {
-        return encoder.matches(rawPassword, encodedPassword);
+        return ENCODER.matches(rawPassword, encodedPassword);
     }
 
-    /**
-     * 构建访客身份
-     *
-     * @return 访客对象
-     */
-    private static LoginUser visitor() {
-        LoginUser user = new LoginUser();
-        BaseUser baseUser = new BaseUser();
-        baseUser.setUsername("visitor");
-        user.setUser(baseUser);
-        user.setKeySet(Collections.emptySet());
-        user.setRoleSet(Collections.emptySet());
-        return user;
-    }
 }

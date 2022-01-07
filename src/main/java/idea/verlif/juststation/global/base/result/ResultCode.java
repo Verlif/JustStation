@@ -50,7 +50,7 @@ public enum ResultCode {
      */
     FAILURE_FILE_MISSING(523, MessagesUtils.message("result.fail.file.missing")),
     /**
-     * 用户密码错误
+     * 用户登录失败
      */
     FAILURE_LOGIN_FAIL(530, MessagesUtils.message("result.fail.login")),
     /**

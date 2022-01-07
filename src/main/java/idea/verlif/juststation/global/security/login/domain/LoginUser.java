@@ -24,22 +24,13 @@ public class LoginUser implements UserDetails {
      */
     @JsonIgnore
     public String getToken() {
-        return getToken(getUsername(), tag, code);
-    }
-
-    public static String getToken(String username, String tag, String code) {
-        return username + ":" + tag + ":" + code;
+        return user.getUsername() + ":" + tag + ":" + code;
     }
 
     /**
      * 登录Code
      */
-    private String code = "*";
-
-    /**
-     * 用户登录标识
-     */
-    private String tag;
+    protected String code = "*";
 
     /**
      * 登录时间
@@ -47,24 +38,29 @@ public class LoginUser implements UserDetails {
     private Date loginTime;
 
     /**
+     * 登录标识
+     */
+    private String tag;
+
+    /**
      * 用户信息
      */
-    private BaseUser user;
+    protected BaseUser user;
 
     /**
      * 用户拥有的关键词组
      */
-    private Set<String> keySet;
+    protected Set<String> keySet;
 
     /**
      * 用户拥有的角色组
      */
-    private Set<String> roleSet;
+    protected Set<String> roleSet;
 
     /**
      * 是否记住登录
      */
-    private boolean remember;
+    protected boolean remember;
 
     public LoginUser() {
     }

@@ -44,10 +44,9 @@ WIKI上有比较详细的功能实现说明。
 | 接口日志 | `LogHandler` | 接口访问前与执行后两个端口 | 控制台输出 | 无限 |
 | 通知服务 | `NoticeHandler` | 通知发送处理器，需配合`@NoticeComponent`注解 | 邮件通知（需添加邮箱配置） | 无限 |
 | RSA密钥管理 | `RsaServer` | RSA服务，包括了密钥生成、加密解密等 | 一次性解密（每次解密都会销毁密钥Key） | 1 |
-| 登录模块 | `BaseUserCollector` | 用户信息获取接口 | 返回null | 1 |
-| 登录模块 | `LoginHandler` | 登录处理（登录前、重复登录、登录后与登出处理） | 每个用户的同tag的登录，会挤掉之前的同tag登录标志 | 1 |
-| 登录模块 | `TokenHandler` | 登录Token的相关处理 | 使用缓存进行Token存储 | 1 |
-| 用户模块 | `PasswordEncoder` | 密码编码 | `BCryptPasswordEncoder` | 1 |
+| 登录模块 | `AuthHandler` | 用户身份验证 | 返回错误日志，无任何验证 | 1 |
+| 登录模块 | `LoginHandler` | 登录处理（登录前、验证成功后与登出处理） | 未处理，无法登录 | 1 |
+| 登录模块 | `TokenService` | 登录Token的相关处理 | 使用缓存进行Token存储 | 1 |
 | 权限模块 | `PermissionMapper` | 用户权限获取（只在成功登录后触发） | 所有用户返回空角色与空关键词 | 1 |
 | 权限模块 | `PermissionDetector` | 权限判定 | 从用户在登录时获取的角色与关键词判定 | 1 |
 

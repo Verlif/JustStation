@@ -1,17 +1,22 @@
-package idea.verlif.juststation.global.security.token.impl;
+package idea.verlif.justdemo.global;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
-import idea.verlif.juststation.global.security.token.OnlineUserQuery;
+import idea.verlif.juststation.global.security.token.OnlineQuery;
 import idea.verlif.juststation.global.security.token.TokenConfig;
-import idea.verlif.juststation.global.security.token.TokenHandler;
-import idea.verlif.juststation.global.util.SecurityUtils;
+import idea.verlif.juststation.global.security.token.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,15 +24,14 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @date 2021/11/22 10:23
  */
-public class TokenHandlerAto implements TokenHandler {
+@Component
+public class TokenServiceDemo implements TokenService {
 
-    private final TokenConfig tokenConfig;
-    private final CacheHandler cacheHandler;
+    @Autowired
+    private TokenConfig tokenConfig;
 
-    public TokenHandlerAto(TokenConfig tokenConfig, CacheHandler cacheHandler) {
-        this.tokenConfig = tokenConfig;
-        this.cacheHandler = cacheHandler;
-    }
+    @Autowired
+    private CacheHandler cacheHandler;
 
     @Override
     public String loginUser(LoginUser loginUser) {
@@ -51,15 +55,13 @@ public class TokenHandlerAto implements TokenHandler {
         }
     }
 
-    @Override
     public boolean logout(LoginUser loginUser) {
         String key = getTokenKey(loginUser.getToken());
         return cacheHandler.remove(key);
     }
 
-    @Override
     public int logoutAll(String username) {
-        OnlineUserQuery query = new OnlineUserQuery();
+        OnlineQueryDemo query = new OnlineQueryDemo();
         query.setUsername(username);
         Set<String> tokenSet = getLoginKeyList(query);
         int count = 0;
@@ -90,30 +92,17 @@ public class TokenHandlerAto implements TokenHandler {
     }
 
     @Override
-    public List<LoginUser> getOnlineUser(OnlineUserQuery query) {
-        Set<String> set = getLoginKeyList(query);
-        List<LoginUser> list = new ArrayList<>();
-        for (String s : set) {
-            LoginUser loginUser = cacheHandler.get(s);
-            if (loginUser != null) {
-                list.add(loginUser);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public Set<String> getLoginKeyList(OnlineUserQuery query) {
+    public Set<String> getLoginKeyList(OnlineQuery query) {
         StringBuilder sb = new StringBuilder();
         if (query.getUsername() == null) {
             sb.append("*:");
         } else {
             sb.append(query.getUsername()).append(":");
         }
-        if (query.getLoginTag() == null) {
+        if (query.getTag() == null) {
             sb.append("*:");
         } else {
-            sb.append(query.getLoginTag().getTag()).append(":");
+            sb.append(query.getTag().getTag()).append(":");
         }
         sb.append("*");
         return cacheHandler.findKeyByMatch(getTokenKey(sb.toString()));
@@ -149,6 +138,11 @@ public class TokenHandlerAto implements TokenHandler {
             return null;
         }
         return body;
+    }
+
+    @Override
+    public String getTokenFromRequest(HttpServletRequest request) {
+        return request.getHeader(tokenConfig.getHeader());
     }
 
     /**

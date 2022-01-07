@@ -35,7 +35,7 @@ public class LimitAspect {
         }
     }
 
-    @Around("@within(idea.verlif.juststation.global.limit.Limit)")
+    @Around("@within(idea.verlif.juststation.global.limit.Limit) || @annotation(idea.verlif.juststation.global.limit.Limit)")
     public Object onLimit(ProceedingJoinPoint joinPoint) throws Throwable {
         Signature sig = joinPoint.getSignature();
         Method method = ((MethodSignature) sig).getMethod();

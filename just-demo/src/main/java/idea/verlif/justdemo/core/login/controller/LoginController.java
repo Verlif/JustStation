@@ -1,7 +1,8 @@
-package idea.verlif.justdemo.core.login;
+package idea.verlif.justdemo.core.login.controller;
 
 import idea.verlif.justdemo.core.base.biz.UserBiz;
 import idea.verlif.justdemo.core.base.domain.User;
+import idea.verlif.justdemo.core.login.NoEncryptService;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.log.LogIt;
@@ -140,7 +141,6 @@ public class LoginController {
 
         public void setKey(RsaKey key) {
             this.key = key;
-            withKey(key);
         }
     }
 

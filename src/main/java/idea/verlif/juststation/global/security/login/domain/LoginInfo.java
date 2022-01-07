@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.security.login.domain;
 
 import idea.verlif.juststation.global.base.domain.WithKey;
+import idea.verlif.juststation.global.security.login.auth.AuthInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(name = "用户登录信息", description = "用于登录的用户名及密码")
-public class LoginInfo extends WithKey {
+public class LoginInfo extends WithKey implements AuthInfo {
 
     @Schema(name = "用户登录名", required = true)
     private String username;
@@ -33,5 +34,15 @@ public class LoginInfo extends WithKey {
 
     public void setTag(String tag) {
         this.tag = LoginTag.getTag(tag);
+    }
+
+    @Override
+    public String getId() {
+        return username;
+    }
+
+    @Override
+    public String getToken() {
+        return password;
     }
 }

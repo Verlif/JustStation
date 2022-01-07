@@ -2,13 +2,14 @@ package idea.verlif.justdemo.core.base.biz;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import idea.verlif.justdemo.core.base.biz.base.BaseBizAto;
+import idea.verlif.justdemo.core.base.domain.User;
+import idea.verlif.justdemo.core.base.domain.req.UpdatePassword;
+import idea.verlif.justdemo.core.base.mapper.UserMapper;
+import idea.verlif.justdemo.core.login.service.OnlineService;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.justdemo.core.base.domain.User;
-import idea.verlif.justdemo.core.base.domain.req.UpdatePassword;
-import idea.verlif.justdemo.core.base.mapper.UserMapper;
 import idea.verlif.juststation.global.rsa.RsaService;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.util.SecurityUtils;
@@ -26,6 +27,9 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private OnlineService onlineService;
 
     @Autowired
     private RsaService rsaService;
@@ -50,8 +54,6 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
         if (user == null) {
             return new FailResult<>("用户不存在");
         } else {
-            // 对用户数据填充
-            user.fill();
             return new OkResult<>(user);
         }
     }
@@ -89,7 +91,7 @@ public class UserBiz extends BaseBizAto<User, UserMapper> {
             BaseResult<?> result = update(user);
             // 密码修改成功后，强制退出当前用户所有登录
             if (result.equals(ResultCode.SUCCESS)) {
-                loginService.logoutAll(user.getUsername());
+                onlineService.logoutUser(user.getUsername(), null);
             }
             return result;
         }

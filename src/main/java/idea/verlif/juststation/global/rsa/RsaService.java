@@ -18,6 +18,14 @@ public interface RsaService {
     RsaKey genRsaKey();
 
     /**
+     * 生成密钥Key
+     *
+     * @param id 自定义密钥KeyId；若重复则覆盖
+     * @return 密钥Key
+     */
+    RsaKey genRsaKey(String id);
+
+    /**
      * 私钥解密
      *
      * @param id   密钥KeyId

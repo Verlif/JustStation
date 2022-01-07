@@ -37,12 +37,17 @@ public class OnceRsaService implements RsaService {
 
     @Override
     public synchronized RsaKey genRsaKey() {
+        return genRsaKey(genId());
+    }
+
+    @Override
+    public RsaKey genRsaKey(String id) {
         try {
             Map<String, Key> keyMap = RsaUtils.genKeyPair();
             String puk = RsaUtils.getPublicKey(keyMap);
             String prk = RsaUtils.getPrivateKey(keyMap);
             RsaKey key = new RsaKey();
-            key.setId(genId());
+            key.setId(id);
             key.setPublicKey(puk);
             handler.put(CACHE_PREFIX + key.getId(), prk, config.getExpire(), TimeUnit.MINUTES);
             return key;

@@ -20,6 +20,11 @@ public class NoEncryptService implements RsaService {
     }
 
     @Override
+    public RsaKey genRsaKey(String id) {
+        return new RsaKey();
+    }
+
+    @Override
     public String decryptByPrivateKey(String id, String pass) {
         return pass;
     }

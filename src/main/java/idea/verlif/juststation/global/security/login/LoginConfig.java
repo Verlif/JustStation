@@ -1,8 +1,9 @@
 package idea.verlif.juststation.global.security.login;
 
-import idea.verlif.juststation.global.security.login.impl.LoginHandlerAto;
-import idea.verlif.juststation.global.security.token.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
+import idea.verlif.juststation.global.base.result.BaseResult;
+import idea.verlif.juststation.global.base.result.ext.FailResult;
+import idea.verlif.juststation.global.security.login.domain.LoginInfo;
+import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +18,23 @@ public class LoginConfig {
 
     @Bean
     @ConditionalOnMissingBean(LoginHandler.class)
-    public LoginHandler loginHandler(@Autowired TokenService tokenService) {
-        return new LoginHandlerAto(tokenService);
+    public LoginHandler loginHandler() {
+        return new LoginHandler() {
+            @Override
+            public LoginResult preLogin(LoginInfo t) {
+                return LoginResult.denied("no LoginHandler can been use!");
+            }
+
+            @Override
+            public BaseResult<?> authSuccess(LoginUser userDetails) {
+                return null;
+            }
+
+            @Override
+            public BaseResult<?> logout() {
+                return FailResult.empty();
+            }
+        };
     }
 
-    @Bean
-    @ConditionalOnMissingBean(BaseUserCollector.class)
-    public BaseUserCollector baseUserCollector() {
-        return username -> null;
-    }
 }

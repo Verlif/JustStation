@@ -36,7 +36,7 @@ public class PermissionHandler {
     public PermissionHandler() {
     }
 
-    @Around("@within(idea.verlif.juststation.global.security.permission.Perm)")
+    @Around("@within(idea.verlif.juststation.global.security.permission.Perm) || @annotation(idea.verlif.juststation.global.security.permission.Perm)")
     public Object dsPointCut(ProceedingJoinPoint joinPoint) throws Throwable {
         Signature sig = joinPoint.getSignature();
         Method method = ((MethodSignature) sig).getMethod();

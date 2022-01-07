@@ -34,7 +34,7 @@ public class ApiLogManager {
         }
     }
 
-    @Around("@within(idea.verlif.juststation.global.log.LogIt)")
+    @Around("@within(idea.verlif.juststation.global.log.LogIt) || @annotation(idea.verlif.juststation.global.log.LogIt)")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         Signature sig = joinPoint.getSignature();
         Method method = ((MethodSignature) sig).getMethod();

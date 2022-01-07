@@ -2,11 +2,11 @@ package idea.verlif.juststation.global.security.token;
 
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.juststation.global.security.login.auth.StationAuthentication;
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import idea.verlif.juststation.global.util.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -32,9 +32,6 @@ public class TokenFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService tokenService;
 
-    @Autowired
-    private TokenConfig tokenConfig;
-
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain)
             throws ServletException, IOException {
@@ -49,14 +46,14 @@ public class TokenFilter extends OncePerRequestFilter {
             ServletUtils.sendResult(response, new BaseResult<>(ResultCode.FAILURE_TOKEN));
             return;
         }
-        LoginUser loginUser = tokenService.getUserByToken(token);
+        LoginUser user = tokenService.getUserByToken(token);
         //刷新token过期时间
-        if (loginUser != null) {
+        if (user != null) {
             // 填充本次的登录用户信息
-            tokenService.refreshUser(loginUser);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
-            authenticationToken.setDetails(DETAILS_SOURCE.buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            tokenService.refreshUser(user);
+            StationAuthentication authentication = new StationAuthentication();
+            authentication.setDetails(user);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);
     }

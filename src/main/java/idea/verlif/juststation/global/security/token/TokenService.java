@@ -2,62 +2,59 @@ package idea.verlif.juststation.global.security.token;
 
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import reactor.util.annotation.Nullable;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Set;
 
 /**
- * token验证处理
+ * Token服务
  *
  * @author Verlif
+ * @version 1.0
+ * @date 2021/11/22 10:13
  */
-@Component
-public class TokenService {
+public interface TokenService {
 
-    @Autowired
-    private TokenConfig tokenConfig;
+    /**
+     * 登录用户记录
+     *
+     * @param loginUser 登录用户
+     * @return Token
+     */
+    String loginUser(LoginUser loginUser);
 
-    @Autowired
-    private TokenHandler tokenHandler;
+    /**
+     * 退出登录
+     *
+     * @param token 需要退出的token
+     * @return 是否退出成功
+     */
+    boolean logout(String token);
 
-    public TokenService() {
-    }
+    /**
+     * 通过Token获取登录用户信息
+     *
+     * @param token 用户Token
+     * @return 登录用户信息
+     */
+    @Nullable
+    LoginUser getUserByToken(String token);
 
-    public String loginUser(LoginUser loginUser) {
-        return tokenHandler.loginUser(loginUser);
-    }
+    /**
+     * 刷新用户信息
+     *
+     * @param loginUser 登录用户信息
+     */
+    void refreshUser(LoginUser loginUser);
 
-    public boolean logout(String token) {
-        return tokenHandler.logout(token);
-    }
-
-    public boolean logout(LoginUser loginUser) {
-        return tokenHandler.logout(loginUser);
-    }
-
-    public int logoutAll(String username) {
-        return tokenHandler.logoutAll(username);
-    }
-
-    public LoginUser getUserByToken(String token) {
-        return tokenHandler.getUserByToken(token);
-    }
-
-    public void refreshUser(LoginUser loginUser) {
-        tokenHandler.refreshUser(loginUser);
-    }
-
-    public List<LoginUser> getOnlineUser(OnlineUserQuery query) {
-        return tokenHandler.getOnlineUser(query);
-    }
-
-    public <T extends OnlineUserQuery> Set<String> getLoginKeyList(T query) {
-        return tokenHandler.getLoginKeyList(query);
-    }
+    /**
+     * 获取所有在线用户Token
+     *
+     * @param query 在线用户查询条件
+     * @return 在线用户Token列表
+     */
+    Set<String> getLoginKeyList(OnlineQuery query);
 
     /**
      * 从令牌中获取数据声明
@@ -65,9 +62,7 @@ public class TokenService {
      * @param token 令牌
      * @return 数据声明
      */
-    public Claims parseToken(String token) {
-        return tokenHandler.parseToken(token);
-    }
+    Claims parseToken(String token);
 
     /**
      * 从请求中获取Token
@@ -75,8 +70,5 @@ public class TokenService {
      * @param request 请求对象
      * @return Token
      */
-    public @Nullable
-    String getTokenFromRequest(HttpServletRequest request) {
-        return request.getHeader(tokenConfig.getHeader());
-    }
+    String getTokenFromRequest(HttpServletRequest request);
 }
