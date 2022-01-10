@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.security.token;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
-import idea.verlif.juststation.global.security.token.impl.TokenServiceAto;
+import idea.verlif.juststation.global.security.token.impl.DefaultTokenService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -63,6 +63,6 @@ public class TokenConfig {
     @ConditionalOnMissingBean(TokenService.class)
     public TokenService tokenService(
             @Autowired CacheHandler cacheHandler) {
-        return new TokenServiceAto(cacheHandler, this);
+        return new DefaultTokenService(cacheHandler, this);
     }
 }

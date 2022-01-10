@@ -55,19 +55,4 @@ public class ApiLogManager {
             return joinPoint.proceed();
         }
     }
-
-    @Component
-    public static final class ApiLogHandlerAto implements ApiLogHandler {
-
-        @Override
-        public void onLog(Method method, LogIt logIt) {
-            PrintUtils.print(logIt.level().getLevel(), method.getName() + " >> " + logIt.message());
-        }
-
-        @Override
-        public void onReturn(Method method, LogIt logIt, Object o) {
-            PrintUtils.print(logIt.level().getLevel(), method.getName() + " return >> " + o);
-        }
-
-    }
 }

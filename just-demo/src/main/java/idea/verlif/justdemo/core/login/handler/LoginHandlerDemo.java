@@ -43,7 +43,7 @@ public class LoginHandlerDemo implements LoginHandler {
     }
 
     @Override
-    public BaseResult<?> authSuccess(LoginUser loginUser) {
+    public BaseResult<?> authSuccess(LoginUser loginUser, String token) {
         loginUser.setLoginTime(new Date());
         // 设定用户登录标志
         loginUser.setTag(loginUser.getTag() == null ? LoginTag.LOCAL.getTag() : loginUser.getTag());
@@ -52,15 +52,15 @@ public class LoginHandlerDemo implements LoginHandler {
         query.setUsername(loginUser.getUsername());
         query.setTag(LoginTag.getTag(loginUser.getTag()));
         Set<String> tokens = tokenService.getLoginKeyList(query);
-        // 失效同标志的登录token
+        // 失效同标识的登录token
         if (tokens != null && tokens.size() > 0) {
             // 删除之前同标志的登录
-            for (String token : tokens) {
-                tokenService.logout(token);
+            for (String to : tokens) {
+                tokenService.logout(to);
             }
         }
         // 返回登录Token
-        return new OkResult<>(tokenService.loginUser(loginUser));
+        return new OkResult<>(token);
     }
 
     /**

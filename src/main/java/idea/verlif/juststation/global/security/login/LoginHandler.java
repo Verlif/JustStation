@@ -25,12 +25,15 @@ public interface LoginHandler {
     }
 
     /**
-     * 用户登录认证后返回数据
+     * 用户登录认证后返回数据。<br/>
+     * 此方法会在登录认证完成后，且生成了用户token后。
+     * 此时已调用过{@linkplain idea.verlif.juststation.global.security.token.TokenService#loginUser(LoginUser) TokenService.loginUser(user)}方法
      *
-     * @param t 用户登录信息
+     * @param t     用户登录信息
+     * @param token 用户token
      * @return 用户登录认证成功后，返回给前端的数据；为null时则使用默认返回成功数据。
      */
-    BaseResult<?> authSuccess(LoginUser t);
+    BaseResult<?> authSuccess(LoginUser t, String token);
 
     /**
      * 退出当前用户登录

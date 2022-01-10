@@ -26,7 +26,7 @@ public class LoginConfig {
             }
 
             @Override
-            public BaseResult<?> authSuccess(LoginUser userDetails) {
+            public BaseResult<?> authSuccess(LoginUser userDetails, String token) {
                 return null;
             }
 

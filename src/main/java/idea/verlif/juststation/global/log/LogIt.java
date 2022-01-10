@@ -1,5 +1,7 @@
 package idea.verlif.juststation.global.log;
 
+import idea.verlif.juststation.global.log.impl.DefaultApiLogHandler;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -34,6 +36,6 @@ public @interface LogIt {
     /**
      * 日志处理类
      */
-    Class<? extends ApiLogHandler> handler() default ApiLogManager.ApiLogHandlerAto.class;
+    Class<? extends ApiLogHandler> handler() default DefaultApiLogHandler.class;
 
 }

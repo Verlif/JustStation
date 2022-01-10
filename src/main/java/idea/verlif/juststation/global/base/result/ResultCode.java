@@ -62,7 +62,7 @@ public enum ResultCode {
      */
     FAILURE_NOT_LOGIN(532, MessagesUtils.message("result.fail.login.not")),
     /**
-     * 未登录错误
+     * 访问受限
      */
     FAILURE_LIMIT(533, MessagesUtils.message("result.fail.limit")),
     /**

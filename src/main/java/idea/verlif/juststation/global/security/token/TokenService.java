@@ -17,7 +17,7 @@ import java.util.Set;
 public interface TokenService {
 
     /**
-     * 登录用户记录
+     * 登录用户记录，并返回用于取出用户信息的token
      *
      * @param loginUser 登录用户
      * @return Token

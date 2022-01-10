@@ -18,12 +18,12 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @date 2022/1/7 14:57
  */
-public class TokenServiceAto implements TokenService {
+public class DefaultTokenService implements TokenService {
 
     private final CacheHandler cacheHandler;
     private final TokenConfig tokenConfig;
 
-    public TokenServiceAto(CacheHandler cacheHandler, TokenConfig tokenConfig) {
+    public DefaultTokenService(CacheHandler cacheHandler, TokenConfig tokenConfig) {
         this.cacheHandler = cacheHandler;
         this.tokenConfig = tokenConfig;
     }

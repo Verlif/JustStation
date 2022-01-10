@@ -57,10 +57,14 @@ public class LoginService {
                 // 验证登录信息
                 Authentication authentication = authenticationManager.authenticate(new StationAuthentication(loginInfo));
                 LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+                // 填充用户权限
                 loginUser.withPermission(
                         permissionMapper.getUserKeySet(loginUser.getUsername()),
                         permissionMapper.getUserRoleSet(loginUser.getUsername()));
-                BaseResult<?> res = loginHandler.authSuccess(loginUser);
+                // 生成用户token
+                String token = tokenService.loginUser(loginUser);
+                // 处理认证后的对象数据
+                BaseResult<?> res = loginHandler.authSuccess(loginUser, token);
                 return res == null ? OkResult.empty() : res;
             } catch (UsernameNotFoundException e) {
                 return new BaseResult<>(ResultCode.FAILURE_LOGIN_MISSING);

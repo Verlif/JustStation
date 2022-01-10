@@ -8,7 +8,6 @@ import idea.verlif.juststation.global.util.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import reactor.util.annotation.NonNull;
@@ -26,8 +25,6 @@ import java.io.IOException;
  */
 @Component
 public class TokenFilter extends OncePerRequestFilter {
-
-    private static final WebAuthenticationDetailsSource DETAILS_SOURCE = new WebAuthenticationDetailsSource();
 
     @Autowired
     private TokenService tokenService;
