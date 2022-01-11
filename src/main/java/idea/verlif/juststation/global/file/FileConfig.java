@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.file;
 
-import idea.verlif.juststation.global.file.handler.DefaultFileHandler;
-import idea.verlif.juststation.global.file.handler.FileHandler;
+import idea.verlif.juststation.global.file.impl.DefaultFileService;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -48,9 +47,9 @@ public class FileConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(FileHandler.class)
-    public FileHandler fileHandler() {
-        return new DefaultFileHandler(this);
+    @ConditionalOnMissingBean(FileService.class)
+    public FileService fileService() {
+        return new DefaultFileService(this);
     }
 
     private static final class Path {

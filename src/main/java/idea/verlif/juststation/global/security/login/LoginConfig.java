@@ -22,7 +22,7 @@ public class LoginConfig {
         return new LoginHandler() {
             @Override
             public LoginResult preLogin(LoginInfo t) {
-                return LoginResult.denied("no LoginHandler can been use!");
+                return LoginResult.denied("please define a LoginHandler to continue!");
             }
 
             @Override

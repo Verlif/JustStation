@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.file.handler;
+package idea.verlif.juststation.global.file.impl;
 
 import idea.verlif.juststation.global.base.domain.SimPage;
 import idea.verlif.juststation.global.base.result.BaseResult;
@@ -6,6 +6,10 @@ import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.file.FileConfig;
+import idea.verlif.juststation.global.file.FileService;
+import idea.verlif.juststation.global.file.domain.FileCart;
+import idea.verlif.juststation.global.file.domain.FileInfo;
+import idea.verlif.juststation.global.file.domain.FileQuery;
 import idea.verlif.juststation.global.util.PageUtils;
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,11 +29,11 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2021/9/13 10:27
  */
-public class DefaultFileHandler implements FileHandler {
+public class DefaultFileService implements FileService {
 
     private final FileConfig pathConfig;
 
-    public DefaultFileHandler(FileConfig config) {
+    public DefaultFileService(FileConfig config) {
         this.pathConfig = config;
     }
 

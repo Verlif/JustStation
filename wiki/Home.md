@@ -36,7 +36,7 @@ WIKI上有比较详细的功能实现说明。
 | 缓存 | `CacheHandler` | 包括了缓存的常用功能点（put、get、expire等） | 内置了一个内存（默认启用，但没有持久化）缓存与Redis缓存 | 1 |
 | URL指令 | `RemCommand` | URL指令的功能实现，需配合`@Rci`注解 | 内置了`HelpCommand`用于展示所有的URL指令 | 1 |
 | 异常处理 | `ExceptionHolder` | 注册指定的异常，并添加异常处理 | 内置了很多，写不下了 | 无限 |
-| 文件管理 | `FileHandler` | 文件的基础处理（上传、下载、获取等） | 本地文件系统 | 1 |
+| 文件管理 | `FileService` | 文件的基础处理（上传、下载、获取等） | 本地文件系统 | 1 |
 | 文件管理 | `FileParser4List` | 列表数据文件解析器，需配合`@Parser4List`注解 | 内置了Excel文件解析 | 无限 |
 | 文件管理 | `FileParser4Single` | 单体数据文件解析器，需配合`@Parser4Single`注解 | 无 | 无限 |
 | 访问限制 | `LimitHandler` | 接口限制器，设定接口拦截策略 | 随机访问、固定窗口访问限制 | 无限 |
