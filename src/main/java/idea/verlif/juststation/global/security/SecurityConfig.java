@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 /**
@@ -31,12 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private AuthenticationEntryPoint unauthorizedHandler;
-
-    /**
-     * Token过滤器
-     */
-    @Autowired
-    private TokenFilter tokenFilter;
 
     /**
      * 跨域过滤器
@@ -64,10 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 开放所有接口
                 .anyRequest().permitAll().and()
                 .headers()
-                .frameOptions().disable()
-                .and()
-                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsFilter, TokenFilter.class);
+                .frameOptions().disable();
     }
 
     /**
