@@ -24,6 +24,9 @@ import java.util.logging.Level;
 @Component
 public class ApiLogManager {
 
+    @Autowired
+    private LogService logService;
+
     public final Map<Class<? extends ApiLogHandler>, ApiLogHandler> handlerMap;
 
     public ApiLogManager(@Autowired ApplicationContext context) {
@@ -51,7 +54,7 @@ public class ApiLogManager {
             handler.onReturn(method, logIt, o);
             return o;
         } else {
-            PrintUtils.print(Level.WARNING, method.getName() + " has not be logged - " + logIt.handler().getSimpleName());
+            logService.warn(method.getName() + " has not be logged - " + logIt.handler().getSimpleName());
             return joinPoint.proceed();
         }
     }

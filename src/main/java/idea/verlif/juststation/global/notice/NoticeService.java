@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.notice;
 
-import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.juststation.global.log.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * 通知服务
@@ -28,6 +27,9 @@ public class NoticeService {
 
     @Autowired
     private ApplicationContext appContext;
+
+    @Autowired
+    private LogService logService;
 
     public NoticeService() {
     }
@@ -53,7 +55,7 @@ public class NoticeService {
                 HANDLER_HASH_MAP.put(tag, noticeHandler);
             }
         } else {
-            PrintUtils.print(Level.WARNING, noticeHandler.getClass().getSimpleName() + " doesn't has @NoticeComponent");
+            logService.warn(noticeHandler.getClass().getSimpleName() + " doesn't has @NoticeComponent");
         }
     }
 
@@ -68,7 +70,7 @@ public class NoticeService {
     public boolean sendNotice(String target, Notice notice, NoticeTag tag) {
         NoticeHandler handler = HANDLER_HASH_MAP.get(tag);
         if (handler == null) {
-            PrintUtils.print(Level.WARNING, "no such notice - " + tag);
+            logService.warn("No such notice - " + tag);
             return false;
         } else {
             return handler.sendNotice(target, notice);

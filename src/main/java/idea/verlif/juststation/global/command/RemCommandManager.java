@@ -1,15 +1,14 @@
 package idea.verlif.juststation.global.command;
 
 import idea.verlif.juststation.global.command.exception.CommandException;
+import idea.verlif.juststation.global.log.LogService;
 import idea.verlif.juststation.global.util.MessagesUtils;
-import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.logging.Level;
 
 /**
  * 指令管理器 <br/>
@@ -25,6 +24,7 @@ public class RemCommandManager {
     private final HashMap<String, RemCommand> commandHashMap;
     private final Set<String> allowedKey;
     private final Set<String> blockKey;
+    private final RemCommandConfig commandConfig;
 
     /**
      * 屏蔽模式；当开启屏蔽模式时，会忽略允许列表；反之则只会检测允许列表
@@ -34,30 +34,39 @@ public class RemCommandManager {
     @Autowired
     private ApplicationContext appContext;
 
+    @Autowired
+    private LogService logService;
+
     public RemCommandManager(
             @Autowired RemCommandConfig remCommandConfig) {
         // 初始化命令集
         commandHashMap = new HashMap<>();
         allowedKey = new HashSet<>();
         blockKey = new HashSet<>();
+        this.commandConfig = remCommandConfig;
 
-        // 加载指令模式与屏蔽名单
-        if (remCommandConfig.getAllowed().length > 0) {
-            MODE_BLOCK = false;
+        if (commandConfig.isEnable()) {
+            // 加载指令模式与屏蔽名单
+            if (remCommandConfig.getAllowed().length > 0) {
+                MODE_BLOCK = false;
+            }
+            allowedKey.addAll(Arrays.asList(remCommandConfig.getAllowed()));
+            blockKey.addAll(Arrays.asList(remCommandConfig.getBlocked()));
         }
-        allowedKey.addAll(Arrays.asList(remCommandConfig.getAllowed()));
-        blockKey.addAll(Arrays.asList(remCommandConfig.getBlocked()));
-
     }
 
     @PostConstruct
     public void init() {
-        Map<String, RemCommand> beans = appContext.getBeansOfType(RemCommand.class);
-        // 加载指令
-        for (RemCommand command : beans.values()) {
-            addCommand(command);
+        if (commandConfig.isEnable()) {
+            Map<String, RemCommand> beans = appContext.getBeansOfType(RemCommand.class);
+            Set<String> names = new HashSet<>();
+            // 加载指令
+            for (RemCommand command : beans.values()) {
+                addCommand(command);
+                names.add(command.getClass().getSimpleName());
+            }
+            logService.info("RemCommand had been loaded " + names.size() + " - " + Arrays.toString(names.toArray(new String[]{})));
         }
-        PrintUtils.print(Level.INFO, "RemCommand had been loaded " + commandHashMap.values().size());
     }
 
     public void loadCommand(Set<Class<? extends RemCommand>> commandSet) {
@@ -122,24 +131,24 @@ public class RemCommandManager {
                     }
                     switch (result.getCode()) {
                         case OK:
-                            PrintUtils.print(Level.INFO, "[" + key + "] >> " + MessagesUtils.message("command.code.ok"));
+                            logService.info("[" + key + "] >> " + MessagesUtils.message("command.code.ok"));
                             break;
                         case FAIL:
-                            PrintUtils.print(Level.INFO, "[" + key + "] >> " + MessagesUtils.message("command.code.fail"));
+                            logService.info("[" + key + "] >> " + MessagesUtils.message("command.code.fail"));
                             break;
                         default:
-                            PrintUtils.print(Level.INFO, "[" + key + "] >> " + MessagesUtils.message("command.code.error"));
+                            logService.info("[" + key + "] >> " + MessagesUtils.message("command.code.error"));
                             break;
                     }
                     return result;
                 } catch (CommandException e) {
-                    PrintUtils.print(Level.SEVERE, "[" + key + "] >> " + e.getMessage());
+                    logService.warn("[" + key + "] >> " + e.getMessage());
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
                 return RemCommandResult.build(RemCommandResult.Code.ERROR);
             } else {
-                PrintUtils.print(Level.INFO, MessagesUtils.message("command.error.unknown") + "[" + key + "]");
+                logService.info(MessagesUtils.message("command.error.unknown") + "[" + key + "]");
             }
         }
         return RemCommandResult.build(RemCommandResult.Code.FAIL, MessagesUtils.message("command.code.unknown"));
@@ -176,7 +185,7 @@ public class RemCommandManager {
         // 获取注释标记
         Rci rci = command.getClass().getAnnotation(Rci.class);
         if (rci == null) {
-            PrintUtils.print(Level.INFO, command.getClass().getSimpleName() + " doesn't has @Rci");
+            logService.info(command.getClass().getSimpleName() + " doesn't has @Rci");
             String key = command.getClass().getSimpleName();
             if (MODE_BLOCK && !blockKey.contains(key) || !MODE_BLOCK && allowedKey.contains(key)) {
                 addCommandKey(key, command);

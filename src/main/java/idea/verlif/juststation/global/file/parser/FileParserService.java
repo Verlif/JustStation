@@ -1,14 +1,13 @@
 package idea.verlif.juststation.global.file.parser;
 
 import idea.verlif.juststation.global.file.FileType;
-import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.juststation.global.log.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * @author Verlif
@@ -23,12 +22,16 @@ public class FileParserService {
      */
     private static final HashMap<FileType, FileParser4List> LIST_PARSER_HASH_MAP;
     private static final HashMap<FileType, FileParser4Single> SINGLE_PARSER_HASH_MAP;
+
     static {
         LIST_PARSER_HASH_MAP = new HashMap<>();
         SINGLE_PARSER_HASH_MAP = new HashMap<>();
     }
 
-    public FileParserService(@Autowired ApplicationContext appContext) {
+    public FileParserService(
+            @Autowired ApplicationContext appContext,
+            @Autowired LogService logService
+    ) {
         Map<String, FileParser4List> listMap = appContext.getBeansOfType(FileParser4List.class);
         for (FileParser4List value : listMap.values()) {
             Parser4List list = value.getClass().getAnnotation(Parser4List.class);
@@ -37,7 +40,7 @@ public class FileParserService {
                     LIST_PARSER_HASH_MAP.put(fileType, value);
                 }
             } else {
-                PrintUtils.print(Level.WARNING, value.getClass().getSimpleName() + " doesn't has @Parser4List");
+                logService.warn(value.getClass().getSimpleName() + " doesn't has @Parser4List");
             }
         }
         Map<String, FileParser4Single> singleMap = appContext.getBeansOfType(FileParser4Single.class);
@@ -48,7 +51,7 @@ public class FileParserService {
                     SINGLE_PARSER_HASH_MAP.put(fileType, value);
                 }
             } else {
-                PrintUtils.print(Level.WARNING, value.getClass().getSimpleName() + " doesn't has @Parser4Single");
+                logService.warn(value.getClass().getSimpleName() + " doesn't has @Parser4Single");
             }
         }
     }

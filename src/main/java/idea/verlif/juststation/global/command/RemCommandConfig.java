@@ -15,6 +15,11 @@ import org.springframework.context.annotation.Configuration;
 public class RemCommandConfig {
 
     /**
+     * 是否启用远程URL指令
+     */
+    private boolean enable = false;
+
+    /**
      * 允许的指令，当允许指令存在元素时，则屏蔽指令无效
      */
     private String[] allowed = new String[]{};

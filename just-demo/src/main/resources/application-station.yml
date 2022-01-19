@@ -52,7 +52,23 @@ station:
     blocked:
   # URL远程指令配置
   command:
+    # 是否启用远程指令
+    enable: true
     # 远程指令允许名单，当存在值时会使屏蔽名单无效化。格式为yml的列表格式
     allowed:
     # 远程指令屏蔽名单。格式为yml的列表格式
     blocked:
+  # API设置
+  api:
+    # 是否启用API策略
+    enable: true
+    # 屏蔽的API
+    blocked:
+      # api路径，多路径用英文,隔开
+      # 下面的参数表示了屏蔽"/haha"与"/xixi"两个接口的所有方法，并使用完全匹配，则"/haha/1"不会被屏蔽
+      - api: /haha, /xixi
+      - api: /test/.*
+        # 屏蔽的请求方法，多方法用英文,隔开。包括POST、GET、DELETE等，不区分大小写。没有此参数则表示所有方法。
+        method: get
+        # 匹配模式，目前支持完全匹配(default)、正则匹配(regex)、前缀匹配(prefix)、后缀匹配(suffix)、包含匹配(contain)。没有此参数则为默认的完全匹配
+        mode: regex
