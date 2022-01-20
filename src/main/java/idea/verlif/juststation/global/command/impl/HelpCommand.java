@@ -2,10 +2,10 @@ package idea.verlif.juststation.global.command.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import idea.verlif.juststation.global.command.Rci;
-import idea.verlif.juststation.global.command.RemCommand;
-import idea.verlif.juststation.global.command.RemCommandManager;
-import idea.verlif.juststation.global.command.RemCommandResult;
+import idea.verlif.juststation.global.command.Sci;
+import idea.verlif.juststation.global.command.SimCommand;
+import idea.verlif.juststation.global.command.SimCommandManager;
+import idea.verlif.juststation.global.command.SimCommandResult;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -18,8 +18,8 @@ import java.util.*;
  * @version 1.0
  * @date 2021/11/18 11:56
  */
-@Rci(key = {"help", "h"}, description = "帮助")
-public class HelpCommand extends RemCommand {
+@Sci(key = {"help", "h"}, description = "帮助")
+public class HelpCommand extends SimCommand {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -28,18 +28,18 @@ public class HelpCommand extends RemCommand {
     private ObjectMapper mapper;
 
     @Override
-    public RemCommandResult.Code run(String[] params) {
+    public SimCommandResult.Code run(String[] params) {
         // 获取所有指令
-        Set<RemCommand> commandSet = applicationContext.getBean(RemCommandManager.class).getAllCommand();
+        Set<SimCommand> commandSet = applicationContext.getBean(SimCommandManager.class).getAllCommand();
 
-        HashMap<RemCommand, String> hashMap = new HashMap<>(commandSet.size() * 2);
-        List<RemCommand> list = new ArrayList<>(commandSet);
+        HashMap<SimCommand, String> hashMap = new HashMap<>(commandSet.size() * 2);
+        List<SimCommand> list = new ArrayList<>(commandSet);
         // 加载所有指令Key
-        for (RemCommand command : commandSet) {
+        for (SimCommand command : commandSet) {
             // 获取注释标记
-            Rci rci = command.getClass().getAnnotation(Rci.class);
+            Sci sci = command.getClass().getAnnotation(Sci.class);
             // 获取命令属性
-            String[] commandName = rci.key();
+            String[] commandName = sci.key();
             // 注入命令
             for (String s : commandName) {
                 hashMap.put(command, s);
@@ -50,9 +50,9 @@ public class HelpCommand extends RemCommand {
         list.sort(Comparator.comparingInt(o -> hashMap.get(o).charAt(0)));
 
         ArrayNode array = mapper.createArrayNode();
-        for (RemCommand command : list) {
+        for (SimCommand command : list) {
             CommandInfo commandInfo = new CommandInfo();
-            Rci info = command.getClass().getAnnotation(Rci.class);
+            Sci info = command.getClass().getAnnotation(Sci.class);
             // 设定指令Key
             commandInfo.setKey(info.key());
             // 设定指令描述
@@ -62,7 +62,7 @@ public class HelpCommand extends RemCommand {
             array.add(mapper.valueToTree(commandInfo));
         }
         outData(array);
-        return RemCommandResult.Code.OK;
+        return SimCommandResult.Code.OK;
     }
 
     @Data

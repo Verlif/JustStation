@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @date 2021/11/24 14:23
  */
 @Data
-public class RemCommandResult implements Serializable {
+public class SimCommandResult implements Serializable {
 
     private CharSequence message;
 
@@ -22,26 +22,26 @@ public class RemCommandResult implements Serializable {
 
     private JsonNode data;
 
-    public static RemCommandResult build(Code code, CharSequence message, JsonNode data) {
-        RemCommandResult result = new RemCommandResult();
+    public static SimCommandResult build(Code code, CharSequence message, JsonNode data) {
+        SimCommandResult result = new SimCommandResult();
         result.setCode(code);
         result.setMessage(message);
         result.setData(data);
         return result;
     }
 
-    public static RemCommandResult build(Code code, CharSequence message) {
-        RemCommandResult result = new RemCommandResult();
+    public static SimCommandResult build(Code code, CharSequence message) {
+        SimCommandResult result = new SimCommandResult();
         result.setCode(code);
         result.setMessage(message);
         return result;
     }
 
-    public static RemCommandResult build(Code code) {
+    public static SimCommandResult build(Code code) {
         return build(code, code.desc);
     }
 
-    public RemCommandResult data(JsonNode data) {
+    public SimCommandResult data(JsonNode data) {
         this.data = data;
         return this;
     }

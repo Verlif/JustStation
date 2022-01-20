@@ -3,7 +3,6 @@ package idea.verlif.juststation.global.api;
 import idea.verlif.juststation.global.log.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
@@ -26,7 +25,7 @@ import java.util.regex.Pattern;
 public class ApiManager {
 
     @Autowired
-    private ApplicationContext context;
+    private RequestMappingHandlerMapping handlerMapping;
 
     @Autowired
     private ApiConfig apiConfig;
@@ -43,7 +42,6 @@ public class ApiManager {
         Set<String> blockedList = new HashSet<>();
         Map<String, List<RequestMappingInfo>> infoMap = new HashMap<>();
         // 获取请求处理映射
-        RequestMappingHandlerMapping handlerMapping = context.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> map = handlerMapping.getHandlerMethods();
         // 载入路径表
         for (RequestMappingInfo info : map.keySet()) {
@@ -52,8 +50,8 @@ public class ApiManager {
             }
         }
         // 请求映射需要屏蔽的方法
-        Map<RequestMappingInfo, Set<String>> urlRemoved = new HashMap<>();
-        Map<RequestMappingInfo, Set<RequestMethod>> methodRemoved = new HashMap<>();
+        Map<RequestMappingInfo, Set<String>> urlRemoved = new HashMap<>(infoMap.size());
+        Map<RequestMappingInfo, Set<RequestMethod>> methodRemoved = new HashMap<>(infoMap.size());
         // 遍历每一项API配置
         Set<RequestMappingInfo> temp = new HashSet<>();
         for (JustApi justApi : apiConfig.getBlocked()) {
@@ -61,48 +59,7 @@ public class ApiManager {
             Set<String> match = new HashSet<>();
             // 遍历API配置的每一个API
             for (String api : apis) {
-                // 模式匹配规则
-                switch (justApi.getMode()) {
-                    case REGEX: {
-                        Pattern pattern = Pattern.compile(api);
-                        for (String key : infoMap.keySet()) {
-                            if (pattern.matcher(key).matches()) {
-                                match.add(key);
-                            }
-                        }
-                        break;
-                    }
-                    case PREFIX: {
-                        for (String key : infoMap.keySet()) {
-                            if (key.startsWith(api)) {
-                                match.add(key);
-                            }
-                        }
-                        break;
-                    }
-                    case SUFFIX: {
-                        for (String key : infoMap.keySet()) {
-                            if (key.endsWith(api)) {
-                                match.add(key);
-                            }
-                        }
-                        break;
-                    }
-                    case CONTAIN: {
-                        for (String key : infoMap.keySet()) {
-                            if (key.contains(api)) {
-                                match.add(key);
-                            }
-                        }
-                        break;
-                    }
-                    default: {
-                        List<RequestMappingInfo> info = infoMap.get(api);
-                        if (info != null) {
-                            match.add(api);
-                        }
-                    }
-                }
+                match(justApi.getMode(), api, infoMap, match);
             }
             // 处理匹配的路径
             for (String key : match) {
@@ -154,4 +111,58 @@ public class ApiManager {
             logService.info("Api blocked list - " + Arrays.toString(blockedList.toArray()));
         }
     }
+
+    /**
+     * 匹配API
+     *
+     * @param mode    匹配模式
+     * @param api     匹配的目标API
+     * @param infoMap 载入的API处理表
+     * @param match   匹配的API表
+     */
+    private void match(JustApi.Mode mode, String api, Map<String, List<RequestMappingInfo>> infoMap, Set<String> match) {
+        // 模式匹配规则
+        switch (mode) {
+            case REGEX: {
+                Pattern pattern = Pattern.compile(api);
+                for (String key : infoMap.keySet()) {
+                    if (pattern.matcher(key).matches()) {
+                        match.add(key);
+                    }
+                }
+                break;
+            }
+            case PREFIX: {
+                for (String key : infoMap.keySet()) {
+                    if (key.startsWith(api)) {
+                        match.add(key);
+                    }
+                }
+                break;
+            }
+            case SUFFIX: {
+                for (String key : infoMap.keySet()) {
+                    if (key.endsWith(api)) {
+                        match.add(key);
+                    }
+                }
+                break;
+            }
+            case CONTAIN: {
+                for (String key : infoMap.keySet()) {
+                    if (key.contains(api)) {
+                        match.add(key);
+                    }
+                }
+                break;
+            }
+            default: {
+                List<RequestMappingInfo> info = infoMap.get(api);
+                if (info != null) {
+                    match.add(api);
+                }
+            }
+        }
+    }
+
 }

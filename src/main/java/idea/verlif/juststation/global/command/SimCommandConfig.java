@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "station.command")
-public class RemCommandConfig {
+public class SimCommandConfig {
 
     /**
      * 是否启用远程URL指令

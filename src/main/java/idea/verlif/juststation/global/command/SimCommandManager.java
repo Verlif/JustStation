@@ -21,9 +21,9 @@ import java.util.*;
  */
 @Component
 @ConditionalOnProperty(prefix = "station.command", value = "enable")
-public class RemCommandManager {
+public class SimCommandManager {
 
-    private final HashMap<String, RemCommand> commandHashMap;
+    private final HashMap<String, SimCommand> commandHashMap;
     private final Set<String> allowedKey;
     private final Set<String> blockKey;
 
@@ -38,39 +38,43 @@ public class RemCommandManager {
     @Autowired
     private LogService logService;
 
-    public RemCommandManager(
-            @Autowired RemCommandConfig remCommandConfig) {
+    public SimCommandManager(
+            @Autowired SimCommandConfig simCommandConfig) {
         // 初始化命令集
         commandHashMap = new HashMap<>();
         allowedKey = new HashSet<>();
         blockKey = new HashSet<>();
 
         // 加载指令模式与屏蔽名单
-        if (remCommandConfig.getAllowed().length > 0) {
+        if (simCommandConfig.getAllowed().length > 0) {
             MODE_BLOCK = false;
         }
-        allowedKey.addAll(Arrays.asList(remCommandConfig.getAllowed()));
-        blockKey.addAll(Arrays.asList(remCommandConfig.getBlocked()));
+        allowedKey.addAll(Arrays.asList(simCommandConfig.getAllowed()));
+        blockKey.addAll(Arrays.asList(simCommandConfig.getBlocked()));
     }
 
     @PostConstruct
     public void init() {
-        Map<String, RemCommand> beans = appContext.getBeansOfType(RemCommand.class);
+        Map<String, SimCommand> beans = appContext.getBeansOfType(SimCommand.class);
         Set<String> names = new HashSet<>();
         // 加载指令
-        for (RemCommand command : beans.values()) {
+        for (SimCommand command : beans.values()) {
             addCommand(command);
             names.add(command.getClass().getSimpleName());
         }
-        logService.info("RemCommand had been loaded " + names.size() + " - " + Arrays.toString(names.toArray(new String[]{})));
+        if (names.size() == 0) {
+            logService.info("No remCommand had been loaded");
+        } else {
+            logService.info("RemCommand had been loaded " + names.size() + " - " + Arrays.toString(names.toArray(new String[]{})));
+        }
     }
 
-    public void loadCommand(Set<Class<? extends RemCommand>> commandSet) {
+    public void loadCommand(Set<Class<? extends SimCommand>> commandSet) {
         // 指令清空
         this.commandHashMap.clear();
         this.blockKey.clear();
         // 加载用户指令
-        for (Class<? extends RemCommand> command : commandSet) {
+        for (Class<? extends SimCommand> command : commandSet) {
             addCommand(command);
         }
     }
@@ -79,11 +83,11 @@ public class RemCommandManager {
         return commandHashMap.keySet();
     }
 
-    public Set<RemCommand> getAllCommand() {
+    public Set<SimCommand> getAllCommand() {
         return new HashSet<>(commandHashMap.values());
     }
 
-    public RemCommand getCommand(String key) {
+    public SimCommand getCommand(String key) {
         return commandHashMap.get(key);
     }
 
@@ -95,11 +99,11 @@ public class RemCommandManager {
         blockKey.remove(key);
     }
 
-    public RemCommandResult command(String input) {
+    public SimCommandResult command(String input) {
         return command(input.trim().replaceAll(" +", " ").split(" "));
     }
 
-    public RemCommandResult command(String key, String params) {
+    public SimCommandResult command(String key, String params) {
         if (params != null) {
             return command(key, params.trim().replaceAll(" +", " ").split(" "));
         } else {
@@ -107,19 +111,19 @@ public class RemCommandManager {
         }
     }
 
-    public RemCommandResult command(String[] input) {
+    public SimCommandResult command(String[] input) {
         return command(input[0], Arrays.copyOfRange(input, 1, input.length));
     }
 
-    public RemCommandResult command(String key, String[] params) {
+    public SimCommandResult command(String key, String[] params) {
         if (key != null && key.length() > 0) {
-            RemCommand command = getCommand(key);
+            SimCommand command = getCommand(key);
             if (command != null) {
                 if (blockKey.contains(key)) {
                     throw new CommandException("blocked - " + key);
                 }
                 try {
-                    RemCommandResult result;
+                    SimCommandResult result;
                     if (params != null && params.length > 1) {
                         result = command.exec(params);
                     } else {
@@ -142,21 +146,21 @@ public class RemCommandManager {
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
-                return RemCommandResult.build(RemCommandResult.Code.ERROR);
+                return SimCommandResult.build(SimCommandResult.Code.ERROR);
             } else {
                 logService.info(MessagesUtils.message("command.error.unknown") + "[" + key + "]");
             }
         }
-        return RemCommandResult.build(RemCommandResult.Code.FAIL, MessagesUtils.message("command.code.unknown"));
+        return SimCommandResult.build(SimCommandResult.Code.FAIL, MessagesUtils.message("command.code.unknown"));
     }
 
-    public void deleteCommand(Class<? extends RemCommand> cl) {
-        Rci rci = cl.getAnnotation(Rci.class);
-        if (rci == null) {
+    public void deleteCommand(Class<? extends SimCommand> cl) {
+        Sci sci = cl.getAnnotation(Sci.class);
+        if (sci == null) {
             deleteCommandKey(cl.getSimpleName());
         } else {
             // 获取命令属性
-            String[] commandName = rci.key();
+            String[] commandName = sci.key();
             // 清除命令
             for (String s : commandName) {
                 deleteCommandKey(s);
@@ -168,7 +172,7 @@ public class RemCommandManager {
         commandHashMap.remove(commandKey);
     }
 
-    private void addCommandKey(String commandKey, RemCommand command) {
+    private void addCommandKey(String commandKey, SimCommand command) {
         commandHashMap.put(commandKey, command);
     }
 
@@ -177,10 +181,10 @@ public class RemCommandManager {
      *
      * @param command 指令对象
      */
-    public void addCommand(RemCommand command) {
+    public void addCommand(SimCommand command) {
         // 获取注释标记
-        Rci rci = command.getClass().getAnnotation(Rci.class);
-        if (rci == null) {
+        Sci sci = command.getClass().getAnnotation(Sci.class);
+        if (sci == null) {
             logService.info(command.getClass().getSimpleName() + " doesn't has @Rci");
             String key = command.getClass().getSimpleName();
             if (MODE_BLOCK && !blockKey.contains(key) || !MODE_BLOCK && allowedKey.contains(key)) {
@@ -188,7 +192,7 @@ public class RemCommandManager {
             }
         } else {
             // 获取命令属性
-            String[] commandName = rci.key();
+            String[] commandName = sci.key();
             // 注入命令
             for (String s : commandName) {
                 if (MODE_BLOCK) {
@@ -205,13 +209,13 @@ public class RemCommandManager {
         }
     }
 
-    public void addCommand(Class<? extends RemCommand> cl) {
+    public void addCommand(Class<? extends SimCommand> cl) {
         // 获取注释标记
-        Rci rci = cl.getAnnotation(Rci.class);
+        Sci sci = cl.getAnnotation(Sci.class);
         // 获取命令属性
-        String[] commandName = rci.key();
+        String[] commandName = sci.key();
         try {
-            RemCommand co = cl.newInstance();
+            SimCommand co = cl.newInstance();
             // 注入命令
             for (String s : commandName) {
                 addCommandKey(s, co);

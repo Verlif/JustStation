@@ -11,19 +11,19 @@ import lombok.EqualsAndHashCode;
  * @date 2021/11/15 10:11
  */
 @EqualsAndHashCode
-public abstract class RemCommand {
+public abstract class SimCommand {
 
     private final StringBuilder sb;
     private JsonNode data;
 
-    public RemCommand() {
+    public SimCommand() {
         sb = new StringBuilder();
     }
 
-    public RemCommandResult exec(String[] params) {
+    public SimCommandResult exec(String[] params) {
         sb.delete(0, sb.length());
-        RemCommandResult.Code code = run(params);
-        RemCommandResult result = new RemCommandResult();
+        SimCommandResult.Code code = run(params);
+        SimCommandResult result = new SimCommandResult();
         result.setCode(code);
         result.setData(data);
         if (sb.length() > 0) {
@@ -59,7 +59,7 @@ public abstract class RemCommand {
      * @param params 指令后的参数
      * @return 指令结果
      */
-    protected abstract RemCommandResult.Code run(String[] params);
+    protected abstract SimCommandResult.Code run(String[] params);
 
     /**
      * 参数说明

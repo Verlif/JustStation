@@ -46,13 +46,6 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
-
-        <!-- SpringShell -->
-        <dependency>
-            <groupId>org.springframework.shell</groupId>
-            <artifactId>spring-shell-starter</artifactId>
-            <version>2.0.0.RELEASE</version>
-        </dependency>
     </dependencies>
 
 </project>

@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface Rci {
+public @interface Sci {
 
     /**
      * 命令标识, 用于标记命令 <br/>
