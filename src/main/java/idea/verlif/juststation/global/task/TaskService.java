@@ -75,7 +75,7 @@ public class TaskService implements ApplicationRunner {
             while (enumeration.hasMoreElements()) {
                 sb.append(enumeration.nextElement()).append(", ");
             }
-            PrintUtils.print(Level.INFO, "already loaded repeatable tasks with " + futureMap.size() + " - " + sb.substring(0, sb.length() - 2));
+            PrintUtils.print(Level.INFO, "Already loaded repeatable tasks with " + futureMap.size() + " - " + sb.substring(0, sb.length() - 2));
             ready = true;
         }
     }
@@ -188,13 +188,13 @@ public class TaskService implements ApplicationRunner {
         // 检测注解是否存在
         if (tip == null) {
             PrintUtils.print(Level.WARNING,
-                    "runnable [" + cl.getName() + "] lack annotation TaskComponent, it can not been loaded!");
+                    "Runnable [" + cl.getName() + "] lack annotation TaskComponent, it can not been loaded!");
             return;
         }
         String name = defaultName != null ? defaultName : tip.value().length() == 0 ? cl.getSimpleName() : tip.value();
         // 检测任务是否重复
         if (futureMap.containsKey(name)) {
-            PrintUtils.print(Level.WARNING, "already exist task " + name + "!!!");
+            PrintUtils.print(Level.WARNING, "Already exist task " + name + "!!!");
             return;
         }
         // 检测任务是否可添加
@@ -202,7 +202,7 @@ public class TaskService implements ApplicationRunner {
             switch (tip.type()) {
                 case CRON: {
                     if (tip.cron().length() == 0) {
-                        PrintUtils.print(Level.WARNING, "can not load runnable " + name + ", it is needed to set cron");
+                        PrintUtils.print(Level.WARNING, "Can not load runnable " + name + ", it is needed to set cron");
                         break;
                     }
                     ScheduledFuture<?> future = schedule.schedule(runnable, new CronTrigger(tip.cron()));
@@ -213,7 +213,7 @@ public class TaskService implements ApplicationRunner {
                 }
                 case REPEAT_DELAY: {
                     if (tip.interval() == 0) {
-                        PrintUtils.print(Level.WARNING, "can not load runnable " + name + ", it is needed to set interval");
+                        PrintUtils.print(Level.WARNING, "Can not load runnable " + name + ", it is needed to set interval");
                         break;
                     }
                     ScheduledFuture<?> future = schedule.scheduleWithFixedDelay(runnable, new Date(System.currentTimeMillis() + tip.unit().toMillis(tip.delay())), tip.unit().toMillis(tip.interval()));
@@ -222,7 +222,7 @@ public class TaskService implements ApplicationRunner {
                 }
                 case REPEAT_RATE: {
                     if (tip.interval() == 0) {
-                        PrintUtils.print(Level.WARNING, "can not load runnable " + name + ", it is needed to set interval");
+                        PrintUtils.print(Level.WARNING, "Can not load runnable " + name + ", it is needed to set interval");
                         break;
                     }
                     ScheduledFuture<?> future = schedule.scheduleAtFixedRate(runnable, new Date(System.currentTimeMillis() + tip.unit().toMillis(tip.delay())), tip.unit().toMillis(tip.interval()));
@@ -234,10 +234,10 @@ public class TaskService implements ApplicationRunner {
                     break;
                 }
                 default:
-                    PrintUtils.print(Level.WARNING, "no such task type " + tip.type() + " for " + name);
+                    PrintUtils.print(Level.WARNING, "No such task type " + tip.type() + " for " + name);
             }
         } else {
-            PrintUtils.print(Level.WARNING, "can not insert this task: " + name);
+            PrintUtils.print(Level.WARNING, "Can not insert this task: " + name);
         }
     }
 }

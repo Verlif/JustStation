@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import java.util.Map;
  */
 @Aspect
 @Component
+@ConditionalOnProperty(prefix = "station.limit", value = "enable", matchIfMissing = true)
 public class LimitAspect {
 
     private final HashMap<Class<? extends LimitHandler>, LimitHandler> handlerMap;

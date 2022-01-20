@@ -50,6 +50,22 @@ station:
     allowed:
     # 屏蔽的任务列表
     blocked:
+  # 接口限制配置
+  limit:
+    # 是否开启限制策略
+    enable: true
+  # API日志配置
+  api-log:
+    # 是否开启API日志功能
+    enable: true
+    # 当API日志功能开启后，允许的日志等级（与LogLevel枚举类对应），使用英文,隔开。为空则允许全部
+    level: debug, info, warning, error
+    # 当API日志功能开启后，允许的日志类型（与LogType枚举类对应），使用英文,隔开。为空则允许全部
+    type: default, insert, update
+  # 权限功能配置
+  permission:
+    # 权限功能是否开启
+    enable: true
   # URL远程指令配置
   command:
     # 是否启用远程指令
@@ -58,7 +74,7 @@ station:
     allowed:
     # 远程指令屏蔽名单。格式为yml的列表格式
     blocked:
-  # API设置
+  # API配置
   api:
     # 是否启用API策略
     enable: true

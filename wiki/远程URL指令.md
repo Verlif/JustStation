@@ -94,3 +94,20 @@ URL指令可以通过help来获取指令信息
 ## RemCommandController
 
 `RemCommandController`只是一个测试类，用于调用URL指令。对于测试类中的指令接口，可以通过以下格式执行指令`/command/email?params=target@qq.com,这里是标题,这里是内容`。
+
+------
+
+## 配置
+
+远程URL指令的配置参数如下：
+```yaml
+station:
+  # URL远程指令配置
+  command:
+    # 是否启用远程指令
+    enable: true
+    # 远程指令允许名单，当存在值时会使屏蔽名单无效化。格式为yml的列表格式
+    allowed:
+    # 远程指令屏蔽名单。格式为yml的列表格式
+    blocked:
+```

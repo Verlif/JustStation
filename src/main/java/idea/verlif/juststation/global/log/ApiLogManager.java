@@ -1,19 +1,18 @@
 package idea.verlif.juststation.global.log;
 
-import idea.verlif.juststation.global.util.PrintUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * @author Verlif
@@ -22,10 +21,14 @@ import java.util.logging.Level;
  */
 @Aspect
 @Component
+@ConditionalOnProperty(prefix = "station.api-log", value = "enable", matchIfMissing = true)
 public class ApiLogManager {
 
     @Autowired
     private LogService logService;
+
+    @Autowired
+    private LogConfig logConfig;
 
     public final Map<Class<? extends ApiLogHandler>, ApiLogHandler> handlerMap;
 
@@ -47,15 +50,20 @@ public class ApiLogManager {
         if (logIt == null) {
             logIt = method.getDeclaringClass().getAnnotation(LogIt.class);
         }
-        ApiLogHandler handler = handlerMap.get(logIt.handler());
-        if (handler != null) {
-            handler.onLog(method, logIt);
-            Object o = joinPoint.proceed();
-            handler.onReturn(method, logIt, o);
-            return o;
-        } else {
-            logService.warn(method.getName() + " has not be logged - " + logIt.handler().getSimpleName());
-            return joinPoint.proceed();
+        // 记录过滤
+        if (logConfig.levelable(logIt.level())) {
+            if (logConfig.typeable(logIt.type())) {
+                ApiLogHandler handler = handlerMap.get(logIt.handler());
+                if (handler != null) {
+                    handler.onLog(method, logIt);
+                    Object o = joinPoint.proceed();
+                    handler.onReturn(method, logIt, o);
+                    return o;
+                } else {
+                    logService.warn(method.getName() + " has not be logged - " + logIt.handler().getSimpleName());
+                }
+            }
         }
+        return joinPoint.proceed();
     }
 }

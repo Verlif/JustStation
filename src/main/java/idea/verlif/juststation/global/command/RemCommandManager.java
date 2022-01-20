@@ -4,6 +4,7 @@ import idea.verlif.juststation.global.command.exception.CommandException;
 import idea.verlif.juststation.global.log.LogService;
 import idea.verlif.juststation.global.util.MessagesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,12 @@ import java.util.*;
  * @date 2021/11/15 10:30
  */
 @Component
+@ConditionalOnProperty(prefix = "station.command", value = "enable")
 public class RemCommandManager {
 
     private final HashMap<String, RemCommand> commandHashMap;
     private final Set<String> allowedKey;
     private final Set<String> blockKey;
-    private final RemCommandConfig commandConfig;
 
     /**
      * 屏蔽模式；当开启屏蔽模式时，会忽略允许列表；反之则只会检测允许列表
@@ -43,30 +44,25 @@ public class RemCommandManager {
         commandHashMap = new HashMap<>();
         allowedKey = new HashSet<>();
         blockKey = new HashSet<>();
-        this.commandConfig = remCommandConfig;
 
-        if (commandConfig.isEnable()) {
-            // 加载指令模式与屏蔽名单
-            if (remCommandConfig.getAllowed().length > 0) {
-                MODE_BLOCK = false;
-            }
-            allowedKey.addAll(Arrays.asList(remCommandConfig.getAllowed()));
-            blockKey.addAll(Arrays.asList(remCommandConfig.getBlocked()));
+        // 加载指令模式与屏蔽名单
+        if (remCommandConfig.getAllowed().length > 0) {
+            MODE_BLOCK = false;
         }
+        allowedKey.addAll(Arrays.asList(remCommandConfig.getAllowed()));
+        blockKey.addAll(Arrays.asList(remCommandConfig.getBlocked()));
     }
 
     @PostConstruct
     public void init() {
-        if (commandConfig.isEnable()) {
-            Map<String, RemCommand> beans = appContext.getBeansOfType(RemCommand.class);
-            Set<String> names = new HashSet<>();
-            // 加载指令
-            for (RemCommand command : beans.values()) {
-                addCommand(command);
-                names.add(command.getClass().getSimpleName());
-            }
-            logService.info("RemCommand had been loaded " + names.size() + " - " + Arrays.toString(names.toArray(new String[]{})));
+        Map<String, RemCommand> beans = appContext.getBeansOfType(RemCommand.class);
+        Set<String> names = new HashSet<>();
+        // 加载指令
+        for (RemCommand command : beans.values()) {
+            addCommand(command);
+            names.add(command.getClass().getSimpleName());
         }
+        logService.info("RemCommand had been loaded " + names.size() + " - " + Arrays.toString(names.toArray(new String[]{})));
     }
 
     public void loadCommand(Set<Class<? extends RemCommand>> commandSet) {

@@ -2,6 +2,7 @@ package idea.verlif.juststation.global.api;
 
 import idea.verlif.juststation.global.log.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
  * @date 2022/1/19 9:34
  */
 @Component
+@ConditionalOnProperty(prefix = "station.api", value = "enable")
 public class ApiManager {
 
     @Autowired
@@ -34,9 +36,6 @@ public class ApiManager {
 
     @PostConstruct
     public void config() {
-        if (!apiConfig.isEnable()) {
-            return;
-        }
         /*
          FIXME: 这里存在一个BUG
          当有一个方法被多个路径使用，并提供了多种请求方法时，如果此时屏蔽路径A的一种请求方法和路径B的一种请求方法，则A与B的这两种请求方法都会被屏蔽掉。
