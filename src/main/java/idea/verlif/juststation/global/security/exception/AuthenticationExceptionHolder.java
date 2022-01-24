@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.security.exception;
 
 import idea.verlif.juststation.global.base.result.ext.FailResult;
-import idea.verlif.juststation.global.exception.ExceptionHolder;
+import idea.verlif.exceptioncapture.ExceptionHolder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 

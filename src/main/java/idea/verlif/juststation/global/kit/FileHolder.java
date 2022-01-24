@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import idea.verlif.juststation.global.util.PrintUtils;
-import reactor.util.annotation.NonNull;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -125,8 +124,7 @@ public class FileHolder {
      *
      * @return 文件中存入的字符串
      */
-    public @NonNull
-    String getString() {
+    public String getString() {
         char[] chars = new char[1024];
         try (FileReader reader = new FileReader(file)) {
             StringBuilder sb = new StringBuilder();

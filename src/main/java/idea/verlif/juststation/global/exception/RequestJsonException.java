@@ -1,9 +1,9 @@
-package idea.verlif.juststation.global.exception.handler;
+package idea.verlif.juststation.global.exception;
 
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
-import idea.verlif.juststation.global.exception.ExceptionHolder;
+import idea.verlif.exceptioncapture.ExceptionHolder;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Component;
 

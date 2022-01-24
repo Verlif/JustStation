@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import reactor.util.annotation.NonNull;
 
 import java.util.concurrent.*;
 
@@ -66,7 +65,7 @@ public class ThreadConfig {
     private static final class DefaultThreadFactory implements ThreadFactory {
 
         @Override
-        public Thread newThread(@NonNull Runnable r) {
+        public Thread newThread(Runnable r) {
             return new Thread(r);
         }
     }

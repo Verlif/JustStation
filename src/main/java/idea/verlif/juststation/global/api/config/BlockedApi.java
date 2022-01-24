@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.api;
+package idea.verlif.juststation.global.api.config;
 
 import idea.verlif.juststation.global.util.PrintUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +13,9 @@ import java.util.Locale;
  * @version 1.0
  * @date 2022/1/19 10:35
  */
-public class JustApi {
+public class BlockedApi {
+
+    private static final String SPLIT = ",";
 
     /**
      * api路径，多路径用英文,隔开
@@ -46,7 +48,7 @@ public class JustApi {
         if (api == null) {
             return new String[]{};
         }
-        String[] apis = api.split(",");
+        String[] apis = api.split(SPLIT);
         for (int i = 0, length = apis.length; i < length; i++) {
             apis[i] = apis[i].trim();
         }
@@ -65,7 +67,7 @@ public class JustApi {
         if (method == null) {
             return RequestMethod.values();
         } else {
-            String[] ms = method.toUpperCase(Locale.ROOT).split(",");
+            String[] ms = method.toUpperCase(Locale.ROOT).split(SPLIT);
             if (ms.length == 0) {
                 return RequestMethod.values();
             } else {
@@ -103,6 +105,9 @@ public class JustApi {
                 '}';
     }
 
+    /**
+     * 匹配模式
+     */
     public enum Mode {
         /**
          * 默认匹配模式，字段全匹配

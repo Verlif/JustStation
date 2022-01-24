@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.cache.redis;
+package idea.verlif.justdemo.global.cache;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
 import org.springframework.data.redis.core.BoundSetOperations;

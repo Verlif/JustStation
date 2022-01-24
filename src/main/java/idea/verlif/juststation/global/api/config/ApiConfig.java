@@ -1,4 +1,4 @@
-package idea.verlif.juststation.global.api;
+package idea.verlif.juststation.global.api.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,5 +22,10 @@ public class ApiConfig {
     /**
      * 屏蔽的api
      */
-    private JustApi[] blocked = new JustApi[]{};
+    private BlockedApi[] blocked = new BlockedApi[]{};
+
+    /**
+     * 转接的api
+     */
+    private TransferApi[] transfer = new TransferApi[]{};
 }

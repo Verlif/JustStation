@@ -2,7 +2,6 @@ package idea.verlif.juststation.global.security.token;
 
 import idea.verlif.juststation.global.security.login.domain.LoginUser;
 import io.jsonwebtoken.Claims;
-import reactor.util.annotation.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
@@ -38,7 +37,6 @@ public interface TokenService {
      * @param token 用户Token
      * @return 登录用户信息
      */
-    @Nullable
     LoginUser getUserByToken(String token);
 
     /**

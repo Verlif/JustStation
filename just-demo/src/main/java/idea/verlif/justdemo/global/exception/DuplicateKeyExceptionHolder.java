@@ -1,8 +1,8 @@
-package idea.verlif.juststation.global.exception.handler;
+package idea.verlif.justdemo.global.exception;
 
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
-import idea.verlif.juststation.global.exception.ExceptionHolder;
+import idea.verlif.exceptioncapture.ExceptionHolder;
 import idea.verlif.juststation.global.util.MessagesUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;

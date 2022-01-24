@@ -3,7 +3,7 @@ package idea.verlif.juststation.global.security.exception;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.security.exception.CustomException;
-import idea.verlif.juststation.global.exception.ExceptionHolder;
+import idea.verlif.exceptioncapture.ExceptionHolder;
 import org.springframework.stereotype.Component;
 
 /**
