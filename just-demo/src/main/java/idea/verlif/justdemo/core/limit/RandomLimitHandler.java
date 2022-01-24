@@ -1,7 +1,7 @@
 package idea.verlif.justdemo.core.limit;
 
-import idea.verlif.juststation.global.limit.LimitHandler;
 import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.spring.limit.LimitHandler;
 import org.springframework.stereotype.Component;
 
 /**

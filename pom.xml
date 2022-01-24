@@ -35,7 +35,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        <dependency><groupId>org.springframework.boot</groupId>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <dependency>
@@ -111,6 +112,12 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>task-spring-boot-starter</artifactId>
+            <version>2.6.1-beta0.1</version>
+        </dependency>
+        <!-- 接口限制器 -->
+        <dependency>
+            <groupId>com.github.Verlif</groupId>
+            <artifactId>limit-spring-boot-starter</artifactId>
             <version>2.6.1-beta0.1</version>
         </dependency>
     </dependencies>

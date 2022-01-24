@@ -1,6 +1,7 @@
 package idea.verlif.justdemo;
 
 import idea.verlif.exceptioncapture.EnableExceptionCapture;
+import idea.verlif.spring.limit.EnableLimit;
 import idea.verlif.spring.taskservice.EnableTaskService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableExceptionCapture
 @EnableTaskService
+@EnableLimit
 @ComponentScan({"idea.verlif.juststation", "idea.verlif.justdemo"})
 public class Application extends SpringBootServletInitializer {
 

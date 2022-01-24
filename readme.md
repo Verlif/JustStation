@@ -38,7 +38,7 @@ WIKI上有比较详细的功能实现说明。
 
 * 开放式登录，快速实现单点、互斥、共享等登录模式，密码、令牌等登录方式。
 * 权限配置，使用`@Perm`注解来标记接口权限。
-* 接口访问限制，可以在不使用中间件的方式下使用`@Limit`注解完成接口访问限制，例如限流。
+* （独立）接口访问限制，可以在不使用中间件的方式下使用`@Limit`注解完成接口访问限制，例如限流。
 * 简单的数据脱敏，使用`@Sensitive`注解来标记目标属性，在返回值时自动脱敏。
 * 简单的文件管理，支持自定义文件域，功能包括上传、下载、导入、导出等。
 * 接口日志记录，使用`@LogIt`注解来标记需要记录的接口。
@@ -70,9 +70,10 @@ WIKI上有比较详细的功能实现说明。
 * 示例项目 - 博客系统（暂定）
 * 代码与框架的规范性调整（持续）
 * 将每个功能模块独立为单个依赖  
-  [√] [全局异常处理](https://github.com/Verlif/exception-spring-boot-starter.git)  
-  [√] [指令生成器](https://github.com/Verlif/JustSimmand)  
-  [√] [任务调度服务](https://github.com/Verlif/task-spring-boot-starter.git)
+  [√] [全局异常处理](https://github.com/Verlif/exception-spring-boot-starter)  
+  [√] [指令生成器](https://github.com/Verlif/just-simmand)  
+  [√] [任务调度服务](https://github.com/Verlif/task-spring-boot-starter)  
+  [√] [接口访问限制](https://github.com/Verlif/limit-spring-boot-starter)
 * 拓展文件配置，在不影响性能的情况下拓展每个模块的可配置项（持续）
 
 ----
