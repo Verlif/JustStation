@@ -1,8 +1,8 @@
 package idea.verlif.justdemo.core.schedule;
 
-import idea.verlif.juststation.global.task.TaskTip;
-import idea.verlif.juststation.global.task.TaskType;
 import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.spring.taskservice.TaskTip;
+import idea.verlif.spring.taskservice.TaskType;
 
 import java.util.logging.Level;
 

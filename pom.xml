@@ -104,8 +104,14 @@
         <!-- 全局异常捕获 -->
         <dependency>
             <groupId>com.github.Verlif</groupId>
-            <artifactId>ExceptionCapture</artifactId>
-            <version>alpha-2.6.1-1</version>
+            <artifactId>exception-spring-boot-starter</artifactId>
+            <version>2.6.1-beta0.1</version>
+        </dependency>
+        <!-- 定时任务与多线程任务管理 -->
+        <dependency>
+            <groupId>com.github.Verlif</groupId>
+            <artifactId>task-spring-boot-starter</artifactId>
+            <version>2.6.1-beta0.1</version>
         </dependency>
     </dependencies>
 

@@ -1,7 +1,7 @@
 package idea.verlif.juststation.global.cache.mem;
 
-import idea.verlif.juststation.global.task.TaskTip;
-import idea.verlif.juststation.global.task.TaskType;
+import idea.verlif.spring.taskservice.TaskTip;
+import idea.verlif.spring.taskservice.TaskType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
 import java.util.concurrent.TimeUnit;

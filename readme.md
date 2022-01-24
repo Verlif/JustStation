@@ -44,7 +44,7 @@ WIKI上有比较详细的功能实现说明。
 * 接口日志记录，使用`@LogIt`注解来标记需要记录的接口。
 * 参数检测，使用`validation`进行参数校验，使用注解完成自动入参检测。
 * （独立）*组件式全局异常处理，通过实现`ExceptionHolder`来完成特定异常的全局处理。*
-* 统一任务调度，定时任务与多线程任务都由`TaskServer`管理。定时任务组件化实现方式，可以在配置文件中配置允许名单与屏蔽名单。
+* （独立）统一任务调度，定时任务与多线程任务都由`TaskServer`管理。定时任务组件化实现方式，可以在配置文件中配置允许名单与屏蔽名单。
 * （独立）~~简单指令（默认关闭），通过`SimCommad`来编写自定义的简单指令。~~
 * 接口屏蔽（默认关闭），当前版本可以直接通过配置文件的方式关闭指定API的访问（404）
 
@@ -70,8 +70,9 @@ WIKI上有比较详细的功能实现说明。
 * 示例项目 - 博客系统（暂定）
 * 代码与框架的规范性调整（持续）
 * 将每个功能模块独立为单个依赖  
-  [√] [全局异常处理](https://github.com/Verlif/ExceptionCapture)  
-  [√] [指令生成器](https://github.com/Verlif/JustSimmand)
+  [√] [全局异常处理](https://github.com/Verlif/exception-spring-boot-starter.git)  
+  [√] [指令生成器](https://github.com/Verlif/JustSimmand)  
+  [√] [任务调度服务](https://github.com/Verlif/task-spring-boot-starter.git)
 * 拓展文件配置，在不影响性能的情况下拓展每个模块的可配置项（持续）
 
 ----

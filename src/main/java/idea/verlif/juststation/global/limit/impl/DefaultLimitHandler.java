@@ -1,8 +1,8 @@
 package idea.verlif.juststation.global.limit.impl;
 
 import idea.verlif.juststation.global.limit.LimitHandler;
-import idea.verlif.juststation.global.task.TaskTip;
-import idea.verlif.juststation.global.task.TaskType;
+import idea.verlif.spring.taskservice.TaskTip;
+import idea.verlif.spring.taskservice.TaskType;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

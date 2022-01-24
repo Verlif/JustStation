@@ -3,7 +3,7 @@ package idea.verlif.justdemo.core.schedule;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.juststation.global.task.TaskService;
+import idea.verlif.spring.taskservice.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;

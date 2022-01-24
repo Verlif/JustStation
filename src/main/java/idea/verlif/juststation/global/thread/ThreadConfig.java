@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import java.util.concurrent.*;
 
@@ -48,14 +47,6 @@ public class ThreadConfig {
                 blockingQueue(), new DefaultThreadFactory());
         executor.allowCoreThreadTimeOut(allowTimeout);
         return executor;
-    }
-
-    @Bean
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setThreadFactory(new DefaultThreadFactory());
-        scheduler.setPoolSize(maxSize);
-        return scheduler;
     }
 
     public BlockingQueue<Runnable> blockingQueue() {

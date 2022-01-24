@@ -1,8 +1,8 @@
 package idea.verlif.juststation.global.cache.mem;
 
 import idea.verlif.juststation.global.cache.CacheHandler;
-import idea.verlif.juststation.global.task.TaskService;
 import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.spring.taskservice.TaskService;
 
 import java.io.Serializable;
 import java.util.HashSet;
