@@ -41,7 +41,7 @@ WIKI上有比较详细的功能实现说明。
 * （独立）接口访问限制，可以在不使用中间件的方式下使用`@Limit`注解完成接口访问限制，例如限流。
 * 简单的数据脱敏，使用`@Sensitive`注解来标记目标属性，在返回值时自动脱敏。
 * 简单的文件管理，支持自定义文件域，功能包括上传、下载、导入、导出等。
-* 接口日志记录，使用`@LogIt`注解来标记需要记录的接口。
+* （独立）接口日志记录，使用`@LogIt`注解来标记需要记录的接口。
 * 参数检测，使用`validation`进行参数校验，使用注解完成自动入参检测。
 * （独立）*组件式全局异常处理，通过实现`ExceptionHolder`来完成特定异常的全局处理。*
 * （独立）统一任务调度，定时任务与多线程任务都由`TaskServer`管理。定时任务组件化实现方式，可以在配置文件中配置允许名单与屏蔽名单。
@@ -57,7 +57,7 @@ WIKI上有比较详细的功能实现说明。
 * 登录模式 - spring-security、token
 * 安全相关 - spring-security、RSA加密
 * 缓存实现 - 内存非持久化缓存、*~~Redis~~（移至demo中）*
-* 日志记录 - 默认java.util.logging
+* 日志记录 - logging-spring-boot-starter（默认log4j2）
 * 调度任务 - ThreadPoolTaskScheduler
 * 数据脱敏 - Jackson
 * 参数校验 - spring-validation
@@ -73,7 +73,8 @@ WIKI上有比较详细的功能实现说明。
   [√] [全局异常处理](https://github.com/Verlif/exception-spring-boot-starter)  
   [√] [指令生成器](https://github.com/Verlif/just-simmand)  
   [√] [任务调度服务](https://github.com/Verlif/task-spring-boot-starter)  
-  [√] [接口访问限制](https://github.com/Verlif/limit-spring-boot-starter)
+  [√] [接口访问限制](https://github.com/Verlif/limit-spring-boot-starter)  
+  [√] [日志服务](https://github.com/Verlif/logging-spring-boot-starter)
 * 拓展文件配置，在不影响性能的情况下拓展每个模块的可配置项（持续）
 
 ----

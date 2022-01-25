@@ -1,8 +1,8 @@
 package idea.verlif.justdemo.core.log;
 
-import idea.verlif.juststation.global.log.ApiLogHandler;
-import idea.verlif.juststation.global.log.LogIt;
 import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.spring.logging.api.ApiLogHandler;
+import idea.verlif.spring.logging.api.LogIt;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;

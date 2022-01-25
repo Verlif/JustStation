@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.notice;
 
-import idea.verlif.juststation.global.log.LogService;
+import idea.verlif.spring.logging.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;

@@ -5,14 +5,14 @@ import idea.verlif.justdemo.core.base.domain.User;
 import idea.verlif.justdemo.core.login.NoEncryptService;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.juststation.global.log.LogIt;
-import idea.verlif.juststation.global.log.LogType;
+import idea.verlif.juststation.global.log.Login;
 import idea.verlif.juststation.global.rsa.RsaKey;
 import idea.verlif.juststation.global.rsa.RsaService;
 import idea.verlif.juststation.global.security.login.LoginService;
 import idea.verlif.juststation.global.security.login.domain.LoginInfo;
 import idea.verlif.juststation.global.security.permission.Perm;
 import idea.verlif.juststation.global.validation.group.Insert;
+import idea.verlif.spring.logging.api.LogIt;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.Data;
@@ -70,7 +70,7 @@ public class LoginController {
      * @param loginInfo 用户登录信息
      * @return 登录结果
      */
-    @LogIt(type = LogType.LOGIN, message = "有人登录啦啦啦")
+    @LogIt(type = Login.class, message = "有人登录啦啦啦")
     @PostMapping("/login")
     @Operation(summary = "登录")
     public BaseResult<?> login(@RequestBody LoginInfo loginInfo) {
