@@ -1,9 +1,9 @@
 package idea.verlif.justdemo.global.exception;
 
-import idea.verlif.exceptioncapture.BaseExceptionHolder;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.util.MessagesUtils;
 import idea.verlif.juststation.global.util.PrintUtils;
+import idea.verlif.spring.exception.BaseExceptionHolder;
 import org.springframework.stereotype.Component;
 
 /**

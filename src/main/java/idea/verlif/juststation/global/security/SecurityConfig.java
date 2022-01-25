@@ -1,7 +1,6 @@
 package idea.verlif.juststation.global.security;
 
 import idea.verlif.juststation.global.security.login.auth.StationAttestation;
-import idea.verlif.juststation.global.security.token.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

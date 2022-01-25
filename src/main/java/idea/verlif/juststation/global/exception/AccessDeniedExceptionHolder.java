@@ -1,8 +1,8 @@
 package idea.verlif.juststation.global.exception;
 
-import idea.verlif.exceptioncapture.ExceptionHolder;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
+import idea.verlif.spring.exception.ExceptionHolder;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 

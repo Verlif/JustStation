@@ -1,6 +1,6 @@
 package idea.verlif.justdemo;
 
-import idea.verlif.exceptioncapture.EnableExceptionCapture;
+import idea.verlif.spring.exception.EnableExceptionCapture;
 import idea.verlif.spring.limit.EnableLimit;
 import idea.verlif.spring.logging.EnableLogService;
 import idea.verlif.spring.permission.anno.EnablePermission;

@@ -2,8 +2,8 @@ package idea.verlif.juststation.global.exception;
 
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
-import idea.verlif.exceptioncapture.ExceptionHolder;
 import idea.verlif.juststation.global.util.MessagesUtils;
+import idea.verlif.spring.exception.ExceptionHolder;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.stereotype.Component;
 

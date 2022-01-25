@@ -1,8 +1,8 @@
 package idea.verlif.juststation.global.security.permission.eh;
 
-import idea.verlif.exceptioncapture.ExceptionHolder;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
+import idea.verlif.spring.exception.ExceptionHolder;
 import idea.verlif.spring.permission.exception.NoPermissionException;
 import org.springframework.stereotype.Component;
 

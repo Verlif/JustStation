@@ -1,11 +1,11 @@
 package idea.verlif.justdemo.core.exception;
 
-import idea.verlif.exceptioncapture.ExceptionHolder;
 import idea.verlif.justdemo.core.exception.exc.LevelOneException;
 import idea.verlif.justdemo.core.exception.exc.LevelThreeException;
 import idea.verlif.justdemo.core.exception.exc.LevelTwoException;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
+import idea.verlif.spring.exception.ExceptionHolder;
 import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
