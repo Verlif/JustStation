@@ -2,7 +2,7 @@ package idea.verlif.justdemo.core.permission;
 
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.juststation.global.security.permission.Perm;
+import idea.verlif.spring.permission.anno.Perm;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.GetMapping;

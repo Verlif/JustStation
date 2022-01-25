@@ -4,7 +4,7 @@ import idea.verlif.justdemo.core.base.biz.UserBiz;
 import idea.verlif.justdemo.core.base.domain.User;
 import idea.verlif.justdemo.core.base.domain.req.UpdatePassword;
 import idea.verlif.juststation.global.base.result.BaseResult;
-import idea.verlif.juststation.global.security.permission.Perm;
+import idea.verlif.spring.permission.anno.Perm;
 import idea.verlif.juststation.global.validation.group.Update;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;

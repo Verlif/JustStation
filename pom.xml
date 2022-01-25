@@ -124,7 +124,13 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>logging-spring-boot-starter</artifactId>
-            <version>2.6.1-beta0.1</version>
+            <version>2.6.2-beta0.2</version>
+        </dependency>
+        <!-- 接口权限控制 -->
+        <dependency>
+            <groupId>com.github.Verlif</groupId>
+            <artifactId>permission-spring-boot-starter</artifactId>
+            <version>1824a883d4</version>
         </dependency>
     </dependencies>
 

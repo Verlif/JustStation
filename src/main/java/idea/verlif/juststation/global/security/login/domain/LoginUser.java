@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.security.login.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import idea.verlif.spring.permission.PermData;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,7 @@ import java.util.Set;
  * @author Verlif
  */
 @Data
-public class LoginUser implements UserDetails {
+public class LoginUser implements UserDetails, PermData<String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -134,5 +135,15 @@ public class LoginUser implements UserDetails {
     @Override
     public String getUsername() {
         return user.getUsername();
+    }
+
+    @Override
+    public Set<String> getRoles() {
+        return roleSet;
+    }
+
+    @Override
+    public Set<String> getKeys() {
+        return keySet;
     }
 }
