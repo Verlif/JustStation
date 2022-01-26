@@ -132,6 +132,12 @@
             <artifactId>permission-spring-boot-starter</artifactId>
             <version>2.6.3-beta0.1</version>
         </dependency>
+        <!-- Jackson脱敏 -->
+        <dependency>
+            <groupId>com.github.Verlif</groupId>
+            <artifactId>jackson-sensible</artifactId>
+            <version>alpha-0.1</version>
+        </dependency>
     </dependencies>
 
     <!-- Jitpack 仓库 -->

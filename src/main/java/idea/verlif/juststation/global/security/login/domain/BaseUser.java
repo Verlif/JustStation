@@ -1,6 +1,7 @@
 package idea.verlif.juststation.global.security.login.domain;
 
-import idea.verlif.juststation.global.sensible.Sensitive;
+import idea.verlif.jackson.sensible.anno.Sensitive;
+import idea.verlif.jackson.sensible.anno.Strategy;
 import idea.verlif.juststation.global.validation.group.Insert;
 import idea.verlif.juststation.global.validation.group.Update;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,7 +29,7 @@ public class BaseUser implements Serializable {
     /**
      * 用户密码
      */
-    @Sensitive(strategy = Sensitive.Strategy.ALWAYS_NULL)
+    @Sensitive(strategy = Strategy.ALWAYS_NULL)
     @Schema(name = "用户密码")
     @Null(groups = Update.class)
     protected String password;
