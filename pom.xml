@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>limit-spring-boot-starter</artifactId>
-            <version>2.6.1-beta0.1</version>
+            <version>2.6.3-0.1</version>
         </dependency>
         <!-- 日志服务 -->
         <dependency>
@@ -130,13 +130,26 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>permission-spring-boot-starter</artifactId>
-            <version>2.6.3-beta0.1</version>
+            <version>2.6.3-0.1</version>
+        </dependency>
+        <!-- 文件系统 -->
+        <dependency>
+            <groupId>com.github.Verlif</groupId>
+            <artifactId>file-spring-boot-starter</artifactId>
+            <version>2.6.3-0.1</version>
         </dependency>
         <!-- Jackson脱敏 -->
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>jackson-sensible</artifactId>
             <version>alpha-0.1</version>
+        </dependency>
+
+        <!-- 参数解析器 -->
+        <dependency>
+            <groupId>com.github.Verlif</groupId>
+            <artifactId>param-parser</artifactId>
+            <version>0.1</version>
         </dependency>
     </dependencies>
 

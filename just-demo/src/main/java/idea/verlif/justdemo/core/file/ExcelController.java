@@ -1,15 +1,15 @@
 package idea.verlif.justdemo.core.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import idea.verlif.file.service.FileService;
+import idea.verlif.file.service.domain.FileCart;
 import idea.verlif.justdemo.core.base.biz.UserBiz;
 import idea.verlif.justdemo.core.base.domain.User;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ResultCode;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
-import idea.verlif.juststation.global.file.FileService;
 import idea.verlif.juststation.global.file.FileType;
-import idea.verlif.juststation.global.file.domain.FileCart;
 import idea.verlif.juststation.global.file.parser.FileParser4List;
 import idea.verlif.juststation.global.file.parser.FileParserService;
 import idea.verlif.juststation.global.util.PrintUtils;
@@ -52,10 +52,14 @@ public class ExcelController {
         BaseResult<IPage<User>> page = userBiz.getPage(null);
         List<User> list = page.getData().getRecords();
         FileParser4List parser = parserService.getListParser(FileType.EXCEL);
-        File file = new File(fileService.getLocalFile(FileCart.TEST, null), "test.xlsx");
+        File file = new File(fileService.getLocalFile(new FileCart("test"), null), "test.xlsx");
         try {
             if (parser.saveObjectList(list, file, User.class) == list.size()) {
-                return fileService.downloadFile(response, FileCart.TEST, null, file.getName());
+                if (fileService.downloadFile(response, new FileCart("test"), null, file.getName())) {
+                    return new OkResult<>("正在下载");
+                } else {
+                    return new FailResult<>("下载失败");
+                }
             } else {
                 return new FailResult<>("导出数据有误");
             }

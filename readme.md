@@ -37,10 +37,10 @@ WIKI上有比较详细的功能实现说明。
 ## 功能点
 
 * 开放式登录，快速实现单点、互斥、共享等登录模式，密码、令牌等登录方式。
-* 权限配置，使用`@Perm`注解来标记接口权限。
+* （独立）权限配置，使用`@Perm`注解来标记接口权限。
 * （独立）接口访问限制，可以在不使用中间件的方式下使用`@Limit`注解完成接口访问限制，例如限流。
-* 简单的数据脱敏，使用`@Sensitive`注解来标记目标属性，在返回值时自动脱敏。
-* 简单的文件管理，支持自定义文件域，功能包括上传、下载、导入、导出等。
+* （独立）简单的数据脱敏，使用`@Sensitive`注解来标记目标属性，在返回值时自动脱敏。
+* （独立）简单的文件管理，支持自定义文件域，功能包括上传、下载、导入、导出等。
 * （独立）接口日志记录，使用`@LogIt`注解来标记需要记录的接口。
 * 参数检测，使用`validation`进行参数校验，使用注解完成自动入参检测。
 * （独立）*组件式全局异常处理，通过实现`ExceptionHolder`来完成特定异常的全局处理。*
@@ -58,8 +58,8 @@ WIKI上有比较详细的功能实现说明。
 * 安全相关 - spring-security、RSA加密
 * 缓存实现 - 内存非持久化缓存、*~~Redis~~（移至demo中）*
 * 日志记录 - logging-spring-boot-starter（默认log4j2）
-* 调度任务 - ThreadPoolTaskScheduler
-* 数据脱敏 - Jackson
+* 调度任务 - task-spring-boot-starter
+* 数据脱敏 - jackson-sensible
 * 参数校验 - spring-validation
 * API文档 - springfox3、knife4j
 
@@ -74,111 +74,10 @@ WIKI上有比较详细的功能实现说明。
   [√] [指令生成器](https://github.com/Verlif/just-simmand)  
   [√] [任务调度服务](https://github.com/Verlif/task-spring-boot-starter)  
   [√] [接口访问限制](https://github.com/Verlif/limit-spring-boot-starter)  
-  [√] [日志服务](https://github.com/Verlif/logging-spring-boot-starter)
+  [√] [日志服务](https://github.com/Verlif/logging-spring-boot-starter)  
+  [√] [文件管理系统](https://github.com/Verlif/file-spring-boot-starter)  
+  [√] [Jackson序列化脱敏](https://github.com/jackson-sensible)
 * 拓展文件配置，在不影响性能的情况下拓展每个模块的可配置项（持续）
-
-----
-
-## 举例
-
-以实现权限接口为例，内置的`PermissionDetector`已完成常规的角色判定，所以一般情况下只需要实现`PermissionMapper`即可（内置的`PermissionMapper`对于所有的角色都会返回空角色与空关键词）。
-
-1. 实现`PermissionMapper`，完成权限获取接口。内置的实现类只会返回空列表，也就是没有权限。开发者自己实现的时候，需要加上`@Component`注解将其注入Bean池。
-
-    ```java
-    public interface PermissionMapper {
-
-        /**
-        * 通过用户名标识获取角色组
-        *
-        * @param username 用户名
-        * @return 用户所在的角色组
-        */
-        Set<String> getUserRoleSet(String username);
-
-        /**
-        * 通过用户名标识获取关键词组
-        *
-        * @param username 用户名
-        * @return 用户所在的关键词组
-        */
-        Set<String> getUserKeySet(String username);
-    }
-    ```
-
-2. 实现`PermissionDetector`，完成角色判定。内置了一个实现类，逻辑是从登录用户的缓存中获取权限列表，然后判定。缓存中的权限列表是在登录时获取并加载的，具体细节在内置的`UserDetailsService`
-   实现类中。开发者自己实现的时候，需要加上`@Component`注解将其注入Bean池。
-
-    ```java
-    public class PermissionDetectorImpl implements PermissionDetector {
-
-        public PermissionDetectorImpl() {
-        }
-
-        @Override
-        public boolean hasRole(String role) {
-            LoginUser<?> loginUser = SecurityUtils.getLoginUser();
-            if (loginUser == null) {
-                throw new CustomException(MessagesUtils.message("result.fail.login.not"));
-            }
-            return loginUser.getRoleSet().stream().anyMatch(s -> s.equals(role));
-        }
-
-        @Override
-        public boolean hasKey(String key) {
-            LoginUser<?> loginUser = SecurityUtils.getLoginUser();
-            if (loginUser == null) {
-                throw new CustomException(MessagesUtils.message("result.fail.login.not"));
-            }
-            return loginUser.getKeySet().stream().anyMatch(s -> s.equals(key));
-        }
-
-    }
-    ```
-
-3. 使用`Perm`注解标记接口，用就完事儿了。具体逻辑在`PermissionHandler`中，需要修改的话可以改这里。
-
-    ```java
-        /**
-        * 拥有角色[role]时可访问
-        */
-        @Operation(summary = "拥有角色 - user")
-        @Perm(hasRole = "user")
-        @GetMapping("/hasRole")
-        public BaseResult<Object> hasRole() {
-            return new OkResult<>().msg("拥有角色");
-        }
-
-        /**
-        * 拥有关键词[key]时可访问
-        */
-        @Operation(summary = "拥有关键词 - key")
-        @Perm(hasKey = "key")
-        @GetMapping("/hasKey")
-        public BaseResult<Object> hasKey() {
-            return new OkResult<>().msg("拥有关键词");
-        }
-
-        /**
-        * 未拥有角色[role]时可访问
-        */
-        @Operation(summary = "未拥有角色 - user")
-        @Perm(noRole = "user")
-        @GetMapping("/noRole")
-        public BaseResult<Object> noRole() {
-            return new OkResult<>().msg("未拥有角色");
-        }
-
-        /**
-        * 未拥有关键词[key]时可访问
-        */
-        @Operation(summary = "未拥有关键词 - key")
-        @Perm(noKey = "key")
-        @GetMapping("/noKey")
-        public BaseResult<Object> noKey() {
-            return new OkResult<>().msg("未拥有关键词");
-        }
-    ```
 
 ----
 

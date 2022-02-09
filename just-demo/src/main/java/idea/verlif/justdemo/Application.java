@@ -1,5 +1,6 @@
 package idea.verlif.justdemo;
 
+import idea.verlif.file.service.EnableFileService;
 import idea.verlif.spring.exception.EnableExceptionCapture;
 import idea.verlif.spring.limit.EnableLimit;
 import idea.verlif.spring.logging.EnableLogService;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2021/11/2 10:22
  */
 @SpringBootApplication
+@EnableFileService
 @EnableExceptionCapture
 @EnableTaskService
 @EnableLimit

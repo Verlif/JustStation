@@ -1,11 +1,12 @@
 package idea.verlif.justdemo.core.file;
 
-import idea.verlif.juststation.global.base.domain.SimPage;
+import idea.verlif.file.service.FileService;
+import idea.verlif.file.service.domain.FileCart;
+import idea.verlif.file.service.domain.FilePage;
+import idea.verlif.file.service.domain.FileQuery;
 import idea.verlif.juststation.global.base.result.BaseResult;
-import idea.verlif.juststation.global.file.FileService;
-import idea.verlif.juststation.global.file.domain.FileCart;
-import idea.verlif.juststation.global.file.domain.FileInfo;
-import idea.verlif.juststation.global.file.domain.FileQuery;
+import idea.verlif.juststation.global.base.result.ext.FailResult;
+import idea.verlif.juststation.global.base.result.ext.OkResult;
 import idea.verlif.juststation.global.util.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 文件上传下载测试接口
@@ -33,26 +35,44 @@ public class FileController {
     @PostMapping
     @Operation(summary = "上传文件")
     public BaseResult<?> uploadFile(MultipartFile[] files) {
-        return fileService.uploadFile(FileCart.TEST, SecurityUtils.getUsername(), files);
+        try {
+            if (fileService.uploadFile(new FileCart("test"), SecurityUtils.getUsername(), files) > 0) {
+                return OkResult.empty();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return FailResult.empty();
     }
 
     @GetMapping
     @Operation(summary = "下载文件")
     public BaseResult<?> downloadFile(
-            @RequestParam String fileName,
+            @RequestParam String filename,
             HttpServletResponse response) {
-        return fileService.downloadFile(response, FileCart.TEST, SecurityUtils.getUsername(), fileName);
+        try {
+            if (fileService.downloadFile(response, new FileCart("test"), SecurityUtils.getUsername(), filename)) {
+                return OkResult.empty();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return FailResult.empty();
     }
 
     @GetMapping("/list")
     @Operation(summary = "文件列表")
-    public BaseResult<SimPage<FileInfo>> getFileList(FileQuery fileQuery) {
-        return fileService.getFileList(FileCart.TEST, SecurityUtils.getUsername(), fileQuery);
+    public BaseResult<FilePage> getFileList(FileQuery fileQuery) {
+        return new OkResult<FilePage>().data(fileService.getFileList(new FileCart("test"), SecurityUtils.getUsername(), fileQuery));
     }
 
     @DeleteMapping
     @Operation(summary = "删除文件")
     public BaseResult<?> deleteFile(@RequestParam String filename) {
-        return fileService.deleteFile(FileCart.TEST, SecurityUtils.getUsername(), filename);
+        if (fileService.deleteFile(new FileCart("test"), SecurityUtils.getUsername(), filename)) {
+            return OkResult.empty();
+        } else {
+            return FailResult.empty();
+        }
     }
 }

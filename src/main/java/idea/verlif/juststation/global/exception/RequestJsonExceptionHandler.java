@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @date 2021/12/20 11:21
  */
 @Component
-public class RequestJsonException implements ExceptionHolder<HttpMessageNotReadableException> {
+public class RequestJsonExceptionHandler implements ExceptionHolder<HttpMessageNotReadableException> {
 
     private static final Pattern PATTERN = Pattern.compile("\\[\"(.*)\"]");
 
