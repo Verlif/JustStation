@@ -1,12 +1,13 @@
 # JustStation
 
 基于SpringBoot的开源框架，只包括JavaWeb框架，不包括前端页面与拓展业务实现。  
-为了更方便的功能拓展、更好的维护管理与乱七八糟的需求服务。
+为了更方便的功能拓展、更好的维护管理与乱七八糟的需求服务。  
+> **当前版本中的大部分功能以依赖的方式使用，所以亦可以当作这些组件的使用演示**
 
 [Github主页](https://github.com/Verlif/JustStation) | [Github WIKI](https://github.com/Verlif/JustStation/wiki)
-| [Gitee主页](https://gitee.com/Verlif/JustStation) | [Gitee WIKI](https://gitee.com/Verlif/JustStation/wikis/Home)
+| [Gitee主页](https://gitee.com/Verlif/JustStation) | [Gitee WIKI](https://gitee.com/Verlif/JustStation/wikis/Home) 
 
-WIKI上有比较详细的功能实现说明。
+~~WIKI上有比较详细的功能实现说明~~ 组件的使用请前往对应组件的Github页面
 
 ----
 
@@ -43,7 +44,7 @@ WIKI上有比较详细的功能实现说明。
 * （独立）简单的文件管理，支持自定义文件域，功能包括上传、下载、导入、导出等。
 * （独立）接口日志记录，使用`@LogIt`注解来标记需要记录的接口。
 * 参数检测，使用`validation`进行参数校验，使用注解完成自动入参检测。
-* （独立）*组件式全局异常处理，通过实现`ExceptionHolder`来完成特定异常的全局处理。*
+* （独立）组件式全局异常处理，通过实现`ExceptionHolder`来完成特定异常的全局处理。
 * （独立）统一任务调度，定时任务与多线程任务都由`TaskServer`管理。定时任务组件化实现方式，可以在配置文件中配置允许名单与屏蔽名单。
 * （独立）~~简单指令（默认关闭），通过`SimCommad`来编写自定义的简单指令。~~
 * 接口屏蔽（默认关闭），当前版本可以直接通过配置文件的方式关闭指定API的访问（404）
