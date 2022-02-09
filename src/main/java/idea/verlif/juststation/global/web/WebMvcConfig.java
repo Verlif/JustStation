@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.web;
 
-import idea.verlif.file.service.FileConfig;
+import idea.verlif.spring.file.FileConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

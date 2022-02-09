@@ -1,6 +1,6 @@
 package idea.verlif.justdemo;
 
-import idea.verlif.file.service.EnableFileService;
+import idea.verlif.spring.file.EnableFileService;
 import idea.verlif.spring.exception.EnableExceptionCapture;
 import idea.verlif.spring.limit.EnableLimit;
 import idea.verlif.spring.logging.EnableLogService;

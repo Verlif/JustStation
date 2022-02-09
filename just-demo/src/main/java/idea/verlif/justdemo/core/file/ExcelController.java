@@ -1,8 +1,8 @@
 package idea.verlif.justdemo.core.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import idea.verlif.file.service.FileService;
-import idea.verlif.file.service.domain.FileCart;
+import idea.verlif.spring.file.FileService;
+import idea.verlif.spring.file.domain.FileCart;
 import idea.verlif.justdemo.core.base.biz.UserBiz;
 import idea.verlif.justdemo.core.base.domain.User;
 import idea.verlif.juststation.global.base.result.BaseResult;

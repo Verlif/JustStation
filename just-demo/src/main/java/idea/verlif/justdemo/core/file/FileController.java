@@ -1,9 +1,9 @@
 package idea.verlif.justdemo.core.file;
 
-import idea.verlif.file.service.FileService;
-import idea.verlif.file.service.domain.FileCart;
-import idea.verlif.file.service.domain.FilePage;
-import idea.verlif.file.service.domain.FileQuery;
+import idea.verlif.spring.file.FileService;
+import idea.verlif.spring.file.domain.FileCart;
+import idea.verlif.spring.file.domain.FilePage;
+import idea.verlif.spring.file.domain.FileQuery;
 import idea.verlif.juststation.global.base.result.BaseResult;
 import idea.verlif.juststation.global.base.result.ext.FailResult;
 import idea.verlif.juststation.global.base.result.ext.OkResult;
