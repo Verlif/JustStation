@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.1</version>
+        <version>2.6.6</version>
         <relativePath/>
     </parent>
 
@@ -143,6 +143,12 @@
             <groupId>com.github.Verlif</groupId>
             <artifactId>jackson-sensible</artifactId>
             <version>alpha-0.1</version>
+        </dependency>
+        <!-- 接口等幂性 -->
+        <dependency>
+            <groupId>com.github.Verlif</groupId>
+            <artifactId>norepeat-sprint-boot-starter</artifactId>
+            <version>2.6.6-1.0</version>
         </dependency>
 
         <!-- 参数解析器 -->
