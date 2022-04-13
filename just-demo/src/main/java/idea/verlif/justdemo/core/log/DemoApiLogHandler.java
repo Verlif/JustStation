@@ -6,6 +6,7 @@ import idea.verlif.spring.logging.api.LogIt;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 
 /**
  * 演示用接口日志处理
@@ -18,12 +19,12 @@ import java.lang.reflect.Method;
 public class DemoApiLogHandler implements ApiLogHandler {
 
     @Override
-    public void onLog(Method method, LogIt logIt) {
-        PrintUtils.println("正在访问 [" + method.getName() + "], " + logIt.message());
+    public void onLog(Method method, LogIt logIt, long time) {
+        PrintUtils.println("正在访问 [" + method.getName() + "], " + logIt.message() + " at " + new Date(time));
     }
 
     @Override
-    public void onReturn(Method method, LogIt logIt, Object o) {
-        PrintUtils.println("访问结束 [" + method.getName() + "], " + logIt.message());
+    public void onReturn(Method method, LogIt logIt, Object o, long time) {
+        PrintUtils.println("访问结束 [" + method.getName() + "], " + logIt.message() + " at " + new Date(time));
     }
 }
