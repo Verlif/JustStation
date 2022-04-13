@@ -40,6 +40,7 @@
 * 开放式登录，快速实现单点、互斥、共享等登录模式，密码、令牌等登录方式。
 * （独立）权限配置，使用`@Perm`注解来标记接口权限。
 * （独立）接口访问限制，可以在不使用中间件的方式下使用`@Limit`注解完成接口访问限制，例如限流。
+* （独立）接口等幂性实现，过滤重复的请求，支持自定义判定。
 * （独立）简单的数据脱敏，使用`@Sensitive`注解来标记目标属性，在返回值时自动脱敏。
 * （独立）简单的文件管理，支持自定义文件域，功能包括上传、下载、导入、导出等。
 * （独立）接口日志记录，使用`@LogIt`注解来标记需要记录的接口。
@@ -61,6 +62,7 @@
 * 日志记录 - logging-spring-boot-starter（默认log4j2）
 * 调度任务 - task-spring-boot-starter
 * 数据脱敏 - jackson-sensible
+* 接口等幂性 - norepeat-spring-boot-starter
 * 参数校验 - spring-validation
 * API文档 - springfox3、knife4j
 
@@ -75,6 +77,7 @@
   [√] [指令生成器](https://github.com/Verlif/just-simmand)  
   [√] [任务调度服务](https://github.com/Verlif/task-spring-boot-starter)  
   [√] [接口访问限制](https://github.com/Verlif/limit-spring-boot-starter)  
+  [√] [接口等幂性实现](https://github.com/Verlif/norepeat-spring-boot-starter)  
   [√] [日志服务](https://github.com/Verlif/logging-spring-boot-starter)  
   [√] [文件管理系统](https://github.com/Verlif/file-spring-boot-starter)  
   [√] [Jackson序列化脱敏](https://github.com/jackson-sensible)

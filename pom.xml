@@ -99,7 +99,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>5.1.0</version>
+            <version>5.2.2</version>
         </dependency>
 
         <!-- 全局异常捕获 -->
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>task-spring-boot-starter</artifactId>
-            <version>2.6.1-beta0.1</version>
+            <version>2.6.6-1.1</version>
         </dependency>
         <!-- 接口限制器 -->
         <dependency>
@@ -124,7 +124,7 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>logging-spring-boot-starter</artifactId>
-            <version>2.6.2-beta0.2</version>
+            <version>2.6.6-0.3</version>
         </dependency>
         <!-- 接口权限控制 -->
         <dependency>
@@ -147,7 +147,7 @@
         <!-- 接口等幂性 -->
         <dependency>
             <groupId>com.github.Verlif</groupId>
-            <artifactId>norepeat-sprint-boot-starter</artifactId>
+            <artifactId>norepeat-spring-boot-starter</artifactId>
             <version>2.6.6-1.1</version>
         </dependency>
 

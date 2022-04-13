@@ -1,6 +1,6 @@
 package idea.verlif.juststation.global.cache.mem;
 
-import idea.verlif.spring.taskservice.TaskTip;
+import idea.verlif.spring.taskservice.anno.TaskTip;
 import idea.verlif.spring.taskservice.TaskType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
