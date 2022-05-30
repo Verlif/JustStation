@@ -25,7 +25,7 @@ public class FileData extends FileInfo {
     private String url;
 
     public FileData(File file) {
-        super(file);
+        super(new FileInfo(file, file.getAbsolutePath()));
     }
 
     public String getUrl() {
