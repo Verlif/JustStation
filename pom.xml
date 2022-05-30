@@ -106,7 +106,7 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>exception-spring-boot-starter</artifactId>
-            <version>2.6.6-0.1</version>
+            <version>2.6.6-0.2</version>
         </dependency>
         <!-- 定时任务与多线程任务管理 -->
         <dependency>
@@ -136,7 +136,7 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>file-spring-boot-starter</artifactId>
-            <version>2.6.6-0.3</version>
+            <version>2.6.6-0.6</version>
         </dependency>
         <!-- Jackson脱敏 -->
         <dependency>
@@ -148,7 +148,7 @@
         <dependency>
             <groupId>com.github.Verlif</groupId>
             <artifactId>norepeat-spring-boot-starter</artifactId>
-            <version>2.6.6-1.1</version>
+            <version>2.6.6-1.2</version>
         </dependency>
 
         <!-- 参数解析器 -->

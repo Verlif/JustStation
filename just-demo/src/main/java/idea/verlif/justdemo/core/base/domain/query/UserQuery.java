@@ -1,7 +1,7 @@
 package idea.verlif.justdemo.core.base.domain.query;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import idea.verlif.justdemo.core.base.PageWithMP;
+import idea.verlif.justdemo.core.base.PageExtend;
 import idea.verlif.justdemo.core.base.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(name = "用户查询条件")
-public class UserQuery extends PageWithMP<User> {
+public class UserQuery extends PageExtend<User> {
 
     @Schema(name = "用户昵称筛选")
     private String nickname;

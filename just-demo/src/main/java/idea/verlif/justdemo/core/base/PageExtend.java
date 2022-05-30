@@ -3,11 +3,11 @@ package idea.verlif.justdemo.core.base;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import idea.verlif.juststation.global.base.domain.Pageable;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 
 /**
  * 结合了MybatisPlus的分页查询条件<br/>
@@ -19,7 +19,7 @@ import java.lang.reflect.ParameterizedType;
  * @version 1.0
  * @date 2022/1/5 16:05
  */
-public class PageWithMP<T> extends Pageable<T> {
+public class PageExtend<T> extends Pageable<T> {
 
     /**
      * 排序规则 <br>
@@ -27,6 +27,7 @@ public class PageWithMP<T> extends Pageable<T> {
      *
      * @param field 需要排序的字段
      */
+    @Override
     public void setOrderBy(Field field) {
         if (field == null) {
             return;
@@ -38,32 +39,10 @@ public class PageWithMP<T> extends Pageable<T> {
         } else {
             TableId tableId = field.getAnnotation(TableId.class);
             if (tableId != null) {
-                orderBy = tableId.value();
+                orderBy = tableId.value().length() == 0 ? field.getName() : tableId.value();
+            } else {
+                orderBy = field.getName();
             }
-        }
-    }
-
-    /**
-     * 排序
-     *
-     * @param orderBy 排序字段
-     * @see #setOrderBy(Field)
-     */
-    @Override
-    public void setOrderBy(String orderBy) {
-        try {
-            Class<?> cl = Class.forName(
-                    ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName());
-            do {
-                try {
-                    Field field = cl.getDeclaredField(orderBy);
-                    setOrderBy(field);
-                    break;
-                } catch (NoSuchFieldException ignored) {
-                    cl = cl.getSuperclass();
-                }
-            } while (cl != null);
-        } catch (ClassNotFoundException ignored) {
         }
     }
 
@@ -75,17 +54,21 @@ public class PageWithMP<T> extends Pageable<T> {
      */
     public QueryWrapper<T> buildQueryWrapper() {
         QueryWrapper<T> wrapper = new QueryWrapper<>();
-        if (orderBy != null) {
-            wrapper.orderBy(true, asc, orderBy);
-        }
+        wrapper.orderBy(orderBy != null, asc, orderBy);
         return wrapper;
     }
 
+    /**
+     * 获取分页条件，用于Mybatis-plus的Mapper中的分页条件。
+     *
+     * @return 分页条件
+     */
     public Page<T> buildPage() {
-        if (pageSize > 0) {
-            return new Page<>(pageNum, pageSize);
-        } else {
-            return new Page<>(pageNum, -1);
+        int s = size > 0 ? size : -1;
+        Page<T> page = new Page<>(current, s);
+        if (orderBy != null) {
+            page.addOrder(new OrderItem(orderBy, asc));
         }
+        return page;
     }
 }
