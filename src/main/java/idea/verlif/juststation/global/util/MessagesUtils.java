@@ -14,6 +14,7 @@ import java.util.Locale;
 @Component
 public class MessagesUtils {
 
+    private static final Object[] ARGS_EMPTY = new Object[]{};
     private static MessageSource ms;
 
     /**
@@ -25,9 +26,41 @@ public class MessagesUtils {
         ms = messageSource;
     }
 
-    public static String message(String code, String... args) {
+    public static String get(String code, String... args) {
         try {
             return ms.getMessage(code, args, Locale.getDefault());
+        } catch (Exception ignored) {
+            return code;
+        }
+    }
+
+    public static String get(String code, String defaultValue) {
+        try {
+            return ms.getMessage(code, ARGS_EMPTY, Locale.getDefault());
+        } catch (Exception ignored) {
+            return defaultValue;
+        }
+    }
+
+    public static String get(String code, Locale locale) {
+        try {
+            return ms.getMessage(code, ARGS_EMPTY, locale);
+        } catch (Exception ignored) {
+            return code;
+        }
+    }
+
+    public static String get(String code, String defaultValue, Locale locale) {
+        try {
+            return ms.getMessage(code, ARGS_EMPTY, locale);
+        } catch (Exception ignored) {
+            return defaultValue;
+        }
+    }
+
+    public static String get(String code, Locale locale, String... args) {
+        try {
+            return ms.getMessage(code, args, locale);
         } catch (Exception ignored) {
             return code;
         }

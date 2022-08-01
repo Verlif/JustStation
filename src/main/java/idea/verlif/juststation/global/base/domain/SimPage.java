@@ -3,17 +3,17 @@ package idea.verlif.juststation.global.base.domain;
 import java.util.List;
 
 /**
+ * 简单分页
+ *
  * @author Verlif
- * @version 1.0
- * @date 2022/1/5 15:57
  */
 public class SimPage<T> {
 
     protected List<T> records;
-    protected long total;
-    protected long size;
-    protected long current;
-    protected long pages;
+    protected long total = 0;
+    protected long size = 0;
+    protected long current = 1;
+    protected long pages = 1;
 
     public List<T> getRecords() {
         return records;

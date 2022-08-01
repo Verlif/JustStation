@@ -28,7 +28,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getUsername();
         } catch (Exception e) {
-            throw new CustomException(MessagesUtils.message("error.no_user"));
+            throw new CustomException(MessagesUtils.get("error.no_user"));
         }
     }
 
@@ -43,7 +43,7 @@ public class SecurityUtils {
             }
             return (T) authentication.getPrincipal();
         } catch (Exception e) {
-            throw new CustomException(MessagesUtils.message("error.no_user"));
+            throw new CustomException(MessagesUtils.get("error.no_user"));
         }
     }
 

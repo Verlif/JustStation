@@ -34,7 +34,7 @@ public class StationAttestation implements AuthenticationProvider {
         if (authentication instanceof StationAuthentication) {
             UserDetails user = authHandler.auth(authentication.getPrincipal().toString(), authentication.getCredentials().toString());
             if (user == null) {
-                throw new AuthenticationException(MessagesUtils.message("result.fail.login")) {
+                throw new AuthenticationException(MessagesUtils.get("result.fail.login")) {
                 };
             } else {
                 ((StationAuthentication) authentication).setDetails(user);

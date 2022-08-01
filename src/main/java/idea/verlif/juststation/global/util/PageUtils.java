@@ -25,6 +25,15 @@ public class PageUtils {
     public static <T> SimPage<T> page(List<T> list, Pageable<?> query) {
         SimPage<T> page = new SimPage<>();
         page.setTotal(list.size());
+        if (query.getSize() < 0) {
+            page.setSize(page.getTotal());
+            page.setRecords(list);
+            return page;
+        } else if (query.getSize() == 0) {
+            page.setSize(page.getCurrent());
+            page.setRecords(new ArrayList<>());
+            return page;
+        }
         page.setSize(query.getSize());
         page.setPages(page.getTotal() / page.getSize());
         if (page.getTotal() % page.getSize() > 0) {

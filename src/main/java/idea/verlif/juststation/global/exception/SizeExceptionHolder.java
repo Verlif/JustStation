@@ -21,6 +21,6 @@ public class SizeExceptionHolder implements ExceptionHolder<SizeException> {
 
     @Override
     public BaseResult<?> handler(SizeException e) {
-        return new FailResult<>(MessagesUtils.message("result.fail.large_resource"));
+        return new FailResult<>(MessagesUtils.get("result.fail.large_resource"));
     }
 }

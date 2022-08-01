@@ -22,6 +22,6 @@ public class DuplicateKeyExceptionHolder implements ExceptionHolder<DuplicateKey
 
     @Override
     public BaseResult<?> handler(DuplicateKeyException e) {
-        return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(MessagesUtils.message("error.duplicate_key"));
+        return new BaseResult<>(ResultCode.FAILURE_PARAMETER).withParam(MessagesUtils.get("error.duplicate_key"));
     }
 }

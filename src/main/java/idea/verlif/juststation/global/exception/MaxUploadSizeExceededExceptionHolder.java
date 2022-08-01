@@ -21,6 +21,6 @@ public class MaxUploadSizeExceededExceptionHolder implements ExceptionHolder<Max
 
     @Override
     public BaseResult<?> handler(MaxUploadSizeExceededException e) {
-        return new FailResult<>(MessagesUtils.message("result.fail.file.large"));
+        return new FailResult<>(MessagesUtils.get("result.fail.file.large"));
     }
 }

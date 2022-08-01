@@ -26,12 +26,12 @@ public class PwdAuthHandler implements AuthHandler {
     public LoginUser auth(String id, String token) {
         User user = userMapper.getUserByName(id);
         if (user == null) {
-            throw new UsernameNotFoundException(MessagesUtils.message("result.fail.login.missing"));
+            throw new UsernameNotFoundException(MessagesUtils.get("result.fail.login.missing"));
         }
         if (SecurityUtils.matchesPassword(token, user.getPassword())) {
             return new LoginUser(user);
         } else {
-            throw new BadCredentialsException(MessagesUtils.message("result.fail.login.pwd"));
+            throw new BadCredentialsException(MessagesUtils.get("result.fail.login.pwd"));
         }
     }
 }

@@ -18,6 +18,6 @@ public class BaseExceptionHolderImpl implements BaseExceptionHolder {
     public Object handler(Throwable throwable) {
         PrintUtils.print(throwable);
         return new FailResult<String>().msg(
-                throwable.getMessage() == null ? MessagesUtils.message("error.default") : throwable.getMessage());
+                throwable.getMessage() == null ? MessagesUtils.get("error.default") : throwable.getMessage());
     }
 }
